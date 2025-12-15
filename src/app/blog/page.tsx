@@ -24,7 +24,7 @@ export default async function BlogIndex() {
                 {posts.map((post) => (
                     <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
                         <Card className="h-full hover:shadow-xl transition-all duration-300 border-slate-200">
-                            <div className="h-56 bg-slate-100 rounded-t-lg bg-[url('https://images.unsplash.com/photo-1592833159057-65a2845730bd?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center" />
+                            <div className="h-56 bg-slate-100 rounded-t-lg bg-[url('https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center" />
                             <CardHeader>
                                 <div className="flex justify-between items-center mb-2">
                                     <span className="text-xs font-bold text-brand uppercase tracking-wider">{post.category}</span>

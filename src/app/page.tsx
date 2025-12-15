@@ -8,7 +8,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 overflow-hidden bg-slate-900 text-white">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center opacity-20" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center opacity-20" />
         <div className="container relative z-10 px-4 md:px-6 mx-auto text-center">
           <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6">
             Passez au solaire <span className="text-brand">en toute confiance</span>
@@ -23,11 +23,7 @@ export default function Home() {
                 Lancer le simulateur <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
-            <Link href="#comment-ca-marche">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg border-white text-white hover:bg-white/10 hover:text-white h-12">
-                Comment ça marche ?
-              </Button>
-            </Link>
+
           </div>
         </div>
       </section>
@@ -101,7 +97,7 @@ export default function Home() {
             ].map((post, i) => (
               <Link key={i} href={`/blog/${post.slug}`} className="group">
                 <Card className="h-full hover:shadow-lg transition-shadow border-slate-200">
-                  <div className="h-48 bg-slate-200 w-full object-cover rounded-t-lg bg-[url('https://images.unsplash.com/photo-1613665813446-82a78c468a1d?q=80&w=2058&auto=format&fit=crop')] bg-cover" />
+                  <div className="h-48 bg-slate-200 w-full object-cover rounded-t-lg bg-[url('https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=800&q=80')] bg-cover" />
                   <CardContent className="p-6">
                     <div className="text-xs font-semibold text-brand uppercase tracking-wider mb-2">{post.category}</div>
                     <h3 className="text-xl font-bold text-slate-900 group-hover:text-brand transition-colors">
