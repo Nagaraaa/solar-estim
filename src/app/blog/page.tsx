@@ -24,11 +24,13 @@ export default async function BlogIndex() {
                 {posts.map((post) => (
                     <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
                         <Card className="h-full hover:shadow-xl transition-all duration-300 border-slate-200">
-                            <div className="h-56 bg-slate-100 rounded-t-lg bg-[url('https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center" />
+                            <div className="h-56 bg-slate-100 rounded-t-lg bg-cover bg-center" style={{ backgroundImage: `url(${post.image})` }} />
                             <CardHeader>
                                 <div className="flex justify-between items-center mb-2">
                                     <span className="text-xs font-bold text-brand uppercase tracking-wider">{post.category}</span>
-                                    <span className="text-xs text-slate-400">{post.date}</span>
+                                    <span className="text-xs text-slate-400 capitalize">
+                                        {new Date(post.date).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })}
+                                    </span>
                                 </div>
                                 <CardTitle className="text-2xl group-hover:text-brand transition-colors line-clamp-2">
                                     {post.title}

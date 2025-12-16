@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -46,10 +47,12 @@ export default async function BlogPostPage({ params }: PageProps) {
                     <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">{post.title}</h1>
                     <div className="flex items-center gap-4 text-sm text-slate-500 mb-10 pb-10 border-b border-slate-100">
                         <span className="bg-brand/10 text-brand-foreground px-3 py-1 rounded-full font-bold">{post.category}</span>
-                        <span>Publié le {post.date}</span>
+                        <span className="capitalize">Publié le {new Date(post.date).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })}</span>
                     </div>
 
-                    <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                    <div className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-brand hover:prose-a:text-yellow-500">
+                        <ReactMarkdown>{post.content}</ReactMarkdown>
+                    </div>
                 </article>
 
                 {/* Sidebar with CTA */}

@@ -44,7 +44,10 @@ export default function SimulatorPage() {
 
     const nextStep = async () => {
         const valid = await form.trigger("address");
-        if (valid) setStep(2);
+        if (valid) {
+            setStep(2);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     };
 
     const handleUnlock = (email: string) => {
@@ -141,48 +144,96 @@ export default function SimulatorPage() {
 
                     {/* Results */}
                     {step === 3 && result && (
-                        <ResultLock
-                            mainResult={<>{result.annualSavings}€ <span className="text-lg text-slate-600 font-medium">/ an</span></>}
-                            onUnlock={handleUnlock}
-                            hiddenContent={
-                                <div className="space-y-6 pt-6">
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="p-4 bg-slate-50 rounded-lg text-center">
-                                            <div className="text-sm text-slate-500">Production Estimée</div>
-                                            <div className="text-xl font-bold text-slate-900">{result.annualProduction} kWh/an</div>
-                                        </div>
-                                        <div className="p-4 bg-slate-50 rounded-lg text-center">
-                                            <div className="text-sm text-slate-500">Puissance conseillée</div>
-                                            <div className="text-xl font-bold text-slate-900">{result.systemSize} kWc</div>
-                                        </div>
-                                        <div className="p-4 bg-slate-50 rounded-lg text-center">
-                                            <div className="text-sm text-slate-500">Coût estimé</div>
-                                            <div className="text-xl font-bold text-slate-900">{result.totalCost} €</div>
-                                        </div>
-                                        <div className="p-4 bg-slate-50 rounded-lg text-center">
-                                            <div className="text-sm text-slate-500">Retour sur Inv.</div>
-                                            <div className="text-xl font-bold text-success">{result.roiYears} ans</div>
-                                        </div>
+                        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                            {/* 1. Main Result (Value) */}
+                            <Card className="border-brand border-2 shadow-xl">
+                                <CardHeader>
+                                    <CardTitle className="text-center text-slate-900">Résultat Estimé</CardTitle>
+                                </CardHeader>
+                                <CardContent className="text-center">
+                                    <div className="text-4xl md:text-5xl font-black text-brand mb-2">
+                                        {result.annualSavings}€ <span className="text-xl text-slate-600 font-medium">/ an</span>
                                     </div>
+                                    <p className="text-slate-500 font-medium">d'économies potentielles immédiates</p>
+                                </CardContent>
+                            </Card>
 
-                                    <div className="mt-8">
-                                        <h4 className="font-bold text-slate-900 mb-4 border-b pb-2">Installateurs RGE à proximité</h4>
-                                        <ul className="space-y-4">
-                                            {[1, 2, 3].map(i => (
-                                                <li key={i} className="flex items-center gap-3 p-3 border rounded-lg hover:bg-slate-50">
-                                                    <div className="h-10 w-10 bg-slate-200 rounded-full" />
-                                                    <div>
-                                                        <div className="font-bold text-sm">Solar Pro {i}</div>
-                                                        <div className="text-xs text-slate-500">Certifié QualiPV • 5km</div>
-                                                    </div>
-                                                    <Button variant="outline" size="sm" className="ml-auto">Contact</Button>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
+                            {/* 2. Technical Details (Value Adds) */}
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="p-4 bg-slate-50 rounded-lg text-center border border-slate-100">
+                                    <div className="text-sm text-slate-500 mb-1">Production</div>
+                                    <div className="text-xl font-bold text-slate-900">{result.annualProduction} kWh</div>
                                 </div>
-                            }
-                        />
+                                <div className="p-4 bg-slate-50 rounded-lg text-center border border-slate-100">
+                                    <div className="text-sm text-slate-500 mb-1">Installation</div>
+                                    <div className="text-xl font-bold text-slate-900">{result.systemSize} kWc</div>
+                                </div>
+                                <div className="p-4 bg-slate-50 rounded-lg text-center border border-slate-100">
+                                    <div className="text-sm text-slate-500 mb-1">Coût Estimé</div>
+                                    <div className="text-xl font-bold text-slate-900">{result.totalCost} €</div>
+                                </div>
+                                <div className="p-4 bg-slate-50 rounded-lg text-center border border-slate-100">
+                                    <div className="text-sm text-slate-500 mb-1">Rentabilité</div>
+                                    <div className="text-xl font-bold text-success">{result.roiYears} ans</div>
+                                </div>
+                            </div>
+
+                            {/* 3. High-End Lead Capture Form */}
+                            <Card className="border-slate-200 shadow-2xl overflow-hidden">
+                                <div className="bg-slate-900 p-6 text-white text-center">
+                                    <h3 className="text-xl font-bold mb-2">Vérifier la faisabilité & Bloquer les aides</h3>
+                                    <p className="text-slate-300 text-sm">
+                                        Recevez votre étude détaillée et les devis d'artisans certifiés RGE par email.
+                                    </p>
+                                </div>
+                                <CardContent className="p-6 bg-slate-50">
+                                    <form onSubmit={(e) => {
+                                        e.preventDefault();
+                                        const formData = new FormData(e.currentTarget);
+                                        const data = Object.fromEntries(formData.entries());
+                                        console.log("LEAD CAPTURÉ:", data);
+                                        alert("Votre dossier a bien été enregistré. Un expert va vous recontacter.");
+                                    }} className="space-y-4">
+                                        <div>
+                                            <Input
+                                                name="fullname"
+                                                placeholder="Votre Nom Complet"
+                                                className="h-12 bg-white text-lg border-slate-300"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <Input
+                                                name="email"
+                                                type="email"
+                                                placeholder="Votre Email"
+                                                className="h-12 bg-white text-lg border-slate-300"
+                                                required
+                                            />
+                                            <Input
+                                                name="phone"
+                                                type="tel"
+                                                placeholder="Téléphone"
+                                                className="h-12 bg-white text-lg border-slate-300"
+                                                required
+                                            />
+                                        </div>
+
+                                        <Button
+                                            type="submit"
+                                            className="w-full h-14 text-lg font-black bg-brand hover:bg-brand/90 text-slate-900 shadow-xl uppercase tracking-wide"
+                                        >
+                                            Recevoir mon étude gratuite &gt;&gt;
+                                        </Button>
+
+                                        <p className="text-center text-xs text-slate-400 flex items-center justify-center gap-1">
+                                            <span className="h-3 w-3 inline-block rounded-full bg-green-500"></span>
+                                            Vos données sont sécurisées. Sans engagement.
+                                        </p>
+                                    </form>
+                                </CardContent>
+                            </Card>
+                        </div>
                     )}
                 </CardContent>
             </Card>

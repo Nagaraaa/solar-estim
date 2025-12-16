@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --color-primary: var(--primary);
@@ -13,9 +14,9 @@
 
 :root {
   /* Slate-900 */
-  --primary: #0f172a; 
+  --primary: #0f172a;
   --primary-foreground: #f8fafc;
-  
+
   /* Yellow-400 */
   --brand: #facc15;
   --brand-foreground: #0f172a;

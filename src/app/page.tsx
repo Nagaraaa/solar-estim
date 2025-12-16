@@ -91,13 +91,28 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { title: "Prix des panneaux solaires en 2025", category: "Marché", slug: "prix-panneau-solaire-2025" },
-              { title: "Rentabilité dans le Nord : Mythe ou Réalité ?", category: "Guide", slug: "rentabilite-nord-france" },
-              { title: "Les aides de l'état décryptées", category: "Financement", slug: "aides-etat-panneaux" }
+              {
+                title: "Prix des panneaux solaires en 2025",
+                category: "Marché",
+                slug: "prix-panneau-solaire-2025",
+                image: "https://images.unsplash.com/photo-1611365892117-00ac5ef43c90?auto=format&fit=crop&w=800&q=80"
+              },
+              {
+                title: "Rentabilité dans le Nord : Mythe ou Réalité ?",
+                category: "Guide",
+                slug: "rentabilite-nord-france",
+                image: "https://images.unsplash.com/photo-1624397640148-949b1732bb0a?auto=format&fit=crop&w=800&q=80"
+              },
+              {
+                title: "Les aides de l'état décryptées",
+                category: "Financement",
+                slug: "aides-etat-panneaux",
+                image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80"
+              }
             ].map((post, i) => (
               <Link key={i} href={`/blog/${post.slug}`} className="group">
                 <Card className="h-full hover:shadow-lg transition-shadow border-slate-200">
-                  <div className="h-48 bg-slate-200 w-full object-cover rounded-t-lg bg-[url('https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=800&q=80')] bg-cover" />
+                  <div className="h-48 bg-slate-200 w-full object-cover rounded-t-lg bg-cover" style={{ backgroundImage: `url(${post.image})` }} />
                   <CardContent className="p-6">
                     <div className="text-xs font-semibold text-brand uppercase tracking-wider mb-2">{post.category}</div>
                     <h3 className="text-xl font-bold text-slate-900 group-hover:text-brand transition-colors">

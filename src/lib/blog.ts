@@ -8,6 +8,7 @@ export interface BlogPost {
     title: string;
     date: string;
     category: string;
+    image: string;
     summary: string;
     content: string;
 }
