@@ -11,6 +11,7 @@ export interface BlogPost {
     image: string;
     summary: string;
     content: string;
+    country?: 'FR' | 'BE'; // Optional for backward compatibility (default to FR)
 }
 
 export async function getPost(slug: string): Promise<BlogPost | null> {
@@ -23,7 +24,7 @@ export async function getPost(slug: string): Promise<BlogPost | null> {
     return { slug, ...data };
 }
 
-export async function getAllPosts(): Promise<BlogPost[]> {
+export async function getAllPosts(country: 'FR' | 'BE' = 'FR'): Promise<BlogPost[]> {
     const fileNames = fs.readdirSync(contentDirectory);
     const allPostsData = fileNames.map((fileName) => {
         const slug = fileName.replace(/\.json$/, "");
@@ -36,5 +37,11 @@ export async function getAllPosts(): Promise<BlogPost[]> {
         } as BlogPost;
     });
 
-    return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1));
+    // Filter by country (default to FR if undefined)
+    const filteredPosts = allPostsData.filter(post => {
+        const postCountry = post.country || 'FR';
+        return postCountry === country;
+    });
+
+    return filteredPosts.sort((a, b) => (a.date < b.date ? 1 : -1));
 }

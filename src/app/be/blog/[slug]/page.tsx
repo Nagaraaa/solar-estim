@@ -37,7 +37,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
     return (
         <div className="container mx-auto px-4 py-12 md:py-20">
-            <Link href="/blog" className="inline-flex items-center text-slate-500 hover:text-slate-900 mb-8 transition-colors">
+            <Link href="/be/blog" className="inline-flex items-center text-slate-500 hover:text-slate-900 mb-8 transition-colors">
                 <ArrowLeft className="mr-2 h-4 w-4" /> Retour au blog
             </Link>
 

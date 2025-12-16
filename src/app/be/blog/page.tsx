@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 export default async function BlogIndex() {
-    const posts = await getAllPosts('FR');
+    const posts = await getAllPosts('BE');
 
     return (
         <div className="container mx-auto px-4 py-12 md:py-20">
@@ -22,7 +22,7 @@ export default async function BlogIndex() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {posts.map((post) => (
-                    <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
+                    <Link key={post.slug} href={`/be/blog/${post.slug}`} className="group">
                         <Card className="h-full hover:shadow-xl transition-all duration-300 border-slate-200">
                             <div className="h-56 bg-slate-100 rounded-t-lg bg-cover bg-center" style={{ backgroundImage: `url(${post.image})` }} />
                             <CardHeader>
