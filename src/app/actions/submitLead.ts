@@ -2,15 +2,27 @@
 
 import { google } from 'googleapis';
 
+import { z } from 'zod';
+
+const LeadSchema = z.object({
+    name: z.string().min(2, "Le nom doit contenir au moins 2 caractères").trim(),
+    phone: z.string().min(10, "Le numéro de téléphone est invalide").trim(),
+    email: z.string().email("L'adresse email est invalide").trim(),
+    address: z.string().optional(),
+});
+
 export async function submitLead(formData: FormData, simulationResult: any, country: 'FR' | 'BE') {
     try {
-        const name = formData.get('name') as string;
-        const phone = formData.get('phone') as string;
-        const email = formData.get('email') as string;
+        const rawData = {
+            name: formData.get('name'),
+            phone: formData.get('phone'),
+            email: formData.get('email'),
+            address: formData.get('address'),
+        };
 
-        if (!name || !phone || !email) {
-            throw new Error('Champs requis manquants');
-        }
+        const validatedData = LeadSchema.parse(rawData);
+
+        const { name, phone, email, address } = validatedData;
 
         // Authentication
         const auth = new google.auth.GoogleAuth({
@@ -36,10 +48,10 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
         // The user prompt asked for: Date, Nom, Tel, Email, CP, Facture, Prod, Gain, Statut, Pays
 
         // We will pass 'address' in formData for better CP extraction if possible, or just use the full string.
-        const address = formData.get('address') as string || "";
+        const addressStr = address || "";
         // Extraction of CP from address string (simple regex for 4 or 5 digits)
-        const cpMatch = address.match(/\b\d{4,5}\b/);
-        const postalCode = cpMatch ? cpMatch[0] : address;
+        const cpMatch = addressStr.match(/\b\d{4,5}\b/);
+        const postalCode = cpMatch ? cpMatch[0] : addressStr;
 
         // 3. Strict Column Ordering (A -> J)
         const row = [

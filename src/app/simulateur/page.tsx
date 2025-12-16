@@ -30,6 +30,7 @@ export default function SimulatorPage() {
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
+    const [phoneError, setPhoneError] = useState<string | null>(null); // New state for phone validation
 
     // Scroll to top on step change
     useEffect(() => {
@@ -84,7 +85,7 @@ export default function SimulatorPage() {
 
         fieldChange(label);
         // Store coordinates in form state
-        console.log("📍 Coordonnées capturées (FR):", lat, lon);
+
         form.setValue("address", label);
         setCoordinates({ lat, lon });
 
@@ -111,7 +112,7 @@ export default function SimulatorPage() {
 
     const handleUnlock = (email: string) => {
         // Lead capture simulation
-        console.log("Lead captured:", email);
+
         // alert(`Merci ${email} ! Vos résultats détaillés sont débloqués.`);
         // In real app, send to API DB here.
         // Allow viewing full details
@@ -209,9 +210,10 @@ export default function SimulatorPage() {
                                                     </div>
                                                 </FormControl>
                                                 <FormMessage />
-                                                <div className="flex gap-4 mt-6">
-                                                    <Button type="button" variant="outline" onClick={() => setStep(1)} className="flex-1 h-12">Retour</Button>
-                                                    <Button type="submit" disabled={loading} className="flex-1 h-12 bg-brand text-slate-900 font-bold hover:bg-brand/90">
+                                                <FormMessage />
+                                                <div className="flex flex-col-reverse sm:flex-row gap-3 mt-6">
+                                                    <Button type="button" variant="outline" onClick={() => setStep(1)} className="w-full sm:flex-1 h-12">Retour</Button>
+                                                    <Button type="submit" disabled={loading} className="w-full sm:flex-1 h-12 bg-brand text-slate-900 font-bold hover:bg-brand/90">
                                                         {loading ? <Loader2 className="animate-spin" /> : "Calculer ma rentabilité"}
                                                     </Button>
                                                 </div>
@@ -241,22 +243,22 @@ export default function SimulatorPage() {
                             </Card>
 
                             {/* 2. Technical Details (Value Adds) */}
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="p-4 bg-slate-50 rounded-lg text-center border border-slate-100">
-                                    <div className="text-sm text-slate-500 mb-1">Production</div>
-                                    <div className="text-xl font-bold text-slate-900">{result.annualProduction} kWh</div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="p-3 bg-slate-50 rounded-lg text-center border border-slate-100">
+                                    <div className="text-xs sm:text-sm text-slate-500 mb-1">Production</div>
+                                    <div className="text-lg sm:text-xl font-bold text-slate-900">{result.annualProduction} kWh</div>
                                 </div>
-                                <div className="p-4 bg-slate-50 rounded-lg text-center border border-slate-100">
-                                    <div className="text-sm text-slate-500 mb-1">Installation</div>
-                                    <div className="text-xl font-bold text-slate-900">{result.systemSize} kWc</div>
+                                <div className="p-3 bg-slate-50 rounded-lg text-center border border-slate-100">
+                                    <div className="text-xs sm:text-sm text-slate-500 mb-1">Installation</div>
+                                    <div className="text-lg sm:text-xl font-bold text-slate-900">{result.systemSize} kWc</div>
                                 </div>
-                                <div className="p-4 bg-slate-50 rounded-lg text-center border border-slate-100">
-                                    <div className="text-sm text-slate-500 mb-1">Coût Estimé</div>
-                                    <div className="text-xl font-bold text-slate-900">{result.totalCost} €</div>
+                                <div className="p-3 bg-slate-50 rounded-lg text-center border border-slate-100">
+                                    <div className="text-xs sm:text-sm text-slate-500 mb-1">Coût Estimé</div>
+                                    <div className="text-lg sm:text-xl font-bold text-slate-900">{result.totalCost} €</div>
                                 </div>
-                                <div className="p-4 bg-slate-50 rounded-lg text-center border border-slate-100">
-                                    <div className="text-sm text-slate-500 mb-1">Rentabilité</div>
-                                    <div className="text-xl font-bold text-success">{result.roiYears} ans</div>
+                                <div className="p-3 bg-slate-50 rounded-lg text-center border border-slate-100">
+                                    <div className="text-xs sm:text-sm text-slate-500 mb-1">Rentabilité</div>
+                                    <div className="text-lg sm:text-xl font-bold text-success">{result.roiYears} ans</div>
                                 </div>
                             </div>
 
@@ -274,6 +276,14 @@ export default function SimulatorPage() {
                                     </div>
                                     <CardContent className="p-6 bg-slate-50">
                                         <form action={async (formData) => {
+                                            const phone = formData.get('phone') as string;
+                                            const cleanPhone = phone.replace(/\s/g, '');
+                                            // Validate FR Phone (starts with 0, 10 digits)
+                                            if (!/^0[1-9]\d{8}$/.test(cleanPhone)) {
+                                                setPhoneError("Le numéro doit comporter 10 chiffres (ex: 06...)");
+                                                return; // Stop submission
+                                            }
+
                                             setSubmitError(null); // Reset error
                                             // Add address hidden field or handle in action
                                             formData.append("address", form.getValues("address"));
@@ -297,22 +307,36 @@ export default function SimulatorPage() {
                                                 </div>
                                                 <div className="space-y-2">
                                                     <Label>Téléphone</Label>
-                                                    <Input name="phone" required placeholder="06 12 34 56 78" />
+                                                    <Input
+                                                        name="phone"
+                                                        required
+                                                        placeholder="06 12 34 56 78"
+                                                        className={cn(phoneError ? "border-red-500 focus-visible:ring-red-500" : "")}
+                                                        onChange={(e) => {
+                                                            const val = e.target.value.replace(/\s/g, '');
+                                                            if (val.length > 0 && !/^0[1-9]\d{8}$/.test(val)) {
+                                                                setPhoneError("Format invalide (ex: 0612345678)");
+                                                            } else {
+                                                                setPhoneError(null);
+                                                            }
+                                                        }}
+                                                    />
+                                                    {phoneError && (
+                                                        <p className="text-xs text-red-500 font-medium flex items-center animate-in slide-in-from-left-1 duration-300">
+                                                            🚫 {phoneError}
+                                                        </p>
+                                                    )}
                                                 </div>
                                             </div>
                                             <div className="space-y-2">
                                                 <Label>Email</Label>
                                                 <Input name="email" type="email" required placeholder="jean.dupont@email.com" />
                                             </div>
-
-                                            <Button
-                                                type="submit"
-                                                className="w-full h-14 text-lg font-bold bg-brand hover:bg-brand/90 text-slate-900 shadow-xl uppercase tracking-wide mt-4"
-                                            >
+                                            <Button type="submit" className="w-full h-14 text-lg font-bold bg-brand text-slate-900 hover:bg-brand/90 mt-4 shadow-xl">
                                                 ENVOYER MA DEMANDE &gt;&gt;
                                             </Button>
-                                            <p className="text-xs text-center text-slate-400 mt-2">
-                                                Vos données sont sécurisées et traitées conformément au RGPD.
+                                            <p className="text-xs text-slate-400 text-center mt-4 px-2">
+                                                En cliquant, vous acceptez d'être recontacté pour votre projet solaire. Vos données restent confidentielles.
                                             </p>
                                         </form>
                                     </CardContent>
