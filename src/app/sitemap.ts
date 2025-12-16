@@ -1,6 +1,7 @@
 
 import { MetadataRoute } from 'next';
 import { getAllPosts } from '@/lib/blog';
+import { CITIES } from './be/villes/cities';
 
 const BASE_URL = 'https://www.solarestim.com';
 
@@ -62,6 +63,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             changeFrequency: 'weekly',
             priority: 0.8,
         },
+        ...CITIES.map((city) => ({
+            url: `${BASE_URL}/be/villes/${city.slug}`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly' as const,
+            priority: 0.8,
+        })),
 
         // LEGAL
         {
