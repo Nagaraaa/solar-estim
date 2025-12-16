@@ -14,6 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Loader2, MapPin, Euro, CheckCircle2 } from "lucide-react";
 import { ResultLock } from "@/components/ResultLock";
+import { SuccessMessage } from "@/components/SuccessMessage";
 import { cn } from "@/lib/utils";
 
 // Form Schema
@@ -27,6 +28,8 @@ export default function SimulatorPage() {
     const { calculate, loading, error, result } = useSolarSimulation();
     const [suggestions, setSuggestions] = useState<any[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
 
     // Scroll to top on step change
     useEffect(() => {
@@ -109,7 +112,7 @@ export default function SimulatorPage() {
     const handleUnlock = (email: string) => {
         // Lead capture simulation
         console.log("Lead captured:", email);
-        alert(`Merci ${email} ! Vos résultats détaillés sont débloqués.`);
+        // alert(`Merci ${email} ! Vos résultats détaillés sont débloqués.`);
         // In real app, send to API DB here.
         // Allow viewing full details
     };
@@ -258,51 +261,63 @@ export default function SimulatorPage() {
                             </div>
 
                             {/* 3. Lead Capture Form */}
-                            <Card className="border-slate-200 shadow-2xl overflow-hidden">
-                                <div className="bg-slate-900 p-6 text-white text-center">
-                                    <h3 className="text-xl font-bold mb-2">Recevoir mon Étude Détaillée</h3>
-                                    <p className="text-slate-300 text-sm">
-                                        Entrez vos coordonnées pour recevoir votre rapport complet et les devis certifiés RGE par email.
-                                    </p>
-                                </div>
-                                <CardContent className="p-6 bg-slate-50">
-                                    <form action={async (formData) => {
-                                        // Add address hidden field or handle in action
-                                        formData.append("address", form.getValues("address"));
-                                        const res = await submitLead(formData, result, 'FR');
-                                        if (res.success) {
-                                            alert("Demande envoyée avec succès ! Vous serez recontacté sous 24h.");
-                                        } else {
-                                            alert("Erreur lors de l'envoi : " + res.error);
-                                        }
-                                    }} className="space-y-4">
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div className="space-y-2">
-                                                <Label>Nom complet</Label>
-                                                <Input name="name" required placeholder="Jean Dupont" />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <Label>Téléphone</Label>
-                                                <Input name="phone" required placeholder="06 12 34 56 78" />
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label>Email</Label>
-                                            <Input name="email" type="email" required placeholder="jean.dupont@email.com" />
-                                        </div>
-
-                                        <Button
-                                            type="submit"
-                                            className="w-full h-14 text-lg font-bold bg-brand hover:bg-brand/90 text-slate-900 shadow-xl uppercase tracking-wide mt-4"
-                                        >
-                                            ENVOYER MA DEMANDE &gt;&gt;
-                                        </Button>
-                                        <p className="text-xs text-center text-slate-400 mt-2">
-                                            Vos données sont sécurisées et traitées conformément au RGPD.
+                            {/* 3. Lead Capture Form */}
+                            {isSubmitted ? (
+                                <SuccessMessage />
+                            ) : (
+                                <Card className="border-slate-200 shadow-2xl overflow-hidden">
+                                    <div className="bg-slate-900 p-6 text-white text-center">
+                                        <h3 className="text-xl font-bold mb-2">Recevoir mon Étude Détaillée</h3>
+                                        <p className="text-slate-300 text-sm">
+                                            Entrez vos coordonnées pour recevoir votre rapport complet et les devis certifiés RGE par email.
                                         </p>
-                                    </form>
-                                </CardContent>
-                            </Card>
+                                    </div>
+                                    <CardContent className="p-6 bg-slate-50">
+                                        <form action={async (formData) => {
+                                            setSubmitError(null); // Reset error
+                                            // Add address hidden field or handle in action
+                                            formData.append("address", form.getValues("address"));
+                                            const res = await submitLead(formData, result, 'FR');
+                                            if (res.success) {
+                                                setIsSubmitted(true);
+                                                // window.scrollTo({ top: 0, behavior: 'smooth' }); // Removed to keep focus on message
+                                            } else {
+                                                setSubmitError(res.error || "Une erreur inconnue est survenue.");
+                                            }
+                                        }} className="space-y-4">
+                                            {submitError && (
+                                                <div className="p-3 bg-red-100 text-red-700 rounded-md text-sm border border-red-200">
+                                                    ⚠️ {submitError}
+                                                </div>
+                                            )}
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div className="space-y-2">
+                                                    <Label>Nom complet</Label>
+                                                    <Input name="name" required placeholder="Jean Dupont" />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label>Téléphone</Label>
+                                                    <Input name="phone" required placeholder="06 12 34 56 78" />
+                                                </div>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label>Email</Label>
+                                                <Input name="email" type="email" required placeholder="jean.dupont@email.com" />
+                                            </div>
+
+                                            <Button
+                                                type="submit"
+                                                className="w-full h-14 text-lg font-bold bg-brand hover:bg-brand/90 text-slate-900 shadow-xl uppercase tracking-wide mt-4"
+                                            >
+                                                ENVOYER MA DEMANDE &gt;&gt;
+                                            </Button>
+                                            <p className="text-xs text-center text-slate-400 mt-2">
+                                                Vos données sont sécurisées et traitées conformément au RGPD.
+                                            </p>
+                                        </form>
+                                    </CardContent>
+                                </Card>
+                            )}
                         </div>
                     )}
                 </CardContent>
