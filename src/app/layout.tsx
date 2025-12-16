@@ -31,26 +31,26 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Solar-Estim - Simulateur Rentabilité Panneaux Solaires",
-    description: "Découvrez votre potentiel solaire en 3 clics. Simulation précise, gratuite et immédiate basée sur les données d'ensoleillement réelles.",
-    url: 'https://www.solarestim.com',
+    title: "Solar-Estim : Simulateur Gratuit de Rentabilité Panneaux Solaires",
+    description: "Calculez en 2 minutes la rentabilité de votre installation photovoltaïque avec une précision de 95 % grâce aux données officielles PVGIS. Simulation gratuite, sans engagement !",
+    url: 'https://www.solarestim.com/',
     siteName: 'Solar Estim',
     locale: 'fr_FR',
     type: 'website',
     images: [
       {
-        url: '/images/og-image.jpg', // Ensure this image exists or use a placeholder
+        url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Solar Estim Simulateur',
+        alt: 'Solar Estim Simulateur Gratuit',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Solar-Estim - Le Simulateur Solaire de Référence",
-    description: "Calculez votre rentabilité solaire gratuitement. Données précises, sans engagement.",
-    images: ['/images/og-image.jpg'], // Reusing OG image
+    title: "Solar-Estim : Simulateur Gratuit de Rentabilité Panneaux Solaires",
+    description: "Calculez en 2 minutes la rentabilité de votre installation photovoltaïque avec une précision de 95 % grâce aux données officielles PVGIS.",
+    images: ['/images/og-image.jpg'],
   },
   robots: {
     index: true,
