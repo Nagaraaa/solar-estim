@@ -134,7 +134,7 @@ export default function Home() {
             Découvrez combien vous pouvez économiser dès aujourd'hui. C'est gratuit et sans engagement.
           </p>
           <Link href="/simulateur">
-            <Button size="lg" className="bg-slate-900 text-white hover:bg-slate-800 text-lg px-10 h-14 shadow-2xl">
+            <Button size="lg" className="w-full sm:w-auto h-auto sm:h-14 py-4 sm:py-0 bg-slate-900 text-white hover:bg-slate-800 text-lg px-6 sm:px-10 shadow-2xl whitespace-normal break-words leading-tight">
               Calculer ma rentabilité maintenant
             </Button>
           </Link>
