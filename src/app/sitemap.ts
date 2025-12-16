@@ -5,16 +5,25 @@ import { getAllPosts } from '@/lib/blog';
 const BASE_URL = 'https://www.solarestim.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const posts = await getAllPosts();
+    const postsFr = await getAllPosts('FR');
+    const postsBe = await getAllPosts('BE');
 
-    const blogEntries: MetadataRoute.Sitemap = posts.map((post) => ({
+    const blogEntriesFr: MetadataRoute.Sitemap = postsFr.map((post) => ({
         url: `${BASE_URL}/blog/${post.slug}`,
         lastModified: new Date(post.date),
         changeFrequency: 'monthly',
         priority: 0.6,
     }));
 
+    const blogEntriesBe: MetadataRoute.Sitemap = postsBe.map((post) => ({
+        url: `${BASE_URL}/be/blog/${post.slug}`,
+        lastModified: new Date(post.date),
+        changeFrequency: 'monthly',
+        priority: 0.6,
+    }));
+
     return [
+        // FRANCE
         {
             url: BASE_URL,
             lastModified: new Date(),
@@ -33,12 +42,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             changeFrequency: 'weekly',
             priority: 0.8,
         },
+
+        // BELGIQUE
+        {
+            url: `${BASE_URL}/be`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 1,
+        },
+        {
+            url: `${BASE_URL}/be/simulateur`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${BASE_URL}/be/blog`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.8,
+        },
+
+        // LEGAL
         {
             url: `${BASE_URL}/mentions-legales`,
             lastModified: new Date(),
             changeFrequency: 'yearly',
             priority: 0.3,
         },
-        ...blogEntries,
+        ...blogEntriesFr,
+        ...blogEntriesBe,
     ];
 }
