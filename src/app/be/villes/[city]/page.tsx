@@ -5,6 +5,7 @@ import { ArrowRight, MapPin, CheckCircle, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FadeIn } from "@/components/ui/fade-in";
+import Image from "next/image";
 import { CITIES, getCityBySlug, getAllCitySlugs } from "../cities";
 
 interface PageProps {
@@ -86,7 +87,15 @@ export default async function CityPage({ params }: PageProps) {
 
             {/* Hero Section */}
             <section className="relative py-20 lg:py-32 overflow-hidden bg-slate-900 text-white">
-                <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(15,23,42,0.8),rgba(15,23,42,0.9)),url('https://images.unsplash.com/photo-1508514177221-188b1cf2f24f?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center" />
+                <Image
+                    src="https://images.unsplash.com/photo-1508514177221-188b1cf2f24f?auto=format&fit=crop&w=2000&q=80"
+                    alt={`Panneaux solaires ${city.name}`}
+                    fill
+                    priority
+                    className="object-cover object-center opacity-20"
+                    sizes="100vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 to-slate-900/90" />
                 <FadeIn className="container relative z-10 px-4 md:px-6 mx-auto text-center" delay={100}>
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-sm font-medium mb-6 border border-brand/20">
                         <MapPin className="h-4 w-4" /> Expertise Locale : {city.name} ({city.zip})

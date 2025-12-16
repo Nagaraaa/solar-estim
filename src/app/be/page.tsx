@@ -3,12 +3,23 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Zap, PiggyBank, Leaf } from "lucide-react";
 
+import Image from "next/image";
+
+// ... existing imports ...
+
 export default function HomeBe() {
     return (
         <div className="flex flex-col min-h-screen">
             {/* Hero Section */}
             <section className="relative py-20 lg:py-32 overflow-hidden bg-slate-900 text-white">
-                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center opacity-20" />
+                <Image
+                    src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80"
+                    alt="Panneaux solaires Belgique"
+                    fill
+                    priority
+                    className="object-cover object-center opacity-20"
+                    sizes="100vw"
+                />
                 <div className="container relative z-10 px-4 md:px-6 mx-auto text-center">
                     <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6">
                         Rentabilité Solaire en Belgique : <span className="text-brand">Le Guide 2025</span>

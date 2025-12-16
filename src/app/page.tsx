@@ -5,12 +5,23 @@ import { ArrowRight, Zap, PiggyBank, Leaf } from "lucide-react";
 import { StructuredData } from "@/components/StructuredData";
 import { FadeIn } from "@/components/ui/fade-in";
 
+import Image from "next/image";
+
+// ... existing imports ...
+
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 overflow-hidden bg-slate-900 text-white">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center opacity-20" />
+        <Image
+          src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80"
+          alt="Panneaux solaires sur toit"
+          fill
+          priority
+          className="object-cover object-center opacity-20"
+          sizes="100vw"
+        />
         <FadeIn className="container relative z-10 px-4 md:px-6 mx-auto text-center" delay={100}>
           <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6">
             Passez au solaire <span className="text-brand">en toute confiance</span>
