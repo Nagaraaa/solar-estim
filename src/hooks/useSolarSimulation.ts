@@ -6,7 +6,7 @@ export function useSolarSimulation() {
     const [error, setError] = useState<string | null>(null);
     const [result, setResult] = useState<SimulationResult | null>(null);
 
-    const calculate = async (input: SimulationInput) => {
+    const calculate = async (input: SimulationInput): Promise<boolean> => {
         setLoading(true);
         setError(null);
 
@@ -87,9 +87,11 @@ export function useSolarSimulation() {
                     pvgisProductionPerKwc: annualProductionPerKwc
                 }
             });
+            return true;
 
         } catch (err) {
             setError(err instanceof Error ? err.message : "Une erreur est survenue.");
+            return false;
         } finally {
             setLoading(false);
         }

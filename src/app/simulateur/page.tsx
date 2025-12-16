@@ -38,8 +38,10 @@ export default function SimulatorPage() {
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        await calculate(values);
-        setStep(3); // Result step
+        const success = await calculate(values);
+        if (success) {
+            setStep(3); // Result step
+        }
     };
 
     const nextStep = async () => {
@@ -183,54 +185,23 @@ export default function SimulatorPage() {
                                 <div className="bg-slate-900 p-6 text-white text-center">
                                     <h3 className="text-xl font-bold mb-2">Vérifier la faisabilité & Bloquer les aides</h3>
                                     <p className="text-slate-300 text-sm">
-                                        Recevez votre étude détaillée et les devis d'artisans certifiés RGE par email.
+                                        Recevez votre étude détaillée et les devis d'artisans certifiés RGE.
                                     </p>
                                 </div>
-                                <CardContent className="p-6 bg-slate-50">
-                                    <form onSubmit={(e) => {
-                                        e.preventDefault();
-                                        const formData = new FormData(e.currentTarget);
-                                        const data = Object.fromEntries(formData.entries());
-                                        console.log("LEAD CAPTURÉ:", data);
-                                        alert("Votre dossier a bien été enregistré. Un expert va vous recontacter.");
-                                    }} className="space-y-4">
-                                        <div>
-                                            <Input
-                                                name="fullname"
-                                                placeholder="Votre Nom Complet"
-                                                className="h-12 bg-white text-lg border-slate-300"
-                                                required
-                                            />
-                                        </div>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <Input
-                                                name="email"
-                                                type="email"
-                                                placeholder="Votre Email"
-                                                className="h-12 bg-white text-lg border-slate-300"
-                                                required
-                                            />
-                                            <Input
-                                                name="phone"
-                                                type="tel"
-                                                placeholder="Téléphone"
-                                                className="h-12 bg-white text-lg border-slate-300"
-                                                required
-                                            />
-                                        </div>
+                                <CardContent className="p-6 bg-slate-50 text-center">
+                                    <Button
+                                        onClick={() => {
+                                            // TODO: REMPLACER PAR LE LIEN AWIN ICI
+                                            window.open("https://www.google.fr/search?q=panneaux+solaires", "_blank");
+                                        }}
+                                        className="w-full h-16 text-lg md:text-xl font-black bg-brand hover:bg-brand/90 text-slate-900 shadow-xl uppercase tracking-wide mb-4"
+                                    >
+                                        COMPARER LES DEVIS CERTIFIÉS (Gratuit) &gt;&gt;
+                                    </Button>
 
-                                        <Button
-                                            type="submit"
-                                            className="w-full h-14 text-lg font-black bg-brand hover:bg-brand/90 text-slate-900 shadow-xl uppercase tracking-wide"
-                                        >
-                                            Recevoir mon étude gratuite &gt;&gt;
-                                        </Button>
-
-                                        <p className="text-center text-xs text-slate-400 flex items-center justify-center gap-1">
-                                            <span className="h-3 w-3 inline-block rounded-full bg-green-500"></span>
-                                            Vos données sont sécurisées. Sans engagement.
-                                        </p>
-                                    </form>
+                                    <p className="text-sm text-slate-500 italic">
+                                        Redirection vers notre comparateur partenaire agréé.
+                                    </p>
                                 </CardContent>
                             </Card>
                         </div>

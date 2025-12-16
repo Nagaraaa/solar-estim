@@ -1,14 +1,21 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Sun } from "lucide-react";
+
 
 export function Header() {
     return (
         <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
-            <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+            <div className="container mx-auto flex h-auto py-2 items-center justify-between px-4 md:px-6">
                 <Link href="/" className="flex items-center gap-2">
-                    <Sun className="h-6 w-6 text-brand fill-brand" />
-                    <span className="text-xl font-bold text-slate-900 tracking-tight">Solar-Estim</span>
+                    <Image
+                        src="/images/logo2.png"
+                        alt="Logo Solar Estim"
+                        width={250}
+                        height={70}
+                        className="h-14 w-auto object-contain"
+                        priority
+                    />
                 </Link>
 
                 <nav className="hidden md:flex gap-6 items-center text-sm font-medium text-slate-600">
