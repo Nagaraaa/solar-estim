@@ -41,7 +41,8 @@ export function useSolarSimulation() {
             let annualProductionPerKwc = 1100; // Default fallback
 
             try {
-                const pvgisUrl = `https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?lat=${lat}&lon=${lon}&peakpower=1&loss=14&angle=35&aspect=0&outputformat=json`;
+                // Use internal Proxy to avoid CORS and ensure reliability
+                const pvgisUrl = `/api/pvgis?lat=${lat}&lon=${lon}&peakpower=1&loss=14`;
                 const pvgisRes = await fetch(pvgisUrl, { signal: controller.signal });
 
                 if (pvgisRes.ok) {
