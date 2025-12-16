@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, ArrowRight, Zap, PiggyBank, Leaf } from "lucide-react";
+import { ArrowRight, Zap, PiggyBank, Leaf } from "lucide-react";
 
 export default function Home() {
   return (
@@ -28,21 +28,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Social Proof */}
-      <section className="py-12 bg-slate-50 border-b border-slate-200">
-        <div className="container px-4 md:px-6 mx-auto text-center">
-          <p className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-8">
-            Ils nous font confiance
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-            {/* Mock Logos */}
-            <span className="text-xl font-black text-slate-800">SOLAR<span className="text-brand">TECH</span></span>
-            <span className="text-xl font-bold text-slate-800">ECO<span className="text-success">ENERGY</span></span>
-            <span className="text-xl font-bold text-slate-800">GREEN<span className="text-slate-600">ROOF</span></span>
-            <span className="text-xl font-black text-slate-800">PV<span className="font-light">MAX</span></span>
-          </div>
-        </div>
-      </section>
+
 
       {/* Value Props */}
       <section id="comment-ca-marche" className="py-20 bg-white">

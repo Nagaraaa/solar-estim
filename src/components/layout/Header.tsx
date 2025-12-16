@@ -20,8 +20,7 @@ export function Header() {
 
                 <nav className="hidden md:flex gap-6 items-center text-sm font-medium text-slate-600">
                     <Link href="/simulateur" className="hover:text-primary transition-colors">Simulateur</Link>
-                    <Link href="/blog" className="hover:text-primary transition-colors">Blog & Guides</Link>
-                    <Link href="/mentions-legales" className="hover:text-primary transition-colors">A propos</Link>
+                    <Link href="/blog" className="hover:text-primary transition-colors">Blog</Link>
                 </nav>
 
                 <div className="flex items-center gap-4">
