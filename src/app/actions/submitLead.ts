@@ -24,10 +24,11 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
 
         const { name, phone, email, address } = validatedData;
 
-        // Authentication
+        // 1. Authentification Google Sheets
         const auth = new google.auth.GoogleAuth({
             credentials: {
                 client_email: process.env.GOOGLE_CLIENT_EMAIL,
+                // Gestion des sauts de ligne dans la clé privée pour Vercel
                 private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
             },
             scopes: [
@@ -39,40 +40,38 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
 
         const sheets = google.sheets({ version: 'v4', auth });
 
-        // Prepare Data
+        // 2. Préparation des Données
         const date = new Date().toLocaleString("fr-FR", { timeZone: "Europe/Paris" });
-        const cp = simulationResult.details.lon + "," + simulationResult?.details?.lat; // Simplified location or extract CP if available
-        // Note: simulationResult.details.lat/lon are coordinates. 
-        // Ideally we would want the postal code from the address, but we might pass the full address string if available or just coordinates.
-        // Let's rely on what we have. If 'address' is passed in formData or result, use it.
-        // The user prompt asked for: Date, Nom, Tel, Email, CP, Facture, Prod, Gain, Statut, Pays
+        // NOTE : simulationResult.details.lat/lon sont les coordonnées GPS.
+        // On essaie d'extraire le Code Postal depuis l'adresse si possible, sinon on garde l'adresse complète.
 
-        // We will pass 'address' in formData for better CP extraction if possible, or just use the full string.
+        // On utilise l'adresse validée pour extraire le CP ou on met chaine vide
         const addressStr = address || "";
-        // Extraction of CP from address string (simple regex for 4 or 5 digits)
+        // Extraction du code postal (regex simple pour 4 ou 5 chiffres)
         const cpMatch = addressStr.match(/\b\d{4,5}\b/);
         const postalCode = cpMatch ? cpMatch[0] : addressStr;
 
-        // 3. Strict Column Ordering (A -> J)
+        // 3. Ordre Strict des Colonnes (A -> J)
+        // C'est ici qu'on définit ce qui va dans chaque colonne du Google Sheet
         const row = [
-            date,                           // A: Date
-            name,                           // B: Nom
-            phone,                          // C: Tel
+            date,                           // A: Date de la demande
+            name,                           // B: Nom du client
+            phone,                          // C: Téléphone
             email,                          // D: Email
-            postalCode,                     // E: CP
-            simulationResult.totalCost || 0,      // F: Facture (Coût total)
-            simulationResult.annualProduction || 0, // G: Prod
-            simulationResult.annualSavings || 0,    // H: Gain
-            "NOUVEAU",                      // I: Statut
-            country                         // J: Pays
+            postalCode,                     // E: Code Postal ou Adresse
+            simulationResult.totalCost || 0,      // F: Facture estimée (Coût total)
+            simulationResult.annualProduction || 0, // G: Production estimée
+            simulationResult.annualSavings || 0,    // H: Gain (Économies annuelles)
+            "NOUVEAU",                      // I: Statut dans le CRM
+            country                         // J: Pays (FR ou BE)
         ];
 
-        // 4. Robust Insertion
+        // 4. Insertion Robuste dans le fichier
         const response = await sheets.spreadsheets.values.append({
             spreadsheetId: process.env.GOOGLE_SHEET_ID,
-            range: 'Leads!A2', // Start looking for empty space from A2
-            valueInputOption: 'USER_ENTERED',
-            insertDataOption: 'INSERT_ROWS', // Force insertion
+            range: 'Leads!A2', // On commence à chercher une case vide à partir de A2
+            valueInputOption: 'USER_ENTERED', // Traite les données comme si l'utilisateur tapait au clavier
+            insertDataOption: 'INSERT_ROWS', // Force l'insertion d'une nouvelle ligne
             requestBody: {
                 values: [row],
             },
