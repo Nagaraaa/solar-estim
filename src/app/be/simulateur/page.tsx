@@ -175,51 +175,68 @@ export default function SimulatorPageBe() {
                     {step > 0 && step < 3 && (
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                                {step === 1 && (
-                                    <FormField
-                                        control={form.control}
-                                        name="address"
-                                        render={({ field }) => (
-                                            <FormItem className="relative">
-                                                <FormLabel>Adresse complète</FormLabel>
-                                                <FormControl>
-                                                    <div className="relative">
-                                                        <MapPin className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
-                                                        <Input
-                                                            placeholder="Ex: Rue de la Loi 16, 1000 Bruxelles"
-                                                            className="pl-10 h-12 text-lg"
-                                                            {...field}
-                                                            onChange={(e) => handleAddressChange(e, field.onChange)}
-                                                            autoComplete="off"
-                                                        />
-                                                    </div>
-                                                </FormControl>
-
-                                                {/* Suggestions Dropdown */}
-                                                {showSuggestions && suggestions.length > 0 && (
-                                                    <div className="absolute z-50 w-full mt-1 bg-white rounded-md shadow-lg border border-slate-200 max-h-60 overflow-auto">
-                                                        {suggestions.map((feature: any) => (
-                                                            <div
-                                                                key={feature.properties.id || Math.random()}
-                                                                className="px-4 py-3 hover:bg-slate-50 cursor-pointer flex items-center gap-3 border-b border-slate-50 last:border-0 text-sm md:text-base text-slate-700"
-                                                                onClick={() => handleSelectAddress(feature, field.onChange)}
-                                                            >
-                                                                <MapPin className="h-4 w-4 text-brand shrink-0" />
-                                                                <span>{feature.properties.label}</span>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                )}
-
-                                                <FormMessage />
-                                                <div className="flex gap-4 mt-4">
-                                                    <Button type="button" variant="outline" onClick={() => setStep(0)} className="flex-1 h-12">Retour</Button>
-                                                    <Button type="button" onClick={nextStep} className="flex-1 h-12 text-lg">Suivant</Button>
+                                <FormField
+                                    control={form.control}
+                                    name="address"
+                                    render={({ field }) => (
+                                        <FormItem className="relative">
+                                            <FormLabel>Adresse complète (Belgique)</FormLabel>
+                                            <FormControl>
+                                                <div className="relative">
+                                                    <MapPin className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+                                                    <Input
+                                                        placeholder="Ex: Rue de la Loi 16, 1000 Bruxelles"
+                                                        className={cn("pl-10 h-12 text-lg", !coordinates.lat && field.value.length > 5 ? "border-amber-500 focus-visible:ring-amber-500" : "")}
+                                                        {...field}
+                                                        onChange={(e) => {
+                                                            handleAddressChange(e, field.onChange);
+                                                            setCoordinates({});
+                                                        }}
+                                                        autoComplete="off"
+                                                    />
                                                 </div>
-                                            </FormItem>
-                                        )}
-                                    />
-                                )}
+                                            </FormControl>
+
+                                            {showSuggestions && suggestions.length > 0 && (
+                                                <div className="absolute z-50 w-full mt-1 bg-white rounded-md shadow-lg border border-slate-200 max-h-60 overflow-auto">
+                                                    {suggestions.map((feature: any) => (
+                                                        <div
+                                                            key={feature.properties.id || Math.random()}
+                                                            className="px-4 py-3 hover:bg-slate-50 cursor-pointer flex items-center gap-3 border-b border-slate-50 last:border-0 text-sm md:text-base text-slate-700"
+                                                            onClick={() => handleSelectAddress(feature, field.onChange)}
+                                                        >
+                                                            <MapPin className="h-4 w-4 text-brand shrink-0" />
+                                                            <span>{feature.properties.label}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+
+                                            <FormMessage />
+                                            {!coordinates.lat && field.value.length > 5 && (
+                                                <p className="text-sm text-amber-600 font-medium mt-1">
+                                                    ⚠️ Veuillez sélectionner une adresse dans la liste.
+                                                </p>
+                                            )}
+                                            <div className="flex gap-4 mt-4">
+                                                <Button type="button" variant="outline" onClick={() => setStep(0)} className="flex-1 h-12">Retour</Button>
+                                                <Button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        if (coordinates.lat && coordinates.lon) {
+                                                            nextStep();
+                                                        } else {
+                                                            form.setError("address", { message: "Veuillez sélectionner une adresse valide dans la liste déroulante." });
+                                                        }
+                                                    }}
+                                                    className="flex-1 h-12 text-lg"
+                                                >
+                                                    Suivant
+                                                </Button>
+                                            </div>
+                                        </FormItem>
+                                    )}
+                                />
 
                                 {step === 2 && (
                                     <FormField

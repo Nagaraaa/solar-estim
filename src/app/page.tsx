@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Zap, PiggyBank, Leaf } from "lucide-react";
+import { StructuredData } from "@/components/StructuredData";
+import { FadeIn } from "@/components/ui/fade-in";
 
 export default function Home() {
   return (
@@ -9,34 +11,35 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 overflow-hidden bg-slate-900 text-white">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center opacity-20" />
-        <div className="container relative z-10 px-4 md:px-6 mx-auto text-center">
+        <FadeIn className="container relative z-10 px-4 md:px-6 mx-auto text-center" delay={100}>
           <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6">
             Passez au solaire <span className="text-brand">en toute confiance</span>
           </h1>
+          <StructuredData />
           <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-10">
             Calculez votre potentiel solaire en instantané avec notre simulateur certifié PVGIS.
             Précis, gratuit et sans engagement.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/simulateur">
-              <Button size="lg" variant="brand" className="w-full sm:w-auto text-lg font-bold px-8 h-12">
+              <Button size="lg" variant="brand" className="w-full sm:w-auto text-lg font-bold px-8 h-12 hover:scale-105 transition-transform">
                 Lancer le simulateur <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
 
           </div>
-        </div>
+        </FadeIn>
       </section>
 
 
 
       {/* Value Props */}
       <section id="comment-ca-marche" className="py-20 bg-white">
-        <div className="container px-4 md:px-6 mx-auto">
+        <FadeIn className="container px-4 md:px-6 mx-auto" delay={200}>
           <h2 className="text-3xl font-bold text-center mb-16 text-slate-900">Pourquoi utiliser Solar-Estim ?</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="flex flex-col items-center text-center space-y-4">
-              <div className="p-4 bg-brand/10 rounded-full text-brand-foreground">
+            <div className="flex flex-col items-center text-center space-y-4 hover:bg-slate-50 p-6 rounded-xl transition-colors duration-300">
+              <div className="p-4 bg-brand/10 rounded-full text-brand-foreground hover:scale-110 transition-transform">
                 <Zap className="h-10 w-10" />
               </div>
               <h3 className="text-xl font-bold">Précision Scientifique</h3>
@@ -44,8 +47,8 @@ export default function Home() {
                 Basé sur les données satellites PVGIS de la Commission Européenne pour une estimation fiable à 95%.
               </p>
             </div>
-            <div className="flex flex-col items-center text-center space-y-4">
-              <div className="p-4 bg-success/10 rounded-full text-success">
+            <div className="flex flex-col items-center text-center space-y-4 hover:bg-slate-50 p-6 rounded-xl transition-colors duration-300">
+              <div className="p-4 bg-success/10 rounded-full text-success hover:scale-110 transition-transform">
                 <PiggyBank className="h-10 w-10" />
               </div>
               <h3 className="text-xl font-bold">Calcul de Rentabilité</h3>
@@ -53,8 +56,8 @@ export default function Home() {
                 Nous analysons votre facture actuelle pour estimer vos économies réelles et votre retour sur investissement.
               </p>
             </div>
-            <div className="flex flex-col items-center text-center space-y-4">
-              <div className="p-4 bg-blue-100 rounded-full text-blue-600">
+            <div className="flex flex-col items-center text-center space-y-4 hover:bg-slate-50 p-6 rounded-xl transition-colors duration-300">
+              <div className="p-4 bg-blue-100 rounded-full text-blue-600 hover:scale-110 transition-transform">
                 <Leaf className="h-10 w-10" />
               </div>
               <h3 className="text-xl font-bold">Installateurs Certifiés</h3>
@@ -63,12 +66,12 @@ export default function Home() {
               </p>
             </div>
           </div>
-        </div>
+        </FadeIn>
       </section>
 
       {/* Blog Preview */}
       <section className="py-20 bg-slate-50">
-        <div className="container px-4 md:px-6 mx-auto">
+        <FadeIn className="container px-4 md:px-6 mx-auto" delay={300}>
           <div className="flex justify-between items-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900">Derniers articles</h2>
             <Link href="/blog" className="text-brand font-bold hover:underline">
@@ -97,7 +100,7 @@ export default function Home() {
               }
             ].map((post, i) => (
               <Link key={i} href={`/blog/${post.slug}`} className="group">
-                <Card className="h-full hover:shadow-lg transition-shadow border-slate-200">
+                <Card className="h-full hover:shadow-lg hover:scale-105 transition-all duration-300 border-slate-200">
                   <div className="h-48 bg-slate-200 w-full object-cover rounded-t-lg bg-cover" style={{ backgroundImage: `url(${post.image})` }} />
                   <CardContent className="p-6">
                     <div className="text-xs font-semibold text-brand uppercase tracking-wider mb-2">{post.category}</div>
@@ -109,7 +112,7 @@ export default function Home() {
               </Link>
             ))}
           </div>
-        </div>
+        </FadeIn>
       </section>
 
       {/* Final CTA */}
