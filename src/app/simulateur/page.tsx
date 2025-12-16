@@ -6,8 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useSolarSimulation } from "@/hooks/useSolarSimulation";
 import { useDebounce } from "@/hooks/useDebounce";
+import { submitLead } from "@/app/actions/submitLead";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Loader2, MapPin, Euro, CheckCircle2 } from "lucide-react";
@@ -255,28 +257,50 @@ export default function SimulatorPage() {
                                 </div>
                             </div>
 
-                            {/* 3. High-End Lead Capture Form */}
+                            {/* 3. Lead Capture Form */}
                             <Card className="border-slate-200 shadow-2xl overflow-hidden">
                                 <div className="bg-slate-900 p-6 text-white text-center">
-                                    <h3 className="text-xl font-bold mb-2">Vérifier la faisabilité & Bloquer les aides</h3>
+                                    <h3 className="text-xl font-bold mb-2">Recevoir mon Étude Détaillée</h3>
                                     <p className="text-slate-300 text-sm">
-                                        Recevez votre étude détaillée et les devis d'artisans certifiés RGE.
+                                        Entrez vos coordonnées pour recevoir votre rapport complet et les devis certifiés RGE par email.
                                     </p>
                                 </div>
-                                <CardContent className="p-6 bg-slate-50 text-center">
-                                    <Button
-                                        onClick={() => {
-                                            // TODO: REMPLACER PAR LE LIEN AWIN ICI
-                                            window.open("https://www.google.fr/search?q=panneaux+solaires", "_blank");
-                                        }}
-                                        className="w-full h-16 text-lg md:text-xl font-black bg-brand hover:bg-brand/90 text-slate-900 shadow-xl uppercase tracking-wide mb-4"
-                                    >
-                                        COMPARER LES DEVIS CERTIFIÉS (Gratuit) &gt;&gt;
-                                    </Button>
+                                <CardContent className="p-6 bg-slate-50">
+                                    <form action={async (formData) => {
+                                        // Add address hidden field or handle in action
+                                        formData.append("address", form.getValues("address"));
+                                        const res = await submitLead(formData, result, 'FR');
+                                        if (res.success) {
+                                            alert("Demande envoyée avec succès ! Vous serez recontacté sous 24h.");
+                                        } else {
+                                            alert("Erreur lors de l'envoi : " + res.error);
+                                        }
+                                    }} className="space-y-4">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div className="space-y-2">
+                                                <Label>Nom complet</Label>
+                                                <Input name="name" required placeholder="Jean Dupont" />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label>Téléphone</Label>
+                                                <Input name="phone" required placeholder="06 12 34 56 78" />
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Email</Label>
+                                            <Input name="email" type="email" required placeholder="jean.dupont@email.com" />
+                                        </div>
 
-                                    <p className="text-sm text-slate-500 italic">
-                                        Redirection vers notre comparateur partenaire agréé.
-                                    </p>
+                                        <Button
+                                            type="submit"
+                                            className="w-full h-14 text-lg font-bold bg-brand hover:bg-brand/90 text-slate-900 shadow-xl uppercase tracking-wide mt-4"
+                                        >
+                                            ENVOYER MA DEMANDE &gt;&gt;
+                                        </Button>
+                                        <p className="text-xs text-center text-slate-400 mt-2">
+                                            Vos données sont sécurisées et traitées conformément au RGPD.
+                                        </p>
+                                    </form>
                                 </CardContent>
                             </Card>
                         </div>
@@ -288,6 +312,6 @@ export default function SimulatorPage() {
                 Les résultats sont des estimations basées sur les données moyennes et l'ensoleillement de votre région.
                 Seule une visite technique peut confirmer le devis final.
             </p>
-        </div>
+        </div >
     );
 }
