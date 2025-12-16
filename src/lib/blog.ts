@@ -9,6 +9,7 @@ export interface BlogPost {
     date: string;
     category: string;
     image: string;
+    imageAlt?: string;
     summary: string;
     content: string;
     country?: 'FR' | 'BE'; // Optional for backward compatibility (default to FR)

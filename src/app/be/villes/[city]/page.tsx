@@ -54,28 +54,61 @@ export default async function CityPage({ params }: PageProps) {
     // 3. Local Business Schema (JSON-LD)
     const jsonLd = {
         "@context": "https://schema.org",
-        "@type": "Service",
-        "name": `Installation Panneaux Solaires ${city.name}`,
-        "provider": {
-            "@type": "Organization",
-            "name": "Solar Estim Belgique",
-            "url": "https://www.solarestim.com/be"
-        },
-        "serviceType": "Solar Energy System Design",
-        "areaServed": {
-            "@type": "City",
-            "name": city.name,
-            "postalCode": city.zip,
-            "addressRegion": city.region,
-            "addressCountry": "BE"
-        },
-        "description": `Étude de rentabilité et installation de panneaux photovoltaïques à ${city.name}.`,
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "EUR",
-            "description": "Simulation et devis gratuits"
-        }
+        "@graph": [
+            {
+                "@type": "Service",
+                "name": `Installation Panneaux Solaires ${city.name}`,
+                "provider": {
+                    "@type": "Organization",
+                    "name": "Solar Estim Belgique",
+                    "url": "https://www.solarestim.com/be"
+                },
+                "serviceType": "Solar Energy System Design",
+                "areaServed": {
+                    "@type": "City",
+                    "name": city.name,
+                    "postalCode": city.zip,
+                    "addressRegion": city.region,
+                    "addressCountry": "BE"
+                },
+                "description": `Étude de rentabilité et installation de panneaux photovoltaïques à ${city.name}.`,
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "EUR",
+                    "description": "Simulation et devis gratuits"
+                }
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": `Est-il rentable d'installer des panneaux solaires à ${city.name} ?`,
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": `Oui, même avec la météo belge. À ${city.name}, une installation moyenne se rentabilise en 5 à 7 ans grâce aux économies d'électricité et, selon la région, au mécanisme de compensation (compteur qui tourne à l'envers) ou aux primes.`
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": `Y a-t-il des primes pour le photovoltaïque à ${city.name} (${city.zip}) ?`,
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": `Cela dépend de votre région (${city.region}). En Wallonie, le tarif Prosumer s'applique mais des aides existent pour la domotique. À Bruxelles, les certificats verts sont très avantageux. En Flandre, il existe une prime à l'investissement.`
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": `Comment trouver un installateur agréé à ${city.name} ?`,
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": `Notre plateforme vous connecte gratuitement avec des installateurs certifiés RESCert actifs spécifiquement dans la zone de ${city.name} et ses environs.`
+                        }
+                    }
+                ]
+            }
+        ]
     };
 
     return (
