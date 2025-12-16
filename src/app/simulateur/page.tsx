@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useSolarSimulation } from "@/hooks/useSolarSimulation";
+import { useDebounce } from "@/hooks/useDebounce";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -39,43 +40,47 @@ export default function SimulatorPage() {
         },
     });
 
-    // Address Autocomplete Logic
-    const handleAddressChange = async (e: React.ChangeEvent<HTMLInputElement>, fieldChange: (value: string) => void) => {
-        const value = e.target.value;
-        fieldChange(value);
+    // Debounce Logic
+    const [inputValue, setInputValue] = useState("");
+    const debouncedAddress = useDebounce(inputValue, 500);
 
-        if (value.length > 3) {
-            try {
-                const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(value)}&limit=5`);
-                if (res.ok) {
-                    const data = await res.json();
-                    setSuggestions(data.features || []);
-                    setShowSuggestions(true);
-                }
-            } catch (err) {
-                console.error("Address fetch error", err);
-            }
-        } else {
-            setSuggestions([]);
-            setShowSuggestions(false);
-        }
+    const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>, fieldChange: (value: string) => void) => {
+        const value = e.target.value;
+        setInputValue(value);
+        fieldChange(value);
     };
+
+    // Effect triggered only when user stops typing for 500ms
+    useEffect(() => {
+        const fetchSuggestions = async () => {
+            if (debouncedAddress.length > 3) {
+                try {
+                    const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(debouncedAddress)}&limit=5`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        setSuggestions(data.features || []);
+                        setShowSuggestions(true);
+                    }
+                } catch (err) {
+                    console.error("Address fetch error", err);
+                }
+            } else {
+                setSuggestions([]);
+                setShowSuggestions(false);
+            }
+        };
+
+        fetchSuggestions();
+    }, [debouncedAddress]);
 
     const handleSelectAddress = (feature: any, fieldChange: (value: string) => void) => {
         const label = feature.properties.label;
         const [lon, lat] = feature.geometry.coordinates;
 
         fieldChange(label);
-        // Store coordinates in form state (we need to add these to schema or handle separately)
-        // Since schema doesn't have lat/lon, we pass them directly effectively when submitting if we updated schema
-        // OR we can store them in a state to pass to calculate.
-        // Let's store in a ref or state.
+        // Store coordinates in form state
+        console.log("📍 Coordonnées capturées (FR):", lat, lon);
         form.setValue("address", label);
-        // We'll pass these coordinates to the calculate function via a modified onSubmit or just store them
-        // Let's add hidden fields to form or just use a state REF.
-        // Actually, best is to add lat/lon to form values if possible, but schema needs update?
-        // User asked to "stockes les coordonnées dans l'état du formulaire (hidden fields ou state React)".
-        // I'll use a state for coordinates.
         setCoordinates({ lat, lon });
 
         setShowSuggestions(false);

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { SimulationInput, SimulationResult } from "@/types";
+import { getPvgisData } from "@/app/actions/getPvgisData";
 
 export function useSolarSimulation() {
     const [loading, setLoading] = useState(false);
@@ -14,6 +15,7 @@ export function useSolarSimulation() {
             // 1. Geocoding
             let lat = input.lat;
             let lon = input.lon;
+            console.log("Input coordinates received in hook:", lat, lon);
 
             if (!lat || !lon) {
                 const geoUrl = `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(
@@ -33,31 +35,12 @@ export function useSolarSimulation() {
                 throw new Error("Coordonnées invalides.");
             }
 
-            // 2. PVGIS Production
-            // Timeout strategy: 4 seconds limit
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 4000);
+            // 2. PVGIS Production (STRICT SERVER ACTION)
+            let annualProductionPerKwc = 0;
 
-            let annualProductionPerKwc = 1100; // Default fallback
-
-            try {
-                // Use internal Proxy to avoid CORS and ensure reliability
-                const pvgisUrl = `/api/pvgis?lat=${lat}&lon=${lon}&peakpower=1&loss=14`;
-                const pvgisRes = await fetch(pvgisUrl, { signal: controller.signal });
-
-                if (pvgisRes.ok) {
-                    const pvgisData = await pvgisRes.json();
-                    // E_y: Average annual energy production
-                    if (pvgisData.outputs && pvgisData.outputs.totals && pvgisData.outputs.totals.E_y) {
-                        annualProductionPerKwc = pvgisData.outputs.totals.E_y;
-                    }
-                }
-            } catch (e) {
-                console.warn("PVGIS API timed out or failed, using default values.", e);
-                // Continue with default 1100
-            } finally {
-                clearTimeout(timeoutId);
-            }
+            // DIRECT CALL TO SERVER ACTION - NO FALLBACK
+            // This will throw if PVGIS is down/unreachable
+            annualProductionPerKwc = await getPvgisData(lat, lon, 1);
 
             // 3. Financial Algorithm
             // Consommation estimée = Facture * 12 / 0.25 (prix moyen kWh)

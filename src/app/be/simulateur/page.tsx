@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useSolarSimulation } from "@/hooks/useSolarSimulation";
+import { useDebounce } from "@/hooks/useDebounce";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -44,34 +45,46 @@ export default function SimulatorPageBe() {
         },
     });
 
-    // Address Autocomplete Logic
-    const handleAddressChange = async (e: React.ChangeEvent<HTMLInputElement>, fieldChange: (value: string) => void) => {
-        const value = e.target.value;
-        fieldChange(value);
+    // Debounce Logic
+    const [inputValue, setInputValue] = useState("");
+    const debouncedAddress = useDebounce(inputValue, 500);
 
-        if (value.length > 3) {
-            try {
-                // Use internal API Proxy to avoid CORS errors and send proper headers
-                const res = await fetch(`/api/be/address?q=${encodeURIComponent(value)}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    setSuggestions(data || []);
-                    setShowSuggestions(true);
-                }
-            } catch (err) {
-                console.error("Address fetch error", err);
-            }
-        } else {
-            setSuggestions([]);
-            setShowSuggestions(false);
-        }
+    const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>, fieldChange: (value: string) => void) => {
+        const value = e.target.value;
+        setInputValue(value);
+        fieldChange(value);
     };
+
+    // Effect triggered only when user stops typing for 500ms
+    useEffect(() => {
+        const fetchSuggestions = async () => {
+            if (debouncedAddress.length > 3) {
+                try {
+                    // Use internal API Proxy to avoid CORS errors and send proper headers
+                    const res = await fetch(`/api/be/address?q=${encodeURIComponent(debouncedAddress)}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        setSuggestions(data || []);
+                        setShowSuggestions(true);
+                    }
+                } catch (err) {
+                    console.error("Address fetch error", err);
+                }
+            } else {
+                setSuggestions([]);
+                setShowSuggestions(false);
+            }
+        };
+
+        fetchSuggestions();
+    }, [debouncedAddress]);
 
     const handleSelectAddress = (feature: any, fieldChange: (value: string) => void) => {
         const label = feature.properties.label;
         const [lon, lat] = feature.geometry.coordinates;
 
         fieldChange(label);
+        console.log("📍 Coordonnées capturées (BE):", lat, lon);
         form.setValue("address", label);
         setCoordinates({ lat, lon });
 
