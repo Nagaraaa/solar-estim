@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
         // Get country from Vercel geolocation headers
         // x-vercel-ip-country is the standard header for Vercel
         // req.geo is available in some edge runtimes but headers are more universal
-        const country = request.headers.get('x-vercel-ip-country') || request.geo?.country;
+        const country = request.headers.get('x-vercel-ip-country');
 
         // If country is Belgium (BE), redirect to the Belgian homepage
         if (country === 'BE') {
