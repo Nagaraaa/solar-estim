@@ -9,13 +9,9 @@ export default function MentionsLegales() {
 
             <h2>1. Éditeur du site</h2>
             <p>
-                Le site <strong>Solar-Estim</strong> est édité par la société Solar-Estim SAS.
+                Le site <strong>https://www.solarestim.com</strong> est édité par Solar Estim (Particulier).
                 <br />
-                Siège social : 12 Avenue du Soleil, 75000 Paris, France.
-                <br />
-                SIRET : 123 456 789 00000
-                <br />
-                Contact : contact@solar-estim.fr
+                Contact : contact@solarestim.com
             </p>
 
             <h2>2. Hébergement</h2>
@@ -32,7 +28,7 @@ export default function MentionsLegales() {
             <p>
                 Les informations recueillies sur les formulaires sont enregistrées dans un fichier informatisé par Solar-Estim pour la gestion de la clientèle.
                 Elles sont conservées pendant 3 ans et sont destinées au service marketing et commercial.
-                Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant : dpo@solar-estim.fr.
+                Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant : contact@solarestim.com.
             </p>
 
             <h2>5. Responsabilité</h2>

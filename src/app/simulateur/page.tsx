@@ -22,6 +22,8 @@ const formSchema = z.object({
 export default function SimulatorPage() {
     const [step, setStep] = useState(1);
     const { calculate, loading, error, result } = useSolarSimulation();
+    const [suggestions, setSuggestions] = useState<any[]>([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
 
     // Scroll to top on step change
     useEffect(() => {
@@ -37,8 +39,53 @@ export default function SimulatorPage() {
         },
     });
 
+    // Address Autocomplete Logic
+    const handleAddressChange = async (e: React.ChangeEvent<HTMLInputElement>, fieldChange: (value: string) => void) => {
+        const value = e.target.value;
+        fieldChange(value);
+
+        if (value.length > 3) {
+            try {
+                const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(value)}&limit=5`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setSuggestions(data.features || []);
+                    setShowSuggestions(true);
+                }
+            } catch (err) {
+                console.error("Address fetch error", err);
+            }
+        } else {
+            setSuggestions([]);
+            setShowSuggestions(false);
+        }
+    };
+
+    const handleSelectAddress = (feature: any, fieldChange: (value: string) => void) => {
+        const label = feature.properties.label;
+        const [lon, lat] = feature.geometry.coordinates;
+
+        fieldChange(label);
+        // Store coordinates in form state (we need to add these to schema or handle separately)
+        // Since schema doesn't have lat/lon, we pass them directly effectively when submitting if we updated schema
+        // OR we can store them in a state to pass to calculate.
+        // Let's store in a ref or state.
+        form.setValue("address", label);
+        // We'll pass these coordinates to the calculate function via a modified onSubmit or just store them
+        // Let's add hidden fields to form or just use a state REF.
+        // Actually, best is to add lat/lon to form values if possible, but schema needs update?
+        // User asked to "stockes les coordonnées dans l'état du formulaire (hidden fields ou state React)".
+        // I'll use a state for coordinates.
+        setCoordinates({ lat, lon });
+
+        setShowSuggestions(false);
+    };
+
+    const [coordinates, setCoordinates] = useState<{ lat?: number, lon?: number }>({});
+
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        const success = await calculate(values);
+        // Merge coordinates
+        const success = await calculate({ ...values, ...coordinates });
         if (success) {
             setStep(3); // Result step
         }
@@ -100,14 +147,37 @@ export default function SimulatorPage() {
                                         control={form.control}
                                         name="address"
                                         render={({ field }) => (
-                                            <FormItem>
+                                            <FormItem className="relative">
                                                 <FormLabel>Adresse complète</FormLabel>
                                                 <FormControl>
                                                     <div className="relative">
                                                         <MapPin className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
-                                                        <Input placeholder="Ex: 10 rue de la Paix, 75001 Paris" className="pl-10 h-12 text-lg" {...field} />
+                                                        <Input
+                                                            placeholder="Ex: 10 rue de la Paix, 75001 Paris"
+                                                            className="pl-10 h-12 text-lg"
+                                                            {...field}
+                                                            onChange={(e) => handleAddressChange(e, field.onChange)}
+                                                            autoComplete="off"
+                                                        />
                                                     </div>
                                                 </FormControl>
+
+                                                {/* Suggestions Dropdown */}
+                                                {showSuggestions && suggestions.length > 0 && (
+                                                    <div className="absolute z-50 w-full mt-1 bg-white rounded-md shadow-lg border border-slate-200 max-h-60 overflow-auto">
+                                                        {suggestions.map((feature: any) => (
+                                                            <div
+                                                                key={feature.properties.id || Math.random()}
+                                                                className="px-4 py-3 hover:bg-slate-50 cursor-pointer flex items-center gap-3 border-b border-slate-50 last:border-0 text-sm md:text-base text-slate-700"
+                                                                onClick={() => handleSelectAddress(feature, field.onChange)}
+                                                            >
+                                                                <MapPin className="h-4 w-4 text-brand shrink-0" />
+                                                                <span>{feature.properties.label}</span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+
                                                 <FormMessage />
                                                 <Button type="button" onClick={nextStep} className="w-full mt-4 h-12 text-lg">Suivant</Button>
                                             </FormItem>

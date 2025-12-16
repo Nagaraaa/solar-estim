@@ -14,4 +14,6 @@ export interface SimulationResult {
 export interface SimulationInput {
     address: string;
     monthlyBill: number; // €
+    lat?: number;
+    lon?: number;
 }

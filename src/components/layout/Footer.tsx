@@ -1,15 +1,20 @@
 import Link from "next/link";
-import { Sun } from "lucide-react";
+import Image from "next/image";
 
 export function Footer() {
     return (
         <footer className="border-t border-slate-200 bg-slate-50 py-12 text-slate-600">
             <div className="container mx-auto px-4 md:px-6 grid gap-8 md:grid-cols-4">
                 <div className="space-y-4">
-                    <div className="flex items-center gap-2">
-                        <Sun className="h-5 w-5 text-brand" />
-                        <span className="font-bold text-slate-900">Solar-Estim</span>
-                    </div>
+                    <Link href="/" className="flex items-center gap-2">
+                        <Image
+                            src="/images/logo2.png"
+                            alt="Logo Solar Estim"
+                            width={180}
+                            height={50}
+                            className="h-10 w-auto object-contain"
+                        />
+                    </Link>
                     <p className="text-sm leading-relaxed">
                         Le simulateur solaire nouvelle génération.
                         Obtenez une étude précise et indépendante en quelques clics.
@@ -45,7 +50,7 @@ export function Footer() {
                 </div>
             </div>
             <div className="container mx-auto px-4 mt-12 pt-8 border-t border-slate-200 text-center text-xs text-slate-400">
-                &copy; {new Date().getFullYear()} Solar-Estim. Tous droits réservés.
+                &copy; 2025 Solar Estim. Tous droits réservés.
             </div>
         </footer>
     );

@@ -12,17 +12,26 @@ export function useSolarSimulation() {
 
         try {
             // 1. Geocoding
-            const geoUrl = `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(
-                input.address
-            )}&limit=1`;
-            const geoRes = await fetch(geoUrl);
-            const geoData = await geoRes.json();
+            let lat = input.lat;
+            let lon = input.lon;
 
-            if (!geoData.features || geoData.features.length === 0) {
-                throw new Error("Adresse introuvable.");
+            if (!lat || !lon) {
+                const geoUrl = `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(
+                    input.address
+                )}&limit=1`;
+                const geoRes = await fetch(geoUrl);
+                const geoData = await geoRes.json();
+
+                if (!geoData.features || geoData.features.length === 0) {
+                    throw new Error("Adresse introuvable.");
+                }
+
+                [lon, lat] = geoData.features[0].geometry.coordinates;
             }
 
-            const [lon, lat] = geoData.features[0].geometry.coordinates;
+            if (typeof lat !== 'number' || typeof lon !== 'number') {
+                throw new Error("Coordonnées invalides.");
+            }
 
             // 2. PVGIS Production
             // Timeout strategy: 4 seconds limit

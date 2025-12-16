@@ -7,8 +7,12 @@ import { Footer } from "@/components/layout/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Solar-Estim - Rentabilité Solaire",
-  description: "Calculez la rentabilité de vos panneaux solaires en 2 minutes.",
+  title: {
+    default: "Solar-Estim - Simulateur Photovoltaïque",
+    template: "%s | Solar Estim - Simulateur Photovoltaïque",
+  },
+  description: "Calculez la rentabilité de vos panneaux solaires en 2 minutes. Simulateur gratuit, précis (données PVGIS) et sans inscription obligatoire.",
+  keywords: ["panneau solaire", "rentabilité photovoltaïque", "simulateur solaire gratuit", "devis solaire"],
 };
 
 export default function RootLayout({
