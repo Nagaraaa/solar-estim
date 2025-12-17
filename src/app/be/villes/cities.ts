@@ -26,6 +26,21 @@ export const CITIES: City[] = [
     { name: "Bastogne", slug: "bastogne", zip: "6600", region: "Wallonie" },
     { name: "Dinant", slug: "dinant", zip: "5500", region: "Wallonie" },
     { name: "Châtelet", slug: "chatelet", zip: "6200", region: "Wallonie" },
+    { name: "La Louvière", slug: "la-louviere", zip: "7100", region: "Wallonie" },
+    { name: "Seraing", slug: "seraing", zip: "4100", region: "Wallonie" },
+    { name: "Mouscron", slug: "mouscron", zip: "7700", region: "Wallonie" },
+    { name: "Herstal", slug: "herstal", zip: "4040", region: "Wallonie" },
+    { name: "Courcelles", slug: "courcelles", zip: "6180", region: "Wallonie" },
+    { name: "Sambreville", slug: "sambreville", zip: "5060", region: "Wallonie" },
+    { name: "Andenne", slug: "andenne", zip: "5300", region: "Wallonie" },
+    { name: "Soignies", slug: "soignies", zip: "7060", region: "Wallonie" },
+    { name: "Waremme", slug: "waremme", zip: "4300", region: "Wallonie" },
+    { name: "Eupen", slug: "eupen", zip: "4700", region: "Wallonie" },
+    { name: "Tubize", slug: "tubize", zip: "1480", region: "Wallonie" },
+    { name: "Ciney", slug: "ciney", zip: "5590", region: "Wallonie" },
+    { name: "Hannut", slug: "hannut", zip: "4280", region: "Wallonie" },
+    { name: "Rochefort", slug: "rochefort", zip: "5580", region: "Wallonie" },
+    { name: "Spa", slug: "spa", zip: "4900", region: "Wallonie" },
 ];
 
 export function getCityBySlug(slug: string): City | undefined {
