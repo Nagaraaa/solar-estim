@@ -24,12 +24,11 @@ export default function Home() {
         />
         <FadeIn className="container relative z-10 px-4 md:px-6 mx-auto text-center" delay={100}>
           <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6">
-            Passez au solaire <span className="text-brand">en toute confiance</span>
+            Estimez la rentabilité de vos panneaux solaires en <span className="text-brand">France et Belgique</span>
           </h1>
           <StructuredData />
           <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-10">
-            Calculez votre potentiel solaire en instantané avec notre simulateur certifié PVGIS.
-            Précis, gratuit et sans engagement.
+            Un calcul précis basé sur l'ensoleillement réel de votre toiture (Données scientifiques PVGIS).
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/simulateur">
@@ -71,9 +70,9 @@ export default function Home() {
               <div className="p-4 bg-blue-100 rounded-full text-blue-600 hover:scale-110 transition-transform">
                 <Leaf className="h-10 w-10" />
               </div>
-              <h3 className="text-xl font-bold">Installateurs Certifiés</h3>
+              <h3 className="text-xl font-bold">Spécialisé Wallonie & France</h3>
               <p className="text-slate-600">
-                Accédez à un réseau d'artisans RGE vérifiés près de chez vous pour concrétiser votre projet.
+                Prise en compte des spécificités locales : compteur qui tourne à l'envers, tarifs de rachat et primes régionales.
               </p>
             </div>
           </div>

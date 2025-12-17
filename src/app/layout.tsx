@@ -9,11 +9,11 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: "Solar-Estim - Simulateur Rentabilité Panneaux Solaires Gratuit",
+    default: "Simulateur Rentabilité Panneaux Solaires | France & Belgique (Gratuit)",
     template: "%s | Solar Estim",
   },
-  description: "Calculez la rentabilité de vos panneaux solaires en 2 minutes. Simulateur gratuit, précis (données PVGIS 2024) et sans inscription. Estimez vos économies dès maintenant.",
-  keywords: ["simulateur photovoltaïque", "rentabilité panneaux solaires", "simulation solaire gratuite", "prix installation solaire", "autoconsommation", "panneaux solaires", "devis solaire"],
+  description: "Calculez vos économies photovoltaïques en 2 min. Simulateur précis pour la Wallonie, Bruxelles et toute la France. Basé sur les données PVGIS. Sans inscription obligatoire.",
+  keywords: ["rentabilité panneaux solaires belgique", "calcul production photovoltaïque", "simulateur solaire wallonie", "prix installation panneau solaire", "rendement solaire france", "simulateur photovoltaïque", "rentabilité panneaux solaires", "simulation solaire gratuite", "autoconsommation", "panneaux solaires", "devis solaire"],
   authors: [{ name: "Steve Herremans" }],
   creator: "Solar Estim",
   publisher: "Solar Estim",

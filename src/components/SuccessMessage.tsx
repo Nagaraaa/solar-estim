@@ -22,7 +22,7 @@ export function SuccessMessage() {
                         Merci pour votre confiance.
                     </p>
                     <p className="text-slate-600 leading-relaxed">
-                        Un expert Solar Estim va analyser votre dossier et vous recontactera personnellement sous <span className="font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded">24 heures</span>.
+                        Votre rapport détaillé vient d'être généré. Vous allez le recevoir par <span className="font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded">email</span> dans quelques instants.
                     </p>
                 </div>
 

@@ -106,6 +106,7 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
                     // to: [email], // PROD
                     // Pour le test, on peut vouloir l'envoyer à soi-même ou au client. The prompt says "au client".
                     to: [email],
+
                     subject: `Votre étude solaire pour ${addressStr.split(',')[0]} ☀️`,
                     react: SolarReportEmail({
                         name: name,
