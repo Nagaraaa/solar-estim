@@ -13,9 +13,12 @@ interface ResultStepProps {
     address: string;
     countryCode: "FR" | "BE";
     region?: string | null; // For BE display
+    monthlyBill: number;
 }
 
-export function ResultStep({ result, address, countryCode, region }: ResultStepProps) {
+import { ResultDashboard } from "./ResultDashboard";
+
+export function ResultStep({ result, address, countryCode, region, monthlyBill }: ResultStepProps) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [phoneError, setPhoneError] = useState<string | null>(null);
@@ -56,38 +59,8 @@ export function ResultStep({ result, address, countryCode, region }: ResultStepP
                 </div>
             )}
 
-            {/* 1. Main Result (Value) */}
-            <Card className="border-brand border-2 shadow-xl">
-                <CardHeader>
-                    <CardTitle className="text-center text-slate-900">Résultat Estimé</CardTitle>
-                </CardHeader>
-                <CardContent className="text-center">
-                    <div className="text-4xl md:text-5xl font-black text-brand mb-2">
-                        {result.annualSavings}€ <span className="text-xl text-slate-600 font-medium">/ an</span>
-                    </div>
-                    <p className="text-slate-500 font-medium">d'économies potentielles immédiates</p>
-                </CardContent>
-            </Card>
-
-            {/* 2. Technical Details */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-3 bg-slate-50 rounded-lg text-center border border-slate-100">
-                    <div className="text-xs sm:text-sm text-slate-500 mb-1">Production</div>
-                    <div className="text-lg sm:text-xl font-bold text-slate-900">{result.annualProduction} kWh</div>
-                </div>
-                <div className="p-3 bg-slate-50 rounded-lg text-center border border-slate-100">
-                    <div className="text-xs sm:text-sm text-slate-500 mb-1">Installation</div>
-                    <div className="text-lg sm:text-xl font-bold text-slate-900">{result.systemSize} kWc</div>
-                </div>
-                <div className="p-3 bg-slate-50 rounded-lg text-center border border-slate-100">
-                    <div className="text-xs sm:text-sm text-slate-500 mb-1">Coût Estimé</div>
-                    <div className="text-lg sm:text-xl font-bold text-slate-900">{result.totalCost} €</div>
-                </div>
-                <div className="p-3 bg-slate-50 rounded-lg text-center border border-slate-100">
-                    <div className="text-xs sm:text-sm text-slate-500 mb-1">Rentabilité</div>
-                    <div className="text-lg sm:text-xl font-bold text-success">{result.roiYears} ans</div>
-                </div>
-            </div>
+            {/* 1. Dashboard Visualization */}
+            <ResultDashboard result={result} monthlyBill={monthlyBill} />
 
             {/* 3. Lead Capture Form */}
             {isSubmitted ? (

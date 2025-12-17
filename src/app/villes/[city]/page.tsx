@@ -7,6 +7,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { FadeIn } from "@/components/ui/fade-in";
 import Image from "next/image";
 import { CITIES_FR, getCityBySlug, getAllCitySlugs } from "../cities";
+import { FAQSection } from "@/components/FAQSection";
+import { faqs } from "@/data/faqs"; // Import dynamic FAQs
 
 interface PageProps {
     params: Promise<{
@@ -92,32 +94,14 @@ export default async function CityPage({ params }: PageProps) {
             },
             {
                 "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": `Est-il rentable d'installer des panneaux solaires à ${city.name} ?`,
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": `Absolument. En zone ${city.zone}, l'ensoleillement permet une rentabilité excellente. Grâce à la hausse des prix de l'électricité et à la vente du surplus, le retour sur investissement est rapide.`
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": `Quelles sont les aides pour le photovoltaïque à ${city.name} (${city.zip}) ?`,
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": `Vous êtes éligible à la Prime à l'autoconsommation versée par EDF OA et au Tarif d'achat subventionné pour la vente de votre surplus d'électricité (obligation d'achat sur 20 ans).`
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": `Comment trouver un installateur RGE à ${city.name} ?`,
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": `Nous collaborons uniquement avec des installateurs certifiés RGE QualiPV locaux, actifs à ${city.name}, pour garantir la conformité de votre installation et l'accès aux aides.`
-                        }
+                "mainEntity": (faqs.FR || []).map(faq => ({
+                    "@type": "Question",
+                    "name": faq.question.replace("{ville}", city.name),
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": faq.answer.replace("{ville}", city.name)
                     }
-                ]
+                }))
             }
         ]
     };
@@ -236,6 +220,9 @@ export default async function CityPage({ params }: PageProps) {
                     </div>
                 </div>
             </section>
+
+            {/* DYNAMIC FAQ SECTION */}
+            <FAQSection city={city.name} country="FR" />
 
             {/* Cross Linking Grid */}
             <section className="py-12 bg-white border-t border-slate-200">

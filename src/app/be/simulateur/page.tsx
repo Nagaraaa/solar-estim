@@ -132,6 +132,7 @@ export default function SimulatorPageBe() {
                             address={form.getValues("address")}
                             countryCode="BE"
                             region={region}
+                            monthlyBill={form.getValues("monthlyBill")}
                         />
                     )}
                 </CardContent>

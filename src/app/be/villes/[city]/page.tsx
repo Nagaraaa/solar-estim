@@ -7,6 +7,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { FadeIn } from "@/components/ui/fade-in";
 import Image from "next/image";
 import { CITIES, getCityBySlug, getAllCitySlugs } from "../cities";
+import { FAQSection } from "@/components/FAQSection";
+import { faqs } from "@/data/faqs";
 
 interface PageProps {
     params: Promise<{
@@ -81,32 +83,14 @@ export default async function CityPage({ params }: PageProps) {
             },
             {
                 "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": `Est-il rentable d'installer des panneaux solaires à ${city.name} ?`,
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": `Oui, même avec la météo belge. À ${city.name}, une installation moyenne se rentabilise en 5 à 7 ans grâce aux économies d'électricité et, selon la région, au mécanisme de compensation (compteur qui tourne à l'envers) ou aux primes.`
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": `Y a-t-il des primes pour le photovoltaïque à ${city.name} (${city.zip}) ?`,
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": `Cela dépend de votre région (${city.region}). En Wallonie, le tarif Prosumer s'applique mais des aides existent pour la domotique. À Bruxelles, les certificats verts sont très avantageux. En Flandre, il existe une prime à l'investissement.`
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": `Comment trouver un installateur agréé à ${city.name} ?`,
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": `Notre plateforme vous connecte gratuitement avec des installateurs certifiés RESCert actifs spécifiquement dans la zone de ${city.name} et ses environs.`
-                        }
+                "mainEntity": (faqs.BE || []).map(faq => ({
+                    "@type": "Question",
+                    "name": faq.question.replace("{ville}", city.name),
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": faq.answer.replace("{ville}", city.name)
                     }
-                ]
+                }))
             }
         ]
     };
@@ -218,6 +202,9 @@ export default async function CityPage({ params }: PageProps) {
                     </div>
                 </div>
             </section>
+
+            {/* DYNAMIC FAQ SECTION */}
+            <FAQSection city={city.name} country="BE" />
 
             {/* Cross Linking Grid */}
             <section className="py-12 bg-white border-t border-slate-200">

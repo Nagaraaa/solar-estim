@@ -34,3 +34,23 @@
     @apply bg-background text-foreground antialiased;
   }
 }
+
+@media print {
+
+  header,
+  footer,
+  button,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+
+  .shadow-lg,
+  .shadow-xl,
+  .shadow-2xl {
+    box-shadow: none !important;
+  }
+}

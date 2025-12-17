@@ -34,6 +34,7 @@ export function Footer() {
                     <ul className="space-y-2 text-sm">
                         <li><Link href={isBe ? "/be" : "/"} className="hover:text-brand transition-colors">Accueil</Link></li>
                         <li><Link href={simulatorLink} className="hover:text-brand transition-colors">Simulateur Solaire</Link></li>
+                        <li><Link href="/a-propos" className="hover:text-brand transition-colors">Pourquoi SolarEstim ?</Link></li>
                         <li><Link href="/blog" className="hover:text-brand transition-colors">Actualités PV</Link></li>
                     </ul>
                 </div>

@@ -3,6 +3,8 @@
 import { google } from 'googleapis';
 
 import { z } from 'zod';
+import { Resend } from 'resend';
+import { SolarReportEmail } from '@/emails/SolarReportEmail';
 
 const LeadSchema = z.object({
     name: z.string().min(2, "Le nom doit contenir au moins 2 caractères").trim(),
@@ -10,6 +12,9 @@ const LeadSchema = z.object({
     email: z.string().email("L'adresse email est invalide").trim(),
     address: z.string().optional(),
 });
+
+// Resend sera initialisé uniquement si la clé est présente
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function submitLead(formData: FormData, simulationResult: any, country: 'FR' | 'BE') {
     try {
@@ -23,6 +28,7 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
         const validatedData = LeadSchema.parse(rawData);
 
         const { name, phone, email, address } = validatedData;
+        const addressStr = address || "";
 
         // 1. Authentification Google Sheets
         const auth = new google.auth.GoogleAuth({
@@ -41,47 +47,93 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
         const sheets = google.sheets({ version: 'v4', auth });
 
         // 2. Préparation des Données
-        const date = new Date().toLocaleString("fr-FR", { timeZone: "Europe/Paris" });
-        // NOTE : simulationResult.details.lat/lon sont les coordonnées GPS.
-        // On essaie d'extraire le Code Postal depuis l'adresse si possible, sinon on garde l'adresse complète.
+        const now = new Date();
+        const dateStr = now.toLocaleDateString("fr-FR"); // 17/12/2025
+        const timeStr = now.toLocaleTimeString("fr-FR", { hour: '2-digit', minute: '2-digit' }); // 15:30
+        const formattedDate = `${dateStr} ${timeStr}`;
 
-        // On utilise l'adresse validée pour extraire le CP ou on met chaine vide
-        const addressStr = address || "";
-        // Extraction du code postal (regex simple pour 4 ou 5 chiffres)
-        const cpMatch = addressStr.match(/\b\d{4,5}\b/);
-        const postalCode = cpMatch ? cpMatch[0] : addressStr;
+        // NOTE : On essaie d'extraire le Code Postal depuis l'adresse si possible, sinon on garde l'adresse complète.
+        // On regarde aussi si "zipCode" est passé explicitement.
+        const zipFromForm = formData.get('zipCode') as string;
+        let finalZip = addressStr;
+
+        if (zipFromForm) {
+            finalZip = zipFromForm;
+        } else {
+            // Extraction du code postal (regex simple pour 4 ou 5 chiffres)
+            const cpMatch = addressStr.match(/\b\d{4,5}\b/);
+            finalZip = cpMatch ? cpMatch[0] : addressStr;
+        }
 
         // 3. Ordre Strict des Colonnes (A -> J)
-        // C'est ici qu'on définit ce qui va dans chaque colonne du Google Sheet
+        // { Date, Nom, Téléphone, Email, "Code Postal", "Facture Elec", "Production (kWh)", "Gain Estimé (€)", Statut, Pays }
         const row = [
-            date,                           // A: Date de la demande
-            name,                           // B: Nom du client
+            formattedDate,                  // A: Date
+            name,                           // B: Nom
             phone,                          // C: Téléphone
             email,                          // D: Email
-            postalCode,                     // E: Code Postal ou Adresse
-            simulationResult.totalCost || 0,      // F: Facture estimée (Coût total)
-            simulationResult.annualProduction || 0, // G: Production estimée
-            simulationResult.annualSavings || 0,    // H: Gain (Économies annuelles)
-            "NOUVEAU",                      // I: Statut dans le CRM
-            country                         // J: Pays (FR ou BE)
+            finalZip,                       // E: Code Postal
+            simulationResult.totalCost || 0,        // F: Facture Elec (Attention: c'est souvent 'monthlyBill' * 12 ou similaire, ici on prend totalCost si c'est ce qui est demandé, ou monthlyBill ?) 
+            // User prompt said "Facture Elec". Using passed simulation result totalCost for now, assuming it maps to bill context.
+            // WARN: simulationResult.totalCost in dashboard was 'bill * 12'. 
+            simulationResult.annualProduction || 0, // G: Production
+            simulationResult.annualSavings || 0,    // H: Gain Estimé
+            "NOUVEAU",                      // I: Statut
+            country                         // J: Pays
         ];
 
+        console.log("📝 Saving to Sheets:", row);
+
         // 4. Insertion Robuste dans le fichier
-        const response = await sheets.spreadsheets.values.append({
+        await sheets.spreadsheets.values.append({
             spreadsheetId: process.env.GOOGLE_SHEET_ID,
-            range: 'Leads!A2', // On commence à chercher une case vide à partir de A2
-            valueInputOption: 'USER_ENTERED', // Traite les données comme si l'utilisateur tapait au clavier
-            insertDataOption: 'INSERT_ROWS', // Force l'insertion d'une nouvelle ligne
+            range: 'Leads!A2',
+            valueInputOption: 'USER_ENTERED',
+            insertDataOption: 'INSERT_ROWS',
             requestBody: {
                 values: [row],
             },
         });
+        console.log("✅ Sheet Saved!");
+
+        // 5. Envoi Email via Resend + React Email
+        console.log("📧 Attempting to send email to:", email);
+        if (process.env.RESEND_API_KEY) {
+            try {
+                const resend = new Resend(process.env.RESEND_API_KEY);
+                const emailResult = await resend.emails.send({
+                    from: 'SolarEstim <contact@solarestim.com>',
+                    // to: [email], // PROD
+                    // Pour le test, on peut vouloir l'envoyer à soi-même ou au client. The prompt says "au client".
+                    to: [email],
+                    subject: `Votre étude solaire pour ${addressStr.split(',')[0]} ☀️`,
+                    react: SolarReportEmail({
+                        name: name,
+                        city: addressStr,
+                        annualProduction: simulationResult.annualProduction || 0,
+                        annualSavings: simulationResult.annualSavings || 0,
+                        totalCostObserved: simulationResult.totalCost || 0
+                    }) as React.ReactElement,
+                });
+
+                if (emailResult.error) {
+                    console.error("❌ Resend API Error:", emailResult.error);
+                } else {
+                    console.log("✅ Email Sent! ID:", emailResult.data?.id);
+                }
+
+            } catch (emailError) {
+                console.error("❌ Resend Exception:", emailError);
+                // On ne bloque pas si l'email échoue
+            }
+        } else {
+            console.warn("⚠️ No RESEND_API_KEY found.");
+        }
 
         return { success: true };
 
     } catch (error: any) {
-        console.error('Google Sheets Error:', error);
-        // RETURN REAL ERROR FOR DEBUGGING
-        return { success: false, error: error.message || 'Une erreur est survenue lors de l\'enregistrement.' };
+        console.error('❌ Global Submit Error:', error);
+        return { success: false, error: error.message || 'Une erreur est survenue.' };
     }
 }

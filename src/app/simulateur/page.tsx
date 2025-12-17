@@ -100,6 +100,7 @@ export default function SimulatorPage() {
                             result={result}
                             address={form.getValues("address")}
                             countryCode="FR"
+                            monthlyBill={form.getValues("monthlyBill")}
                         />
                     )}
                 </CardContent>
