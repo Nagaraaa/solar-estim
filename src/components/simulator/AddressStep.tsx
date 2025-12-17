@@ -46,25 +46,21 @@ export function AddressStep({
         setShowSuggestions(false);
     };
 
-    // Fetch suggestions
+    // Fetch suggestions (via internal Proxy)
     useEffect(() => {
         const fetchAddress = async () => {
-            if (debouncedAddress.length > 3) {
+            if (debouncedAddress.length > 2) { // Nominatim allows shorter queries
                 setIsLoading(true);
                 try {
-                    let url = "";
-                    if (countryCode === "FR") {
-                        url = `${apiEndpoint}/search/?q=${encodeURIComponent(debouncedAddress)}&limit=5`;
-                    } else {
-                        url = `${apiEndpoint}?q=${encodeURIComponent(debouncedAddress)}`;
-                    }
+                    // Use internal proxy to handle CORS and Country filtering
+                    const url = `/api/address?q=${encodeURIComponent(debouncedAddress)}&country=${countryCode}`;
 
                     const res = await fetch(url);
                     if (res.ok) {
                         const data = await res.json();
-                        const features = countryCode === "FR" ? (data.features || []) : (data || []);
-                        setSuggestions(features);
-                        setShowSuggestions(features.length > 0);
+                        // Nominatim returns an array directly
+                        setSuggestions(data || []);
+                        setShowSuggestions((data && data.length > 0));
                     } else {
                         setSuggestions([]);
                         setShowSuggestions(false);
@@ -87,18 +83,42 @@ export function AddressStep({
         if (!coordinates.lat) {
             fetchAddress();
         }
-    }, [debouncedAddress, apiEndpoint, countryCode, coordinates.lat]);
+    }, [debouncedAddress, countryCode, coordinates.lat]);
 
-    const handleSelectAddress = (feature: any, fieldChange: (value: string) => void) => {
-        const label = feature.properties.label;
-        const [lon, lat] = feature.geometry.coordinates;
+    const handleSelectAddress = (item: any, fieldChange: (value: string) => void) => {
+        // Nominatim fields
+        const label = item.display_name;
+        const lat = parseFloat(item.lat);
+        const lon = parseFloat(item.lon);
 
-        fieldChange(label);
-        setInputValue(label);
-        form.setValue("address", label);
+        // Try to get specific zip/city for cleaner input if desired, 
+        // but 'display_name' is safer for the full context.
+        // We can create a cleaner label: "City (Zip)" using address details
+        let cleanLabel = label;
+        if (item.address) {
+            const city = item.address.city || item.address.town || item.address.village || item.address.municipality;
+            const postcode = item.address.postcode;
+            if (city && postcode) {
+                // If we have precise data, we can prefer a shorter label, 
+                // but the user might want to see the full context to be sure.
+                // Reverting to `display_name` as it's the most robust generic "address".
+                // But specifically for "Zip or City" input, the user might prefer seeing "Namur, 5000"
+                // Let's stick to display_name for the 'value' but maybe we can store zipCode if form supports it.
+            }
+
+            // OPTIONAL: Set zipCode in form if the field exists (not strictly required by prompt but good for data quality)
+            if (postcode) {
+                form.setValue("zipCode", postcode);
+            }
+        }
+
+        fieldChange(cleanLabel);
+        setInputValue(cleanLabel);
+        // Important: Update form 'address' field
+        form.setValue("address", cleanLabel);
         setCoordinates({ lat, lon });
         setShowSuggestions(false);
-        setSuggestions([]); // Clear suggestions
+        setSuggestions([]);
     };
 
     return (
@@ -107,13 +127,13 @@ export function AddressStep({
             name="address"
             render={({ field }) => (
                 <FormItem className="relative">
-                    <FormLabel>Adresse complète {countryCode === "BE" && "(Belgique)"}</FormLabel>
+                    <FormLabel>Code Postal ou Ville</FormLabel>
                     <FormControl>
                         <div className="relative">
                             <MapPin className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
                             <Input
-                                placeholder={placeholder}
-                                className={cn("pl-10 pr-10 h-12 text-lg", !coordinates.lat && field.value.length > 5 && !isLoading ? "border-amber-500 focus-visible:ring-amber-500" : "")}
+                                placeholder={countryCode === "BE" ? "Ex: Namur, 5000, Liège..." : "Ex: Bordeaux, 33000, Lyon..."}
+                                className={cn("pl-10 pr-10 h-12 text-lg", !coordinates.lat && field.value.length > 3 && !isLoading ? "border-amber-500 focus-visible:ring-amber-500" : "")}
                                 {...field}
                                 value={inputValue}
                                 onChange={(e) => handleInputChange(e, field.onChange)}
@@ -128,14 +148,14 @@ export function AddressStep({
                     {/* Suggestions Dropdown */}
                     {showSuggestions && suggestions.length > 0 && (
                         <div className="absolute z-50 w-full mt-1 bg-white rounded-md shadow-lg border border-slate-200 max-h-60 overflow-auto animate-in fade-in zoom-in-95 duration-200">
-                            {suggestions.map((feature: any) => (
+                            {suggestions.map((item: any) => (
                                 <div
-                                    key={feature.properties.id || Math.random()}
+                                    key={item.place_id || Math.random()}
                                     className="px-4 py-3 hover:bg-slate-50 cursor-pointer flex items-center gap-3 border-b border-slate-50 last:border-0 text-sm md:text-base text-slate-700 transition-colors"
-                                    onClick={() => handleSelectAddress(feature, field.onChange)}
+                                    onClick={() => handleSelectAddress(item, field.onChange)}
                                 >
                                     <MapPin className="h-4 w-4 text-brand shrink-0" />
-                                    <span>{feature.properties.label}</span>
+                                    <span>{item.display_name}</span>
                                 </div>
                             ))}
                         </div>

@@ -108,7 +108,6 @@ export default function SimulatorPageBe() {
                                         onBack={() => setStep(0)} // Specific back to Region
                                         apiEndpoint="/api/be/address" // BE Proxy
                                         countryCode="BE"
-                                        placeholder="Ex: Rue de la Loi 16, 1000 Bruxelles"
                                         coordinates={coordinates}
                                         setCoordinates={setCoordinates}
                                     />
