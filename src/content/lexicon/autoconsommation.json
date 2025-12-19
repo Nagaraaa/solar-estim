@@ -3,14 +3,14 @@
         "term": "Autoconsommation",
         "shortDefinition": "Le fait de consommer immédiatement l'électricité que vous produisez, réduisant d'autant vos achats à EDF.",
         "audience10yo": "Au lieu d'acheter des légumes au supermarché, tu manges ceux de ton potager. Là, c'est pareil : tu utilises ton électricité 'maison' pour faire tourner la machine à laver, et c'est gratuit.",
-        "technicalDetails": "On distingue l'autoconsommation 'individuelle' (votre maison) de la 'collective' (partage entre voisins). Depuis 2017, l'État encourage l'autoconsommation avec vente du surplus (EDF OA rachète ce que vous ne consommez pas). Le but est de synchroniser vos usages (chauffe-eau, VE) avec les heures solaires.",
+        "technicalDetails": "On distingue l'autoconsommation 'individuelle' (votre maison) de la 'collective' (partage entre voisins). Depuis 2017, l'État encourage l'autoconsommation avec vente du [surplus](/lexique/injection) (EDF OA rachète ce que vous ne consommez pas). Le but est de synchroniser vos usages (chauffe-eau, VE) avec les heures solaires.",
         "importance": "Avec l'électricité à 0,25€/kWh, chaque kWh autoconsommé est une économie directe. C'est bien plus rentable que de tout vendre au réseau."
     },
     "be": {
         "term": "Autoconsommation",
         "shortDefinition": "Consommer sa propre production solaire en temps réel pour éviter d'utiliser le réseau (et de payer les frais associés).",
-        "audience10yo": "Quand il y a du soleil, l'électricité va directement de ton toit à ta PlayStation. Elle ne passe pas par la rue, donc tu ne paies pas de péage (Tarif Prosumer).",
-        "technicalDetails": "En Belgique, depuis la fin du compteur qui tourne à l'envers, l'autoconsommation est devenue le seul moyen de rentabiliser son installation. Avec un compteur double flux, chaque kWh autoconsommé est un kWh exempté de tarifs de distribution et de transmission.",
-        "importance": "C'est le nerf de la guerre. Surtout en Wallonie avec le Tarif Prosumer : plus vous autoconsommez, moins vous payez de taxes. C'est mathématique."
+        "audience10yo": "Quand il y a du soleil, l'électricité va directement de ton toit à ta PlayStation. Elle ne passe pas par la rue, donc tu ne paies pas de péage ([Tarif Prosumer](/be/lexique/tarif-prosumer)).",
+        "technicalDetails": "En Belgique, depuis la fin du compteur qui tourne à l'envers, l'autoconsommation est devenue le seul moyen de rentabiliser son installation. Avec un [compteur double flux](/be/lexique/compteur-double-flux), chaque kWh autoconsommé est un kWh exempté de tarifs de distribution et de transmission.",
+        "importance": "C'est le nerf de la guerre. Surtout en Wallonie avec le [Tarif Prosumer](/be/lexique/tarif-prosumer) : plus vous autoconsommez, moins vous payez de taxes. C'est mathématique."
     }
 }

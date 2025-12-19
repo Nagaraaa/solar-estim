@@ -3,14 +3,14 @@
         "term": "Injection (Surplus)",
         "shortDefinition": "L'électricité que vous produisez mais ne consommez pas, et qui est envoyée sur le réseau public.",
         "audience10yo": "Quand tes panneaux fabriquent trop d'électricité pour ta maison, ça déborde ! Ce surplus part dans les fils électriques de la rue pour alimenter la maison de ton voisin.",
-        "technicalDetails": "L'injection peut être gratuite ou vendue. En France, avec le contrat EDF OA (S21), ce surplus est acheté à un tarif fixe (ex: 0,13€/kWh) garanti 20 ans. Le compteur Linky mesure précisément ces kWh 'sortants'.",
-        "importance": "Valoriser son surplus est essentiel. Même en autoconsommation, on renvoie souvent 30% à 50% de sa production l'été. Sans contrat de vente, cette énergie est donnée gratuitement à Enedis (ou perdue)."
+        "technicalDetails": "L'injection peut être gratuite ou vendue. En France, avec le contrat EDF OA (S21), ce surplus est acheté à un tarif fixe (ex: 0,13€/kWh) garanti 20 ans. Le compteur [Linky](/lexique/linky) mesure précisément ces kWh 'sortants'.",
+        "importance": "Valoriser son surplus est essentiel. Même en [autoconsommation](/lexique/autoconsommation), on renvoie souvent 30% à 50% de sa production l'été. Sans contrat de vente, cette énergie est donnée gratuitement à Enedis (ou perdue)."
     },
     "be": {
         "term": "Injection (Surplus)",
-        "shortDefinition": "L'énergie solaire excédentaire renvoyée vers le réseau lorsque votre production dépasse votre consommation instantanée.",
+        "shortDefinition": "L'éne[rgie](/be/lexique/rgie) solaire excédentaire renvoyée vers le réseau lorsque votre production dépasse votre consommation instantanée.",
         "audience10yo": "C'est l'électricité que tu donnes au réseau quand tu n'es pas là pour l'utiliser. Avant, le compteur tournait à l'envers, maintenant on la compte séparément.",
-        "technicalDetails": "Depuis la fin du compteur qui tourne à l'envers, l'injection n'est plus compensée 1 pour 1 sur la facture (sauf exceptions résiduelles). En Wallonie, vous pouvez vendre cette injection via des contrats de 'rachat' (souvent à prix de marché, ex: 4-7 c€/kWh) auprès de fournisseurs comme Engie ou TotalEnergies.",
-        "importance": "Vendre son injection rapporte peu (beaucoup moins que le prix d'achat du réseau). C'est pourquoi il faut ABSOLUMENT limiter l'injection en maximisant l'autoconsommation (batteries, programmation)."
+        "technicalDetails": "Depuis la fin du compteur qui tourne à l'envers, l'injection n'est plus compensée 1 pour 1 sur la facture (sauf exceptions résiduelles). En Wallonie, vous pouvez vendre cette injection via des contrats de 'rachat' (souvent à prix de marché, ex: 4-7 c€/kWh) auprès de fournisseurs comme Engie ou TotalEne[rgie](/be/lexique/rgie)s.",
+        "importance": "Vendre son injection rapporte peu (beaucoup moins que le prix d'achat du réseau). C'est pourquoi il faut ABSOLUMENT limiter l'injection en maximisant l'[autoconsommation](/be/lexique/autoconsommation) ([batterie](/be/lexique/batterie)s, programmation)."
     }
 }

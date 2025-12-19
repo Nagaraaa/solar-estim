@@ -3,14 +3,14 @@
         "term": "kWc (Kilowatt-crête)",
         "shortDefinition": "L'unité de mesure standard qui définit la puissance maximale théorique d'un panneau solaire sous un ensoleillement optimal.",
         "audience10yo": "C'est comme la puissance en chevaux d'une voiture. Plus le chiffre est grand, plus le panneau est 'musclé' pour fabriquer de l'électricité quand le soleil brille à midi.",
-        "technicalDetails": "Le watt-crête (Wc) est mesuré sous Conditions de Test Standard (STC) : 1000 W/m² d'irradiance, 25°C de température de cellule et spectre AM 1.5. En France, un panneau de 400 Wc produit rarement 400 W car la température dépasse souvent 25°C en été (ce qui baisse le rendement).",
-        "importance": "En France, la puissance totale (3 kWc, 6 kWc, 9 kWc) détermine vos plafonds pour la Prime à l'Autoconsommation et le Tarif de Rachat EDF OA. C'est le premier chiffre à regarder sur votre devis."
+        "technicalDetails": "Le watt-crête (Wc) est mesuré sous Conditions de Test Standard (STC) : 1000 W/m² d'irradiance, 25°C de température de cellule et spectre AM 1.5. En France, un panneau de 400 Wc produit rarement 400 W car la température dépasse souvent 25°C en été (ce qui baisse le [rendement](/lexique/rendement)).",
+        "importance": "En France, la puissance totale (3 kWc, 6 kWc, 9 kWc) détermine vos plafonds pour la [Prime à l'Autoconsommation](/lexique/prime-[autoconsommation](/lexique/autoconsommation)) et le Tarif de Rachat EDF OA. C'est le premier chiffre à regarder sur votre devis."
     },
     "be": {
         "term": "kWc (Kilowatt-crête)",
         "shortDefinition": "L'unité de mesure de la puissance d'un panneau solaire. C'est ce chiffre qui détermine la taille de votre installation.",
         "audience10yo": "C'est la puissance du moteur de tes panneaux. Si tu as 10 panneaux de 400 Wc, tu as une centrale de 4000 Wc (ou 4 kWc) sur ton toit.",
-        "technicalDetails": "Le watt-crête (Wc) correspond à la puissance maximale testée en laboratoire (STC). En Belgique, on dimensionne souvent l'installation pour couvrir la consommation annuelle (ex: 4500 kWh besoin ≈ 5000 Wc installés). Attention, la puissance crête (panneaux) est différente de la puissance de l'onduleur (kVA), crucial pour le calcul du Tarif Prosumer.",
-        "importance": "C'est la base de tout dimensionnement. Une installation sous-dimensionnée ne couvrira pas vos besoins, et sur-dimensionnée, elle vous coûtera trop cher en Tarif Prosumer (si vous avez un onduleur trop puissant)."
+        "technicalDetails": "Le watt-crête (Wc) correspond à la puissance maximale testée en laboratoire (STC). En Belgique, on dimensionne souvent l'installation pour couvrir la consommation annuelle (ex: 4500 kWh besoin ≈ 5000 Wc installés). Attention, la puissance crête (panneaux) est différente de la puissance de l'[onduleur](/be/lexique/onduleur) (kVA), crucial pour le calcul du [Tarif Prosumer](/be/lexique/tarif-prosumer).",
+        "importance": "C'est la base de tout dimensionnement. Une installation sous-dimensionnée ne couvrira pas vos besoins, et sur-dimensionnée, elle vous coûtera trop cher en [Tarif Prosumer](/be/lexique/tarif-prosumer) (si vous avez un [onduleur](/be/lexique/onduleur) trop puissant)."
     }
 }

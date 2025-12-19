@@ -3,7 +3,7 @@
         "term": "Tarif Prosumer",
         "shortDefinition": "Une redevance annuelle payée par les propriétaires de panneaux en Wallonie pour participer aux frais du réseau électrique.",
         "audience10yo": "C'est comme un abonnement pour utiliser la route. Même si tu as ta propre voiture (tes panneaux), tu utilises parfois la route publique pour exporter ton électricité. Le gestionnaire de la route (ORES) te demande donc une participation.",
-        "technicalDetails": "Instauré pour compenser l'utilisation du réseau par les producteurs décentralisés. Il existe deux modes : le forfaitaire (basé sur la puissance kVA de l'onduleur, c'est le mode par défaut avec compteur mécanique) et le proportionnel (basé sur les kWh réellement prélevés, si compteur intelligent). Le tarif proportionnel est souvent bien moins cher.",
-        "importance": "C'est une charge fixe annuelle de 300€ à 500€. L'installer d'un compteur double flux permet souvent de réduire cette facture de 60% grâce à l'autoconsommation."
+        "technicalDetails": "Instauré pour compenser l'utilisation du réseau par les producteurs décentralisés. Il existe deux modes : le forfaitaire (basé sur la puissance kVA de l'[onduleur](/be/lexique/onduleur), c'est le mode par défaut avec compteur mécanique) et le proportionnel (basé sur les kWh réellement prélevés, si [compteur intelligent](/be/lexique/compteur-double-flux)). Le tarif proportionnel est souvent bien moins cher.",
+        "importance": "C'est une charge fixe annuelle de 300€ à 500€. L'installer d'un [compteur double flux](/be/lexique/compteur-double-flux) permet souvent de réduire cette facture de 60% grâce à l'[autoconsommation](/be/lexique/autoconsommation)."
     }
 }

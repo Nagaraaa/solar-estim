@@ -3,7 +3,7 @@
         "term": "Compteur Linky",
         "shortDefinition": "Le compteur communicant vert fluo d'Enedis qui mesure votre consommation et votre production en temps réel.",
         "audience10yo": "C'est la boîte verte à l'entrée de la maison. Elle discute toute seule avec Enedis pour leur dire combien d'électricité tu utilises et combien tu en donnes.",
-        "technicalDetails": "Linky mesure les index de soutirage (conso) et d'injection en temps réel. C'est une condition sine qua non pour l'autoconsommation avec vente de surplus (EDF OA). Il permet aussi à des applications comme 'Enedis à mes côtés' ou 'Solar Estim' de suivre vos courbes de charge.",
-        "importance": "Grâce au Linky, plus besoin de relevé manuel. Il active aussi le comptage de votre surplus dès le raccordement, permettant de facturer votre production à EDF OA une fois par an."
+        "technicalDetails": "Linky mesure les index de soutirage (conso) et d'[injection](/lexique/injection) en temps réel. C'est une condition sine qua non pour l'[autoconsommation](/lexique/autoconsommation) avec vente de [surplus](/lexique/injection) (EDF OA). Il permet aussi à des applications comme 'Enedis à mes côtés' ou 'Solar Estim' de suivre vos courbes de charge.",
+        "importance": "Grâce au Linky, plus besoin de relevé manuel. Il active aussi le comptage de votre [surplus](/lexique/injection) dès le raccordement, permettant de facturer votre production à EDF OA une fois par an."
     }
 }

@@ -3,14 +3,14 @@
         "term": "EMS (Energy Management System)",
         "shortDefinition": "Un système intelligent qui pilote vos appareils (chauffe-eau, borne VE) pour qu'ils s'allument quand il y a du soleil.",
         "audience10yo": "C'est un robot majordome qui surveille le soleil. Dès qu'il brille, il crie à ta machine à laver : 'Allume-toi vite, c'est gratuit !'.",
-        "technicalDetails": "L'EMS est souvent intégré à l'onduleur ou ajouté (ex: boîtier Comwatt, Enphase Envoy). Il mesure la production et la consommation. Si le surplus dépasse un seuil (ex: 1500W), il déclenche un relais (contact sec) pour activer le ballon d'eau chaude, le chauffage ou la borne de recharge.",
-        "importance": "En autoconsommation sans batterie, c'est le seul moyen de dépasser 40% d'autonomie. Il transforme l'énergie perdue en énergie utile."
+        "technicalDetails": "L'EMS est souvent intégré à l'[onduleur](/lexique/onduleur) ou ajouté (ex: boîtier Comwatt, Enphase Envoy). Il mesure la production et la consommation. Si le [surplus](/lexique/injection) dépasse un seuil (ex: 1500W), il déclenche un relais (contact sec) pour activer le ballon d'eau chaude, le chauffage ou la borne de recharge.",
+        "importance": "En [autoconsommation](/lexique/autoconsommation) sans [batterie](/lexique/batterie), c'est le seul moyen de dépasser 40% d'autonomie. Il transforme l'énergie perdue en énergie utile."
     },
     "be": {
         "term": "EMS (Domotique Énergétique)",
         "shortDefinition": "Le pilote automatique de votre maison qui synchronise votre consommation avec votre production solaire.",
         "audience10yo": "C'est un ordinateur malin qui attend que le soleil soit là pour charger la voiture électrique de papa, comme ça ça ne coûte rien.",
-        "technicalDetails": "En Wallonie, avec le Tarif Prosumer et le prix de l'injection faible, l'EMS est crucial. Il permet de 'lisser' la courbe de consommation pour rester sous son pic de production. Des systèmes comme Niko Home Control ou SMA Home Manager sont très courants.",
-        "importance": "C'est l'outil n°1 pour rentabiliser le compteur double flux. Il évite l'injection (mal payée) et le prélèvement réseau (taxé). Un EMS bien réglé, c'est 200€ d'économies par an."
+        "technicalDetails": "En Wallonie, avec le [Tarif Prosumer](/be/lexique/tarif-prosumer) et le prix de l'[injection](/be/lexique/injection) faible, l'EMS est crucial. Il permet de 'lisser' la courbe de consommation pour rester sous son pic de production. Des systèmes comme Niko Home Control ou SMA Home Manager sont très courants.",
+        "importance": "C'est l'outil n°1 pour rentabiliser le [compteur double flux](/be/lexique/compteur-double-flux). Il évite l'[injection](/be/lexique/injection) (mal payée) et le prélèvement réseau (taxé). Un EMS bien réglé, c'est 200€ d'économies par an."
     }
 }

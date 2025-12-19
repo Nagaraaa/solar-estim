@@ -3,14 +3,14 @@
         "term": "Orientation et Inclinaison",
         "shortDefinition": "La direction (Sud, Est, Ouest) et la pente du toit qui déterminent combien de soleil vos panneaux vont capter.",
         "audience10yo": "Pour bronzer, tu te mets face au soleil. Les panneaux c'est pareil : ils préferent regarder le Sud pour attraper le plus de rayons possible.",
-        "technicalDetails": "L'idéal en France est une orientation Plein Sud (Azimut 0° ou 180°) avec une inclinaison de 30-35°. Cependant, une orientation Est-Ouest est excellente pour l'autoconsommation : elle lisse la production sur la journée (matin + soir) plutôt que de faire un gros pic à midi que l'on ne peut pas consommer.",
-        "importance": "Ne soyez pas obsédé par le Plein Sud ! Un toit Est-Ouest bien géré est souvent plus rentable qu'un toit Sud qui injecte tout son surplus."
+        "technicalDetails": "L'idéal en France est une orientation Plein Sud (Azimut 0° ou 180°) avec une inclinaison de 30-35°. Cependant, une orientation Est-Ouest est excellente pour l'[autoconsommation](/lexique/autoconsommation) : elle lisse la production sur la journée (matin + soir) plutôt que de faire un gros pic à midi que l'on ne peut pas consommer.",
+        "importance": "Ne soyez pas obsédé par le Plein Sud ! Un toit Est-Ouest bien géré est souvent plus rentable qu'un toit Sud qui injecte tout son [surplus](/lexique/injection)."
     },
     "be": {
         "term": "Orientation et Inclinaison",
         "shortDefinition": "Le positionnement de vos panneaux par rapport au soleil. Crucial pour la production totale.",
         "audience10yo": "Si tu mets tes panneaux à l'ombre ou vers le Nord, ils dormiront toute la journée. Il faut les tourner vers le midi.",
         "technicalDetails": "En Belgique (latitude plus élevée), l'inclinaison optimale est souvent un peu plus forte (35-40°). Cependant, les toits plats permettent d'installer des structures Est-Ouest à faible inclinaison (15°) pour densifier la pose et résister au vent, tout en étalant la production pour couvrir le 'bruit de fond' domestique.",
-        "importance": "Avec le Tarif Prosumer capacitaire, aplatir sa courbe de production (Est-Ouest) permet parfois d'installer un onduleur plus petit tout en produisant autant de kWh utiles."
+        "importance": "Avec le [Tarif Prosumer](/be/lexique/tarif-prosumer) capacitaire, aplatir sa courbe de production (Est-Ouest) permet parfois d'installer un [onduleur](/be/lexique/onduleur) plus petit tout en produisant autant de kWh utiles."
     }
 }

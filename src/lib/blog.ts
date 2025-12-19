@@ -27,16 +27,18 @@ export async function getPost(slug: string): Promise<BlogPost | null> {
 
 export async function getAllPosts(country: 'FR' | 'BE' = 'FR'): Promise<BlogPost[]> {
     const fileNames = fs.readdirSync(contentDirectory);
-    const allPostsData = fileNames.map((fileName) => {
-        const slug = fileName.replace(/\.json$/, "");
-        const fullPath = path.join(contentDirectory, fileName);
-        const fileContents = fs.readFileSync(fullPath, "utf8");
-        const data = JSON.parse(fileContents);
-        return {
-            slug,
-            ...data,
-        } as BlogPost;
-    });
+    const allPostsData = fileNames
+        .filter((fileName) => fileName.endsWith(".json"))
+        .map((fileName) => {
+            const slug = fileName.replace(/\.json$/, "");
+            const fullPath = path.join(contentDirectory, fileName);
+            const fileContents = fs.readFileSync(fullPath, "utf8");
+            const data = JSON.parse(fileContents);
+            return {
+                slug,
+                ...data,
+            } as BlogPost;
+        });
 
     // Filter by country (default to FR if undefined)
     const filteredPosts = allPostsData.filter(post => {

@@ -3,7 +3,7 @@
         "term": "Compteur Double Flux (Smart Meter)",
         "shortDefinition": "Un compteur électrique intelligent capable de compter séparément ce que vous prélevez du réseau et ce que vous y injectez.",
         "audience10yo": "C'est un compteur qui a deux cerveaux : un pour compter ce que tu achètes à l'usine d'électricité, et un autre pour compter ce que tu vends grâce à tes panneaux.",
-        "technicalDetails": "Obligatoire pour les nouvelles installations en Wallonie. Il remplace le compteur Ferraris (à disque). Il est indispensable pour bénéficier du Tarif Prosumer 'proportionnel' (réel) qui est souvent plus avantageux que le forfaitaire si vous autoconsommez bien. Il communique les index automatiquement au GRD (ORES/Resa).",
-        "importance": "C'est votre meilleur allié pour réduire le Tarif Prosumer. Sans lui, on applique un forfait basé sur la puissance théorique de votre onduleur, ce qui est souvent plus cher."
+        "technicalDetails": "Obligatoire pour les nouvelles installations en Wallonie. Il remplace le compteur Ferraris (à disque). Il est indispensable pour bénéficier du [Tarif Prosumer](/be/lexique/tarif-prosumer) 'proportionnel' (réel) qui est souvent plus avantageux que le forfaitaire si vous autoconsommez bien. Il communique les index automatiquement au GRD (ORES/Resa).",
+        "importance": "C'est votre meilleur allié pour réduire le [Tarif Prosumer](/be/lexique/tarif-prosumer). Sans lui, on applique un forfait basé sur la puissance théorique de votre [onduleur](/be/lexique/onduleur), ce qui est souvent plus cher."
     }
 }

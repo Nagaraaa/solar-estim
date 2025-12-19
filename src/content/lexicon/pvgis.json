@@ -3,14 +3,14 @@
         "term": "PVGIS",
         "shortDefinition": "L'outil de référence de la Commission Européenne pour estimer la production solaire partout en France, utilisé par les pros.",
         "audience10yo": "C'est un site web très savant qui connaît la météo qu'il a fait chez toi ces 20 dernières années pour prédire combien tes panneaux vont produire d'électricité.",
-        "technicalDetails": "PVGIS (Photovoltaic Geographical Information System) agrège les données d'ensoleillement (DNI, GHI) et de température. En France, il permet de valider les estimations souvent optimistes des commerciaux. Un productible de 1100 kWh/kWc est courant dans le Sud (Marseille), contre 900 kWh/kWc dans le Nord (Lille).",
+        "technicalDetails": "PVGIS (Photovoltaic Geographical Information System) agrège les données d'ensoleillement (DNI, GHI) et de température. En France, il permet de valider les estimations souvent optimistes des commerciaux. Un productible de 1100 kWh/[kWc](/lexique/kwc) est courant dans le Sud (Marseille), contre 900 kWh/[kWc](/lexique/kwc) dans le Nord (Lille).",
         "importance": "C'est le moteur de calcul du simulateur SolarEstim. Ne signez jamais un devis basé sur une estimation 'au doigt mouillé'. Exigez une simulation PVGIS."
     },
     "be": {
         "term": "PVGIS",
-        "shortDefinition": "Le calculateur officiel de l'Europe qui nous dit combien le soleil belge peut produire d'énergie à votre adresse exacte.",
+        "shortDefinition": "Le calculateur officiel de l'Europe qui nous dit combien le soleil belge peut produire d'éne[rgie](/be/lexique/rgie) à votre adresse exacte.",
         "audience10yo": "Même en Belgique, il y a assez de soleil ! Cet outil prouve que tes panneaux vont fonctionner même quand il y a des nuages, en regardant la météo des années passées.",
-        "technicalDetails": "PVGIS prend en compte l'horizon (ombrage du relief) et l'azimut. En Wallonie, le productible moyen tourne autour de 950 kWh/kWc. C'est l'outil indispensable pour vérifier la rentabilité promise par un installateur avant de signer, surtout avec la fin de la compensation.",
+        "technicalDetails": "PVGIS prend en compte l'horizon (ombrage du relief) et l'azimut. En Wallonie, le productible moyen tourne autour de 950 kWh/[kWc](/be/lexique/kwc). C'est l'outil indispensable pour vérifier la rentabilité promise par un installateur avant de signer, surtout avec la fin de la compensation.",
         "importance": "En Belgique, la rentabilité se joue à la marge. PVGIS nous donne les chiffres réels pour calculer votre retour sur investissement précis sans mauvaises surprises."
     }
 }
