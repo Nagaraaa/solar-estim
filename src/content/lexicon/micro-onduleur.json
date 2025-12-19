@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Micro-onduleur",
+        "shortDefinition": "Une version miniature de l'onduleur qui se place sous chaque panneau solaire pour les rendre indépendants.",
+        "audience10yo": "Au lieu d'avoir un seul chef d'orchestre pour tous les musiciens, chaque musicien (panneau) a son propre petit chef. Si un panneau a un problème (une ombre), les autres continuent de jouer à fond.",
+        "technicalDetails": "Contrairement à l'onduleur de chaîne (string), le micro-onduleur (ex: Enphase, APSystems) convertit le DC en AC directement au niveau du module. Cela élimine le point de défaillance unique et optimise la production en cas d'ombrage partiel (MPPT dédié). La tension DC en toiture est aussi beaucoup plus faible (<60V), réduisant les risques d'arc électrique.",
+        "importance": "En France, c'est la solution privilégiée pour le résidentiel (80% des installations). Garantie 25 ans souvent incluse, ce qui rassure sur le long terme par rapport à un onduleur central (garanti 10 ans)."
+    },
+    "be": {
+        "term": "Micro-onduleur",
+        "shortDefinition": "Un petit appareil fixé sous chaque panneau pour optimiser la production panneau par panneau.",
+        "audience10yo": "Chaque panneau travaille pour lui-même. Si une cheminée fait de l'ombre sur l'un d'eux le matin, tous les voisins continuent de produire au maximum.",
+        "technicalDetails": "Le micro-onduleur permet une gestion granulaire de la production. En Belgique, c'est particulièrement utile pour les toitures complexes ou avec des ombrages fréquents (cheminées, arbres). Attention cependant, multiplier les composants électroniques sur le toit peut augmenter le risque de panne d'accès difficile, même si les marques leaders (Enphase) sont très fiables.",
+        "importance": "Bien que plus cher à l'achat, il maximise le rendement sur 25 ans. Pour le Tarif Prosumer, la puissance prise en compte est la somme des puissances des micro-onduleurs (kVA), qui est souvent inférieure à la puissance crête des panneaux (kWc)."
+    }
+}

@@ -36,6 +36,7 @@ export function Footer() {
                         <li><Link href={simulatorLink} className="hover:text-brand transition-colors">Simulateur Solaire</Link></li>
                         <li><Link href="/a-propos" className="hover:text-brand transition-colors">Pourquoi SolarEstim ?</Link></li>
                         <li><Link href="/blog" className="hover:text-brand transition-colors">Actualités PV</Link></li>
+                        <li><Link href="/lexique" className="hover:text-brand transition-colors">Lexique Solaire</Link></li>
                     </ul>
                 </div>
 

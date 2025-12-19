@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Batterie de Stockage",
+        "shortDefinition": "Une grosse pile (souvent au Lithium) qui garde l'énergie solaire du jour pour l'utiliser la nuit.",
+        "audience10yo": "C'est comme une gourde. Tu la remplis d'eau (d'électricité) quand il pleut (quand il y a du soleil) pour pouvoir boire plus tard quand il fait sec (la nuit).",
+        "technicalDetails": "En France, les batteries physiques (Lithium-Fer-Phosphate - LiFePO4) restent chères et difficilement rentables face au prix du kWh réseau (0,25€). Le 'stockage virtuel' (batterie virtuelle) est une alternative logicielle proposée par certains fournisseurs (Urban Solar, JPME) pour valoriser le surplus.",
+        "importance": "Attention à la rentabilité ! En France, il vaut souvent mieux vendre son surplus à EDF OA que d'acheter une batterie à 3000€ qui ne durera que 10 ans."
+    },
+    "be": {
+        "term": "Batterie de Stockage",
+        "shortDefinition": "L'élément indispensable en 2025 pour contourner le Tarif Prosumer et devenir indépendant.",
+        "audience10yo": "C'est un réservoir d'électricité pour la nuit. Grâce à elle, tu n'as presque plus besoin d'acheter de courant à la compagnie d'électricité.",
+        "technicalDetails": "En Wallonie, la batterie physique est très rentable. Elle permet de stocker le surplus (qui serait sinon vendu une misère) pour couvrir les besoins du soir (17h-22h). Elle réduit drastiquement le prélèvement réseau et donc la partie proportionnelle du Tarif Prosumer (si compteur double flux).",
+        "importance": "Indispensable pour viser 70-80% d'autonomie. Avec la chute des prix du Lithium en 2024, le retour sur investissement d'une batterie en Belgique est passé sous les 6-7 ans."
+    }
+}

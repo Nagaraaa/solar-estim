@@ -1,0 +1,9 @@
+{
+    "be": {
+        "term": "RGIE (Contrôle Électrique)",
+        "shortDefinition": "Le Règlement Général sur les Installations Électriques. C'est le code de la route de l'électricité en Belgique.",
+        "audience10yo": "C'est la police de l'électricité. Un inspecteur vient vérifier que tes panneaux sont bien branchés et qu'ils ne vont pas mettre le feu à la maison.",
+        "technicalDetails": "Toute nouvelle installation PV doit être contrôlée par un organisme agréé (Vinçotte, BTV...) selon le RGIE. L'inspecteur vérifie la mise à la terre, les disjoncteurs, les schémas unifilaires et de position. Sans ce 'PV de réception positif', le GRD (ORES/Resa) refusera la mise en service.",
+        "importance": "C'est le sésame obligatoire. Assurez-vous que votre devis inclut le passage de l'organisme de contrôle (coût env. 150€)."
+    }
+}

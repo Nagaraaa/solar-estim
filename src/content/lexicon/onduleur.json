@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Onduleur",
+        "shortDefinition": "Le boîtier électronique qui transforme le courant solaire en courant compatible avec vos prises domestiques.",
+        "audience10yo": "Tes panneaux parlent une langue (Courant Continu) et ta télé en parle une autre (Courant Alternatif). L'onduleur est le traducteur qui leur permet de se comprendre.",
+        "technicalDetails": "L'onduleur convertit le DC (Direct Current) des panneaux en AC (Alternating Current) 230V/50Hz synchronisé au réseau Enedis. En France, il doit être conforme à la norme VDE 0126. On distingue l'onduleur de chaîne (centralisé) des micro-onduleurs (décentralisés).",
+        "importance": "C'est la pièce maîtresse. En cas de panne, plus de production ! Les garanties varient de 5 à 20 ans selon les marques (Fronius, SMA, Enphase). C'est souvent lui qu'il faut changer au milieu de la vie de l'installation."
+    },
+    "be": {
+        "term": "Onduleur",
+        "shortDefinition": "L'appareil qui rend l'électricité de vos panneaux utilisable dans la maison et injecte le surplus sur le réseau.",
+        "audience10yo": "C'est le cerveau de l'installation. Il transforme l'énergie du soleil pour qu'elle puisse allumer tes ampoules et faire tourner la machine à laver.",
+        "technicalDetails": "En Wallonie, la puissance de l'onduleur (kVA) est critique car elle sert de base au calcul du Tarif Prosumer 'forfaitaire'. Un onduleur de 5 kVA coûtera plus cher en taxes qu'un onduleur de 3 kVA, même avec les mêmes panneaux. Il doit être homologué Synergrid C10/11.",
+        "importance": "Le choix de l'onduleur impacte directement vos taxes annuelles (Tarif Prosumer). Il est parfois judicieux de sous-dimensionner légèrement l'onduleur par rapport aux panneaux pour payer moins."
+    }
+}

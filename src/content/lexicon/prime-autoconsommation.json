@@ -1,0 +1,9 @@
+{
+    "fr": {
+        "term": "Prime à l'Autoconsommation",
+        "shortDefinition": "Une aide financière de l'État versée aux particuliers qui choisissent de consommer leur propre production et de vendre le surplus.",
+        "audience10yo": "L'État est content que tu produises de l'énergie verte. Pour te remercier, il te donne de l'argent de poche (un chèque) un an après ton installation.",
+        "technicalDetails": "Versée en une seule fois (depuis 2022) par EDF OA, son montant dépend de la puissance installée (ex: 300€/kWc pour <= 3kWc). Elle nécessite de faire appel à un installateur RGE. Attention, si vous optez pour la 'Vente Totale' ou l'autoconsommation 'Totale sans injection', vous n'y avez pas droit.",
+        "importance": "Pour une installation de 3 kWc, cela représente environ 900€ d'aide. C'est un coup de pouce non négligeable qui améliore le retour sur investissement de 1 à 2 ans."
+    }
+}

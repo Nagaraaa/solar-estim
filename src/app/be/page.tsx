@@ -7,6 +7,16 @@ import Image from "next/image";
 
 // ... existing imports ...
 
+// ... existing imports ...
+
+export const metadata = {
+    title: "Rentabilité Solaire Belgique 2025 | Simulateur Gratuit Wallonie",
+    description: "Simulateur photovoltaïque pour la Belgique. Calculez votre rentabilité avec ou sans batterie, le tarif prosumer et les primes régionales. Données précises.",
+    alternates: {
+        canonical: "https://www.solarestim.com/be",
+    },
+};
+
 export default function HomeBe() {
     return (
         <div className="flex flex-col min-h-screen">

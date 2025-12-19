@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Panneau Monocristallin",
+        "shortDefinition": "La technologie de panneau solaire la plus performante et esthétique (noire), issue d'un seul cristal de silicium.",
+        "audience10yo": "C'est un panneau solaire noir très pur. Il est plus fort pour attraper la lumière que les vieux panneaux bleus (polycristallins).",
+        "technicalDetails": "Fabriqués à partir d'un barreau de silicium pur tranché en fines lamelles (wafers), les panneaux monocristallins offrent les meilleurs rendements (20-23%). En France, ils représentent 95% du marché résidentiel, souvent en version 'Full Black' pour l'esthétique imposée en zone ABF (Architecte des Bâtiments de France).",
+        "importance": "Si on vous propose du polycristallin (bleu) en 2025, fuyez ! Le monocristallin produit plus au m², ce qui est crucial sur les petites toitures françaises."
+    },
+    "be": {
+        "term": "Panneau Monocristallin",
+        "shortDefinition": "Le standard actuel du marché : des panneaux noirs, esthétiques et à haut rendement.",
+        "audience10yo": "Des panneaux solaires noirs qui fonctionnent très bien même quand il y a des nuages gris en Belgique.",
+        "technicalDetails": "Le silicium monocristallin a une structure atomique uniforme qui favorise le flux d'électrons. En Belgique, où la lumière diffuse est fréquente (ciel voilé), leur sensibilité supérieure aux faibles irradiancement est un atout par rapport aux anciennes technologies. Les marques premium (SunPower, Viessmann) atteignent 23% de rendement.",
+        "importance": "Indispensable pour maximiser la production sur les toits belges souvent limités en surface. Optez pour des modules d'au moins 430-440 Wc en 2025."
+    }
+}

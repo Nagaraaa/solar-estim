@@ -1,0 +1,9 @@
+{
+    "fr": {
+        "term": "Consuel",
+        "shortDefinition": "L'organisme officiel qui délivre l'attestation de conformité électrique obligatoire pour raccorder vos panneaux.",
+        "audience10yo": "C'est le gendarme de l'électricité. Il donne un diplôme à ton installation pour dire qu'elle est sûre et qu'on peut la brancher au réseau sans tout faire sauter.",
+        "technicalDetails": "Pour le photovoltaïque, on parle souvent de l'Attestation de Conformité 'Violets' (production avec stockage) ou 'Bleue' (production sans stockage). L'installateur RGE s'occupe de la demande. Enedis exige ce document (Visa Consuel) pour procéder à la mise en service.",
+        "importance": "Pas de Consuel = Pas de raccordement Enedis = Pas de vente de surplus. C'est non négociable pour votre sécurité et vos assurances."
+    }
+}

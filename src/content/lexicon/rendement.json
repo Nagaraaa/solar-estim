@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Rendement (Panneau)",
+        "shortDefinition": "Le pourcentage de l'énergie solaire touchant le panneau qui est réellement transformée en électricité.",
+        "audience10yo": "Si le soleil envoie 100 billes d'énergie, le panneau en attrape environ 22. Les autres rebondissent. C'est ça le rendement.",
+        "technicalDetails": "Le rendement ($\\eta$) est calculé par la formule : $$\\eta = \\frac{P_{out}}{P_{in}}$$. Où $P_{in}$ est la puissance lumineuse standard (1000 W/m²). Un panneau de 1m² produisant 220W a un rendement de 22%. Actuellement, les meilleurs panneaux (SunPower Maxeon, REC) dépassent 23%.",
+        "importance": "Plus le rendement est haut, plus vous produisez d'énergie sur une petite surface. Important si vous avez un petit toit en ville."
+    },
+    "be": {
+        "term": "Rendement (Panneau)",
+        "shortDefinition": "L'efficacité avec laquelle votre panneau transforme la lumière belge en électricité.",
+        "audience10yo": "C'est la note sur 100 du panneau. Plus la note est haute, plus il est fort pour changer la lumière en courant.",
+        "technicalDetails": "Le rendement des cellules photovoltaïques (TOPCon, HJT) ne cesse de grimper. La formule $$\\eta = \\frac{P_{max}}{A \\times 1000}$$ (où A est la surface) dicte la puissance au m². En Belgique, privilégiez aussi un bon rendement à faible irradiance (temps gris) et un faible coefficient de température.",
+        "importance": "Un haut rendement permet de poser moins de panneaux pour la même puissance (ex: 10 panneaux au lieu de 12). C'est aussi souvent signe d'une technologie plus durable (dégradation plus lente)."
+    }
+}
