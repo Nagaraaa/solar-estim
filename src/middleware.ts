@@ -4,12 +4,15 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
     // Check if we are on the root path
     if (request.nextUrl.pathname === '/') {
-        // Get country from Vercel geolocation headers
-        // x-vercel-ip-country is the standard header for Vercel
-        // req.geo is available in some edge runtimes but headers are more universal
-        const country = request.headers.get('x-vercel-ip-country');
+        // Check for country cookie
+        const countryCookie = request.cookies.get('solar_country')?.value;
+        const geoCountry = request.headers.get('x-vercel-ip-country');
+
+        // Priority: Cookie > GeoIP
+        const country = countryCookie || geoCountry;
 
         // If country is Belgium (BE), redirect to the Belgian homepage
+        // Only redirect if we detect BE preference/location and we are not already going there (which we aren't, since we are at '/')
         if (country === 'BE') {
             return NextResponse.redirect(new URL('/be', request.url))
         }

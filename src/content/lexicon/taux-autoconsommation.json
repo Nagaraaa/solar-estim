@@ -3,7 +3,7 @@
         "term": "Taux d'Autoconsommation",
         "shortDefinition": "La part de votre production solaire que vous consommez vous-même (le reste étant vendu ou injecté).",
         "audience10yo": "Si tu fabriques 10 gâteaux (kWh) et que tu en manges 4, ton taux d'[autoconsommation](/lexique/autoconsommation) est de 40%. Les 6 autres, tu les vends aux voisins.",
-        "technicalDetails": "Formule : $$Taux = \\frac{Production_{consommée}}{Production_{totale}} \\times 100$$. En résidentiel sans [batterie](/lexique/batterie), il oscille souvent entre 30% et 50%. Ne pas confondre avec le Taux d'Autoproduction (ou couverture) qui est la part de vos besoins couverts par le solaire.",
+        "technicalDetails": "Formule : Taux = (Production consommée / Production totale) x 100. En résidentiel sans [batterie](/lexique/batterie), il oscille souvent entre 30% et 50%. Ne pas confondre avec le Taux d'Autoproduction (ou couverture) qui est la part de vos besoins couverts par le solaire.",
         "importance": "C'est l'indicateur clé de rentabilité. Plus il est haut, plus vous économisez (car le kWh acheté est cher : 0,25€) et moins vous dépendez des variations des prix de marché."
     },
     "be": {

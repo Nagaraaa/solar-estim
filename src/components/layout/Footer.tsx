@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { CountrySelector } from "../ui/CountrySelector";
 
 export function Footer() {
     const pathname = usePathname();
@@ -23,10 +24,13 @@ export function Footer() {
                             className="h-10 w-auto object-contain"
                         />
                     </Link>
-                    <p className="text-sm leading-relaxed">
+                    <p className="text-sm leading-relaxed mb-4">
                         Le simulateur solaire nouvelle génération.
                         Obtenez une étude précise et indépendante en quelques clics.
                     </p>
+                    <div className="flex">
+                        <CountrySelector variant="footer" />
+                    </div>
                 </div>
 
                 <div>

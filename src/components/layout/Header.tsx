@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import { Button } from "../ui/button";
+import { CountrySelector } from "../ui/CountrySelector";
 
 
 export function Header() {
@@ -28,18 +29,16 @@ export function Header() {
                     />
                 </Link>
 
-                <nav className="hidden md:flex gap-6 items-center text-sm font-medium text-slate-600">
-                    <Link href={simuLink} className="hover:text-primary transition-colors">Simulateur</Link>
-                    <Link href={blogLink} className="hover:text-primary transition-colors">Blog</Link>
-                </nav>
-
-                <div className="flex items-center gap-4">
+                <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-700">
+                    <Link href={isBe ? "/be" : "/"} className="hover:text-brand transition-colors">Accueil</Link>
+                    <Link href={blogLink} className="hover:text-brand transition-colors">Blog</Link>
+                    <CountrySelector variant="header" />
                     <Link href={simuLink}>
-                        <Button variant="brand" className="font-bold shadow-brand/20 shadow-lg">
-                            Calculer ma rentabilité
+                        <Button variant="brand" className="font-bold">
+                            Lancer une simulation
                         </Button>
                     </Link>
-                </div>
+                </nav>
             </div>
         </header>
     );
