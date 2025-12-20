@@ -22,6 +22,7 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill }
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [phoneError, setPhoneError] = useState<string | null>(null);
+    const [isAgreed, setIsAgreed] = useState(false);
 
     // Validation Logic
     const validatePhone = (phone: string): boolean => {
@@ -128,11 +129,34 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill }
                                 <Label>Email</Label>
                                 <Input name="email" type="email" required placeholder="jean.dupont@email.com" />
                             </div>
-                            <Button type="submit" className="w-full h-14 text-lg font-bold bg-brand text-slate-900 hover:bg-brand/90 mt-4 shadow-xl">
+
+                            <div className="flex items-start gap-3 mt-4 p-3 bg-slate-100 rounded-md border border-slate-200">
+                                <input
+                                    type="checkbox"
+                                    id="gdpr-consent"
+                                    className="mt-1 w-4 h-4 text-brand rounded border-slate-300 focus:ring-brand cursor-pointer"
+                                    checked={isAgreed}
+                                    onChange={(e) => setIsAgreed(e.target.checked)}
+                                />
+                                <label htmlFor="gdpr-consent" className="text-xs text-slate-600 cursor-pointer leading-tight">
+                                    J'accepte d'être recontacté pour mon projet solaire et j'accepte la <a href="/politique-confidentialite" target="_blank" className="underline text-brand font-medium hover:text-brand/80">politique de confidentialité</a> du site.
+                                </label>
+                            </div>
+
+                            <Button
+                                type="submit"
+                                disabled={!isAgreed}
+                                className={cn(
+                                    "w-full h-14 text-lg font-bold mt-4 shadow-xl transition-all duration-300",
+                                    isAgreed
+                                        ? "bg-brand text-slate-900 hover:bg-brand/90"
+                                        : "bg-slate-300 text-slate-500 cursor-not-allowed shadow-none"
+                                )}
+                            >
                                 ENVOYER MA DEMANDE &gt;&gt;
                             </Button>
                             <p className="text-xs text-slate-400 text-center mt-4 px-2">
-                                En cliquant, vous acceptez d'être recontacté pour votre projet solaire. Vos données restent confidentielles.
+                                Vos données restent confidentielles et sécurisées.
                             </p>
                         </form>
                     </CardContent>

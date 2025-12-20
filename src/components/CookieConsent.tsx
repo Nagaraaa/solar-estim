@@ -4,61 +4,56 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function CookieConsent() {
     const [isVisible, setIsVisible] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        // Check if consent cookie exists
-        const consent = Cookies.get("rgpd_consent");
-        // If undefined, user has not made a choice yet -> Show banner
+        setIsMounted(true);
+        const consent = Cookies.get("cookie_consent");
         if (consent === undefined) {
             setIsVisible(true);
         }
     }, []);
 
     const handleAccept = () => {
-        // Active Consent: User clicked "Accepter"
-        Cookies.set("rgpd_consent", "true", { expires: 365, sameSite: "strict" });
+        Cookies.set("cookie_consent", "true", { expires: 30, sameSite: "strict" });
         setIsVisible(false);
-        // Optional: Reload page to load scripts if needed immediately
-        // window.location.reload(); 
     };
 
     const handleRefuse = () => {
-        // Active Rejection: User clicked "Refuser"
-        Cookies.set("rgpd_consent", "false", { expires: 365, sameSite: "strict" });
+        Cookies.set("cookie_consent", "false", { expires: 30, sameSite: "strict" });
         setIsVisible(false);
     };
 
-    if (!isVisible) return null;
+    if (!isMounted || !isVisible) return null;
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 z-[100] bg-slate-900 border-t border-slate-700 p-4 shadow-2xl animate-in slide-in-from-bottom-5 duration-500">
+        <div className="fixed bottom-0 left-0 right-0 z-[100] bg-slate-950/95 backdrop-blur-md border-t border-white/10 p-4 shadow-2xl animate-in slide-in-from-bottom-5 duration-500">
             <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="flex items-start gap-4 flex-1">
-                    <ShieldCheck className="h-8 w-8 text-brand shrink-0 mt-1" />
-                    <div className="text-sm text-slate-300">
-                        <strong className="text-white block mb-1 text-base">Votre vie privée nous importe</strong>
+                    <ShieldCheck className="h-6 w-6 text-brand shrink-0 mt-1 hidden md:block" />
+                    <div className="text-sm text-slate-300 text-center md:text-left">
                         <p>
-                            Nous utilisons des cookies pour améliorer votre expérience et suivre nos statistiques.
-                            Conformément au <strong>RGPD</strong>, nous ne déposons aucun traceur sans votre consentement éclairé.
+                            Nous utilisons des cookies pour améliorer votre expérience, mémoriser votre choix de pays (FR/BE) et analyser notre trafic. En continuant, vous acceptez notre <Link href="/politique-confidentialite" className="text-brand hover:underline underline-offset-4">politique de confidentialité</Link>.
                         </p>
                     </div>
                 </div>
-                <div className="flex gap-3 shrink-0 w-full md:w-auto">
+                <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
                     <Button
-                        variant="outline"
+                        variant="ghost"
                         onClick={handleRefuse}
-                        className="flex-1 md:flex-none border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white"
+                        className="w-full sm:w-auto h-12 rounded-lg border border-white/10 hover:bg-white/5 text-slate-300"
                     >
-                        Refuser
+                        Paramètres ou Refuser
                     </Button>
                     <Button
                         onClick={handleAccept}
-                        className="flex-1 md:flex-none bg-brand text-slate-900 font-bold hover:bg-brand/90"
+                        className="w-full sm:w-auto h-12 rounded-lg bg-brand text-slate-950 font-bold hover:bg-brand/90 shadow-[0_0_15px_rgba(255,255,255,0.1)]"
                     >
-                        Accepter
+                        Accepter tout
                     </Button>
                 </div>
             </div>
