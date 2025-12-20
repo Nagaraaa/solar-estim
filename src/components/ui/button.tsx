@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex items-center justify-center rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hyphens-auto",
     {
         variants: {
             variant: {
@@ -20,7 +20,7 @@ const buttonVariants = cva(
                 brand: "bg-brand text-brand-foreground hover:bg-brand/90",
             },
             size: {
-                default: "h-10 px-4 py-2",
+                default: "h-auto min-h-[40px] px-4 py-3",
                 sm: "h-9 rounded-md px-3",
                 lg: "h-11 rounded-md px-8",
                 icon: "h-10 w-10",
@@ -44,7 +44,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         const Comp = asChild ? Slot : "button"
         return (
             <Comp
-                className={cn(buttonVariants({ variant, size, className }))}
+                // Added configurable styles via className merge, but defaults are in cva
+                // Implementing specific mobile overrides strictly via utility classes usually done in usage, 
+                // but user asked for "Global Rule". 
+                // We add 'whitespace-normal' for mobile, 'md:whitespace-nowrap' for desktop
+                // We add text clamp logic or just text-sm/text-base response.
+                // Using a custom class for text sizing if needed, currently sticking to standard but enabling wrap.
+                className={cn(buttonVariants({ variant, size, className }), "whitespace-normal md:whitespace-nowrap text-[clamp(0.875rem,0.8rem+0.25vw,1rem)]")}
                 ref={ref}
                 {...props}
             />

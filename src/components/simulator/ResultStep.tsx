@@ -39,7 +39,7 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill }
     const phoneErrorMsg = countryCode === "FR" ? "Format invalide (ex: 0612345678)" : "Format invalide (ex: 0470...)";
 
     return (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 w-full max-w-full overflow-x-hidden">
             {/* Note for BE Regions */}
             {countryCode === "BE" && region && (
                 <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg flex items-start gap-3">
@@ -96,7 +96,7 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill }
                                     ⚠️ {submitError}
                                 </div>
                             )}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="flex flex-col md:grid md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <Label>Nom complet</Label>
                                     <Input name="name" required placeholder="Jean Dupont" />

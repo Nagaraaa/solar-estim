@@ -15,7 +15,9 @@ export function useSolarSimulation() {
             // 1. Geocoding
             let lat = input.lat;
             let lon = input.lon;
-            console.log("Input coordinates received in hook:", lat, lon);
+            const country = input.countryCode || "FR";
+
+            console.log("Input coordinates received in hook:", lat, lon, "Country:", country);
 
             if (!lat || !lon) {
                 const geoUrl = `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(
@@ -37,16 +39,13 @@ export function useSolarSimulation() {
 
             // 2. PVGIS Production (STRICT SERVER ACTION)
             let annualProductionPerKwc = 0;
-
-            // DIRECT CALL TO SERVER ACTION - NO FALLBACK
-            // This will throw if PVGIS is down/unreachable
             annualProductionPerKwc = await getPvgisData(lat, lon, 1);
 
             // 3. Financial Algorithm
             // Consommation estimée = Facture * 12 / 0.25 (prix moyen kWh)
             const annualConsumption = (input.monthlyBill * 12) / 0.25;
 
-            // Tient compte de la consommation pour choisir la taille
+            // Choix de la taille du système
             let systemSize: 3 | 6 | 9;
             if (annualConsumption < 4500) {
                 systemSize = 3;
@@ -57,16 +56,70 @@ export function useSolarSimulation() {
             }
 
             const totalProduction = systemSize * annualProductionPerKwc;
-            const annualSavings = totalProduction * 0.25;
 
-            // Estimation coût installation (Source moyenne 2024 - env 2.2€/Wc pour 3k, dégressif)
-            // 3kWc ~ 7000€, 6kWc ~ 12000€, 9kWc ~ 16000€
             let estimatedCost = 0;
-            if (systemSize === 3) estimatedCost = 7000;
-            if (systemSize === 6) estimatedCost = 12000;
-            if (systemSize === 9) estimatedCost = 16000;
+            let annualSavings = 0;
+            let roiYears = 0;
+            let region = "";
 
-            const roiYears = estimatedCost / annualSavings;
+            // --- LOGIQUE SPÉCIFIQUE PAYS ---
+
+            if (country === "BE") {
+                // --- BELGIQUE ---
+                // Extraction CP pour Région
+                const cpMatch = input.address.match(/\b\d{4}\b/);
+                const cp = cpMatch ? parseInt(cpMatch[0]) : 0;
+
+                // 1000-1299 = Bruxelles, sinon Wallonie (simplifié selon demande)
+                const isBxl = cp >= 1000 && cp <= 1299;
+                region = isBxl ? "Bruxelles" : "Wallonie";
+
+                // Coût installation : 1200 - 1500 €/kWc (Moyenne 1350)
+                const costPerKwc = 1350;
+                estimatedCost = systemSize * costPerKwc;
+
+                // Calcul Économies
+                const electricityPrice = 0.30;
+                const grossSavings = totalProduction * electricityPrice;
+
+                let prosumerTax = 0;
+                if (region === "Wallonie") {
+                    // Moyenne ~90€ par kWe
+                    prosumerTax = systemSize * 90;
+                }
+
+                annualSavings = grossSavings - prosumerTax;
+                if (annualSavings < 0) annualSavings = 0;
+
+                roiYears = estimatedCost / (annualSavings || 1);
+
+            } else {
+                // --- FRANCE ---
+                // Coût installation : 1800 - 2300 €/kWc (Moyenne 2050)
+                const costPerKwc = 2050;
+                estimatedCost = systemSize * costPerKwc;
+
+                // Primes: < 3kWc : ~300€/kWc, sinon 230
+                let primePerKwc = 0;
+                if (systemSize <= 3) primePerKwc = 300;
+                else primePerKwc = 230;
+
+                const totalPrime = systemSize * primePerKwc;
+
+                // Calcul Économies (Autoconsommation avec vente surplus)
+                // OA = 0.13, Achat = 0.25, Autoconso = 35%
+                const selfConsumptionRate = 0.35;
+                const selfConsumedEnergy = totalProduction * selfConsumptionRate;
+                const exportedEnergy = totalProduction * (1 - selfConsumptionRate);
+
+                const savingsBill = selfConsumedEnergy * 0.25;
+                const incomeOA = exportedEnergy * 0.13;
+
+                annualSavings = savingsBill + incomeOA;
+
+                // ROI = (Coût - Prime) / Économies Annuelles
+                roiYears = (estimatedCost - totalPrime) / annualSavings;
+            }
 
             setResult({
                 systemSize,
@@ -74,10 +127,12 @@ export function useSolarSimulation() {
                 annualSavings: Math.round(annualSavings),
                 roiYears: parseFloat(roiYears.toFixed(1)),
                 totalCost: estimatedCost,
+                estimatedConsumption: Math.round(annualConsumption),
                 details: {
                     lat,
                     lon,
-                    pvgisProductionPerKwc: annualProductionPerKwc
+                    pvgisProductionPerKwc: annualProductionPerKwc,
+                    region
                 }
             });
             return true;
