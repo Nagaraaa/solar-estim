@@ -3,7 +3,9 @@ export interface SimulationResult {
     annualProduction: number; // kWh
     annualSavings: number; // €
     roiYears: number; // Années
-    totalCost: number; // € (estimation)
+    totalCost: number; // € (estimation brute)
+    netCost: number; // € (Coût net après primes)
+    monthlyBill: number; // € (Facture mensuelle originale)
     estimatedConsumption: number; // kWh/an (Estimated from bill)
     details: {
         lat: number;
