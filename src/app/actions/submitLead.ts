@@ -12,7 +12,7 @@ const LeadSchema = z.object({
     address: z.string().optional(),
 });
 
-export async function submitLead(formData: FormData, simulationResult: any, country: 'FR' | 'BE') {
+export async function submitLead(formData: FormData, simulationResult: any, country: 'FR' | 'BE', token: string) {
     try {
         const rawData = {
             name: formData.get('name'),
@@ -22,7 +22,6 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
         };
 
         // 0. Security Turnstile
-        const token = formData.get('cf-turnstile-response') as string | null;
         if (!token) {
             return { success: false, error: "Validation de sécurité manquante (Captcha)." };
         }

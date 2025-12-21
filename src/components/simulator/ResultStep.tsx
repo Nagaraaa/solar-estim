@@ -91,9 +91,9 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill }
                             setSubmitError(null);
 
                             formData.append("address", address);
-                            formData.append("cf-turnstile-response", token);
+                            // Token passed directly as argument, no need to append to formData which might fail serialization
 
-                            const res = await submitLead(formData, result, countryCode);
+                            const res = await submitLead(formData, result, countryCode, token);
 
                             if (res.success) {
                                 setIsSubmitted(true);
