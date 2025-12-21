@@ -36,8 +36,24 @@ export default async function LexiconPageBe({ params }: PageProps) {
         notFound();
     }
 
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "DefinedTerm",
+        "name": term.term,
+        "description": term.shortDefinition,
+        "inDefinedTermSet": {
+            "@type": "DefinedTermSet",
+            "name": "Lexique Solaire Belgique SolarEstim"
+        },
+        "url": `https://www.solarestim.com/be/lexique/${slug}`
+    };
+
     return (
         <div className="container mx-auto px-4 py-12 md:py-20 max-w-4xl">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <Link href="/be/lexique" className="inline-flex items-center text-slate-500 hover:text-slate-900 mb-8 transition-colors">
                 <ArrowLeft className="mr-2 h-4 w-4" /> Retour au lexique
             </Link>

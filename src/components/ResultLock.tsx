@@ -16,10 +16,11 @@ interface ResultLockProps {
 export function ResultLock({ mainResult, hiddenContent, onUnlock }: ResultLockProps) {
     const [email, setEmail] = useState("");
     const [isLocked, setIsLocked] = useState(true);
+    const [consent, setConsent] = useState(false);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (email) {
+        if (email && consent) {
             setIsLocked(false);
             onUnlock(email);
         }
@@ -66,7 +67,30 @@ export function ResultLock({ mainResult, hiddenContent, onUnlock }: ResultLockPr
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </div>
-                                <Button type="submit" variant="brand" className="w-full font-bold">
+
+                                <div className="flex items-start space-x-2 pt-2">
+                                    <input
+                                        type="checkbox"
+                                        id="consent"
+                                        checked={consent}
+                                        onChange={(e) => setConsent(e.target.checked)}
+                                        className="mt-1 h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
+                                        required
+                                    />
+                                    <label
+                                        htmlFor="consent"
+                                        className="text-xs text-slate-500 leading-tight cursor-pointer"
+                                    >
+                                        J'accepte d'être recontacté pour mon étude solaire et je confirme avoir lu la <a href="/politique-confidentialite" className="text-brand underline underline-offset-2 hover:text-brand/80" target="_blank">Politique de Confidentialité</a>.
+                                    </label>
+                                </div>
+
+                                <Button
+                                    type="submit"
+                                    variant="brand"
+                                    className="w-full font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                                    disabled={!consent}
+                                >
                                     Voir mon étude gratuite
                                 </Button>
                             </form>
