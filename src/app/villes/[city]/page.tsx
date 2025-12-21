@@ -116,7 +116,7 @@ export default async function CityPage({ params }: PageProps) {
             {/* Hero Section */}
             <section className="relative py-20 lg:py-32 overflow-hidden bg-slate-900 text-white">
                 <Image
-                    src="https://images.unsplash.com/photo-1508514177221-188b1cf2f24f?auto=format&fit=crop&w=2000&q=80"
+                    src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80"
                     alt={`Panneaux solaires ${city.name}`}
                     fill
                     priority

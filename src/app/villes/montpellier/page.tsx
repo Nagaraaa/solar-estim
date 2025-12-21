@@ -61,7 +61,7 @@ export default function MontpellierPage() {
                 title={<>Installation Panneaux Solaires à <span className="text-brand">Montpellier</span> : Rentabilité & Aides 2026</>}
                 subtitle="Profitez des 2 800 heures d'ensoleillement annuel de l'Hérault pour réduire votre facture d'électricité jusqu'à 70%."
                 ctaLink="/simulateur"
-                backgroundImage="https://images.unsplash.com/photo-1508514177221-188b1cf2f24f?auto=format&fit=crop&w=2000&q=80"
+                backgroundImage="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80"
             />
 
             {/* 2. SPECIFIC LOCAL CONTENT */}

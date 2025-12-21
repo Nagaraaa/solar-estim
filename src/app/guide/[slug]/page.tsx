@@ -2,6 +2,7 @@ import { getGuidePost, getAllGuidePosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import remarkGfm from "remark-gfm";
+import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { FeatureSection } from "@/components/sections/FeatureSection";

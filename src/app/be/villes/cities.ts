@@ -44,7 +44,7 @@ export const CITIES: City[] = [
 ];
 
 export function getCityBySlug(slug: string): City | undefined {
-    return CITIES.find((city) => city.slug === slug);
+    return CITIES.find((city) => city.slug.toLowerCase() === slug.toLowerCase());
 }
 
 export function getAllCitySlugs(): string[] {
