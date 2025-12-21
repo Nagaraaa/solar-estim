@@ -22,11 +22,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  icons: {
-    icon: '/icon.png',
-    shortcut: '/favicon.ico',
-    apple: '/apple-icon.png',
-  },
+
   metadataBase: new URL("https://www.solarestim.com"),
   alternates: {
     canonical: "/",
