@@ -21,6 +21,30 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
             address: formData.get('address'),
         };
 
+        // 0. Security Turnstile
+        const token = formData.get('cf-turnstile-response') as string | null;
+        if (!token) {
+            return { success: false, error: "Validation de sécurité manquante (Captcha)." };
+        }
+
+        // Verify with Cloudflare
+        const cfForm = new FormData();
+        cfForm.append('secret', process.env.TURNSTILE_SECRET_KEY || "");
+        cfForm.append('response', token);
+        // cfForm.append('remoteip', clientIp); // Optional
+
+        const cfRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+            method: 'POST',
+            body: cfForm,
+        });
+        const cfData = await cfRes.json();
+
+        if (!cfData.success) {
+            console.error("❌ Turnstile Failed:", cfData);
+            return { success: false, error: "Échec de la validation de sécurité. Veuillez rafraîchir la page." };
+        }
+
+
         const validatedData = LeadSchema.parse(rawData);
         const { name, phone, email, address } = validatedData;
         const addressStr = address || "";

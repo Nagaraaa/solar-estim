@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Lock } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 interface ResultLockProps {
     mainResult: React.ReactNode; // The big number (e.g. "1200€ / an")
@@ -17,10 +18,11 @@ export function ResultLock({ mainResult, hiddenContent, onUnlock }: ResultLockPr
     const [email, setEmail] = useState("");
     const [isLocked, setIsLocked] = useState(true);
     const [consent, setConsent] = useState(false);
+    const [token, setToken] = useState<string | null>(null);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (email && consent) {
+        if (email && consent && token) {
             setIsLocked(false);
             onUnlock(email);
         }
@@ -85,11 +87,18 @@ export function ResultLock({ mainResult, hiddenContent, onUnlock }: ResultLockPr
                                     </label>
                                 </div>
 
+                                <div className="flex justify-center">
+                                    <Turnstile
+                                        siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""}
+                                        onSuccess={(token) => setToken(token)}
+                                    />
+                                </div>
+
                                 <Button
                                     type="submit"
                                     variant="brand"
                                     className="w-full font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-                                    disabled={!consent}
+                                    disabled={!consent || !token}
                                 >
                                     Voir mon étude gratuite
                                 </Button>
@@ -104,3 +113,4 @@ export function ResultLock({ mainResult, hiddenContent, onUnlock }: ResultLockPr
         </div>
     );
 }
+

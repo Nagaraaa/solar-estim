@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, BookOpen, Cpu, Info } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -79,9 +80,21 @@ export default async function LexiconPageBe({ params }: PageProps) {
                             <span className="bg-yellow-100 p-2 rounded-lg text-yellow-700"><Info className="h-6 w-6" /></span>
                             L'essentiel en bref
                         </h2>
-                        <p className="text-lg text-slate-700 leading-relaxed bg-slate-50 p-6 rounded-xl border-l-4 border-brand">
-                            {term.audience10yo}
-                        </p>
+                        <div className="text-lg text-slate-700 leading-relaxed bg-slate-50 p-6 rounded-xl border-l-4 border-brand prose prose-slate max-w-none prose-p:my-0 prose-a:text-brand font-medium">
+                            <ReactMarkdown
+                                components={{
+                                    a: ({ node, ...props }) => {
+                                        const href = props.href || "";
+                                        let newHref = href;
+                                        if (href.startsWith("/lexique")) newHref = `/be${href}`;
+                                        else if (href === "/simulateur") newHref = "/be/simulateur";
+                                        return <Link href={newHref} className="text-brand hover:text-yellow-600 transition-colors underline decoration-brand/30 hover:decoration-brand/100" {...props} />;
+                                    }
+                                }}
+                            >
+                                {term.audience10yo}
+                            </ReactMarkdown>
+                        </div>
                     </section>
 
                     {/* DETAILS TECHNIQUES */}
@@ -90,9 +103,21 @@ export default async function LexiconPageBe({ params }: PageProps) {
                             <span className="bg-blue-100 p-2 rounded-lg text-blue-700"><Cpu className="h-6 w-6" /></span>
                             Détails Techniques
                         </h2>
-                        <p className="text-lg text-slate-600 leading-relaxed">
-                            {term.technicalDetails}
-                        </p>
+                        <div className="text-lg text-slate-600 leading-relaxed prose prose-slate max-w-none">
+                            <ReactMarkdown
+                                components={{
+                                    a: ({ node, ...props }) => {
+                                        const href = props.href || "";
+                                        let newHref = href;
+                                        if (href.startsWith("/lexique")) newHref = `/be${href}`;
+                                        else if (href === "/simulateur") newHref = "/be/simulateur";
+                                        return <Link href={newHref} className="text-brand hover:text-blue-600 transition-colors underline decoration-brand/30 hover:decoration-brand/100" {...props} />;
+                                    }
+                                }}
+                            >
+                                {term.technicalDetails}
+                            </ReactMarkdown>
+                        </div>
                     </section>
 
                     {/* IMPORTANCE */}
@@ -100,9 +125,21 @@ export default async function LexiconPageBe({ params }: PageProps) {
                         <h2 className="text-2xl font-bold mb-4">
                             Pourquoi c'est important pour votre rentabilité ?
                         </h2>
-                        <p className="text-lg text-slate-300 mb-8">
-                            {term.importance}
-                        </p>
+                        <div className="text-lg text-slate-300 mb-8 prose prose-invert max-w-none">
+                            <ReactMarkdown
+                                components={{
+                                    a: ({ node, ...props }) => {
+                                        const href = props.href || "";
+                                        let newHref = href;
+                                        if (href.startsWith("/lexique")) newHref = `/be${href}`;
+                                        else if (href === "/simulateur") newHref = "/be/simulateur";
+                                        return <Link href={newHref} className="text-brand hover:text-white transition-colors underline decoration-brand/30 hover:decoration-brand/100" {...props} />;
+                                    }
+                                }}
+                            >
+                                {term.importance}
+                            </ReactMarkdown>
+                        </div>
 
                         <div className="pt-6 border-t border-white/10">
                             <p className="font-bold text-brand mb-4">
@@ -114,9 +151,15 @@ export default async function LexiconPageBe({ params }: PageProps) {
                                 </Button>
                             </Link>
                         </div>
+
+                        <div className="pt-8 mt-8 border-t border-slate-100 flex justify-center print:hidden">
+                            <Link href="/be/guide/comprendre-le-solaire" className="text-slate-500 hover:text-brand font-medium flex items-center gap-2 transition-colors">
+                                &larr; Revenir au Guide Complet
+                            </Link>
+                        </div>
                     </section>
                 </div>
-            </article>
-        </div>
+            </article >
+        </div >
     );
 }

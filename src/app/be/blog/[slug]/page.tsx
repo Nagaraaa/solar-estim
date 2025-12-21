@@ -52,7 +52,18 @@ export default async function BlogPostPage({ params }: PageProps) {
                     </div>
 
                     <div className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-brand hover:prose-a:text-yellow-500">
-                        <ReactMarkdown>{post.content}</ReactMarkdown>
+                        <ReactMarkdown
+                            components={{
+                                a: ({ node, ...props }) => {
+                                    const href = props.href || "";
+                                    const isLexicon = href.startsWith("/lexique");
+                                    const newHref = isLexicon ? `/be${href}` : href;
+                                    return <Link href={newHref} {...props} />;
+                                }
+                            }}
+                        >
+                            {post.content}
+                        </ReactMarkdown>
                     </div>
                 </article>
 

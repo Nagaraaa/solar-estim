@@ -15,6 +15,8 @@ export function Header() {
     const simuLink = isBe ? "/be/simulateur" : "/simulateur";
     const blogLink = isBe ? "/be/blog" : "/blog";
 
+    const guideLink = isBe ? "/be/guide/comprendre-le-solaire" : "/guide/comprendre-le-solaire";
+
     return (
         <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
             <div className="container mx-auto flex h-auto py-2 items-center justify-between px-4 md:px-6">
@@ -32,6 +34,7 @@ export function Header() {
                 <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-700">
                     <Link href={isBe ? "/be" : "/"} className="hover:text-brand transition-colors">Accueil</Link>
                     <Link href={blogLink} className="hover:text-brand transition-colors">Blog</Link>
+                    <Link href={guideLink} className="hover:text-brand transition-colors text-slate-500">Guide 2026</Link>
                     <CountrySelector variant="header" />
                     <Link href={simuLink}>
                         <Button variant="brand" className="font-bold">

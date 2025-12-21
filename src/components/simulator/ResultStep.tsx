@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { SuccessMessage } from "@/components/SuccessMessage";
 import { cn } from "@/lib/utils";
 import { Globe } from "lucide-react";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 interface ResultStepProps {
     result: any;
@@ -23,6 +24,7 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill }
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [phoneError, setPhoneError] = useState<string | null>(null);
     const [isAgreed, setIsAgreed] = useState(false);
+    const [token, setToken] = useState<string | null>(null);
 
     // Validation Logic
     const validatePhone = (phone: string): boolean => {
@@ -81,9 +83,16 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill }
                                 setPhoneError(phoneErrorMsg);
                                 return;
                             }
+                            if (!token) {
+                                setSubmitError("Veuillez valider le captcha Cloudflare.");
+                                return;
+                            }
+
                             setSubmitError(null);
 
                             formData.append("address", address);
+                            formData.append("cf-turnstile-response", token);
+
                             const res = await submitLead(formData, result, countryCode);
 
                             if (res.success) {
@@ -143,12 +152,40 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill }
                                 </label>
                             </div>
 
+                            <div className="flex justify-center my-4 min-h-[65px] border border-dashed border-slate-300 rounded p-2 relative bg-slate-50">
+                                <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs text-slate-400">
+                                    Chargement Sécurité...
+                                </span>
+                                {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ? (
+                                    <div className="relative z-10">
+                                        <Turnstile
+                                            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                                            onSuccess={(token) => {
+                                                console.log("Turnstile Success:", token);
+                                                setToken(token);
+                                            }}
+                                            onError={(err) => {
+                                                console.error("Turnstile Error:", err);
+                                                setSubmitError("Erreur de chargement du captcha security.");
+                                            }}
+                                            options={{
+                                                theme: 'light',
+                                            }}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="p-3 bg-red-100 border border-red-300 rounded text-red-800 text-xs font-mono text-center relative z-10">
+                                        DEV ERROR: NEXT_PUBLIC_TURNSTILE_SITE_KEY is missing.
+                                    </div>
+                                )}
+                            </div>
+
                             <Button
                                 type="submit"
-                                disabled={!isAgreed}
+                                disabled={!isAgreed || !token}
                                 className={cn(
                                     "w-full h-14 text-lg font-bold mt-4 shadow-xl transition-all duration-300",
-                                    isAgreed
+                                    (isAgreed && token)
                                         ? "bg-brand text-slate-900 hover:bg-brand/90"
                                         : "bg-slate-300 text-slate-500 cursor-not-allowed shadow-none"
                                 )}
@@ -165,3 +202,4 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill }
         </div>
     );
 }
+

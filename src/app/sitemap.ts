@@ -24,6 +24,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.6,
     }));
 
+    // Manual Guide Entry (dynamic would be better if we had many guides, but for 1 it's fine)
+    const guideEntryFr = {
+        url: `${BASE_URL}/guide/comprendre-le-solaire`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.9,
+    };
+    const guideEntryBe = {
+        url: `${BASE_URL}/be/guide/comprendre-le-solaire`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.9,
+    };
+
     return [
         // FRANCE
         {
@@ -86,5 +100,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
         ...blogEntriesFr,
         ...blogEntriesBe,
+        guideEntryFr,
+        guideEntryBe,
     ];
 }
