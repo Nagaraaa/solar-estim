@@ -47,7 +47,7 @@ export function useSolarSimulation() {
                 monthlyBill: input.monthlyBill,
                 lat,
                 lon,
-                countryCode,
+                countryCode: country,
                 address: input.address,
                 pvgisProductionPerKwc: annualProductionPerKwc
             };
@@ -55,7 +55,6 @@ export function useSolarSimulation() {
             const calculationResult = calculateRecommendedSystem(inputEngine);
 
             setResult(calculationResult);
-            return true;
             return true;
 
         } catch (err) {

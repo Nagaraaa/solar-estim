@@ -1,6 +1,7 @@
 import { getGuidePost, getAllGuidePosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -60,6 +61,7 @@ export default async function GuidePageBe({ params }: PageProps) {
 
                 <article className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-brand hover:prose-a:text-yellow-500 prose-img:rounded-xl prose-img:shadow-lg prose-table:border-collapse prose-th:bg-slate-100 prose-th:p-4 prose-td:p-4 prose-td:border-b">
                     <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
                         components={{
                             a: ({ node, ...props }) => {
                                 const href = props.href || "";
