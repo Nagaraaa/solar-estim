@@ -122,10 +122,26 @@ export function ResultDashboard({ result, monthlyBill }: ResultDashboardProps) {
                             <Counter value={data.netBenefit} currency />
                         </div>
 
-                        <div className="inline-flex items-center gap-2 bg-emerald-100/80 text-emerald-800 px-4 py-2 rounded-full font-bold text-sm">
+                        <div className="inline-flex items-center gap-2 bg-emerald-100/80 text-emerald-800 px-4 py-2 rounded-full font-bold text-sm mb-6">
                             <TrendingUp className="w-4 h-4" />
                             <span>Retour sur investissement : {result.roiYears} ans</span>
                         </div>
+
+                        {result.details?.futureProofMode && (
+                            <div className="mt-4 p-4 bg-blue-50 border border-blue-100 rounded-lg text-left">
+                                <div className="flex items-start gap-3">
+                                    <Info className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" />
+                                    <div>
+                                        <p className="text-blue-900 font-bold text-sm mb-1">Note de l'expert : Dimensionnement Stratégique</p>
+                                        <p className="text-blue-800 text-xs leading-relaxed">
+                                            Votre consommation actuelle est faible, mais nous recommandons une installation de <strong>2.5 kWc</strong> (au lieu d'un micro-système).
+                                            Cela vous permet d'anticiper vos futurs besoins (véhicule électrique, pompe à chaleur) sans devoir réinvestir plus tard.
+                                            Le surplus est revendu, ce qui finance votre installation.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Print Button */}
                         <div className="absolute top-4 right-4 z-20 print:hidden">

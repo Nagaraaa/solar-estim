@@ -1,5 +1,5 @@
 export interface SimulationResult {
-    systemSize: 3 | 6 | 9; // kWc
+    systemSize: number; // kWc (Flexible: 2.5, 3, 6, 9...)
     annualProduction: number; // kWh
     annualSavings: number; // €
     roiYears: number; // Années
@@ -12,6 +12,7 @@ export interface SimulationResult {
         lon: number;
         pvgisProductionPerKwc: number; // kWh/kWc
         region?: string; // BE region
+        futureProofMode?: boolean; // Advice flag
     };
 }
 
