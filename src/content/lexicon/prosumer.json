@@ -1,7 +1,9 @@
 {
-    "term": "Prosumer",
-    "shortDefinition": "Contraction de 'Producteur' et 'Consommateur'. Désigne tout propriétaire de panneaux solaires en Belgique qui consomme sa propre production et injecte le surplus sur le réseau.",
-    "audience10yo": "C'est comme si tu avais un potager dans ton jardin. Quand tu manges tes propres tomates, tu es un consommateur. Mais comme c'est toi qui les as fait pousser, tu es aussi un producteur. On t'appelle donc un **Prosumer** (Pro-ducteur + Con-sommateur) !",
-    "technicalDetails": "En Wallonie, le statut de [Prosumer](/lexique/prosumer) implique, pour les installations sans compteur intelligent, le paiement d'un tarif forfaitaire (Tarif Prosumer) pour l'utilisation du réseau de distribution. Avec un [compteur bidirectionnel](/lexique/compteur-bidirectionnel) ou intelligent, ce tarif est calculé sur l'injection réelle (ou le prélèvement brut si on ne change pas de régime). Le but est de participer aux frais du réseau électrique.",
-    "importance": "Être Prosumer change ta facture. Au lieu de juste payer pour l'électricité que tu achètes, tu payes aussi une petite taxe pour avoir le droit d'utiliser le réseau comme une 'batterie géante' quand tu injectes ton surplus. L'objectif est d'augmenter ton [autoconsommation](/lexique/autoconsommation) pour payer moins de frais réseau."
+    "be": {
+        "term": "Prosumer",
+        "shortDefinition": "Contraction de 'Producteur' et 'Consommateur'. Désigne tout propriétaire de panneaux solaires en Belgique qui consomme sa propre production et injecte le surplus sur le réseau.",
+        "audience10yo": "C'est comme si tu avais un potager dans ton jardin. Quand tu manges tes propres tomates, tu es un consommateur. Mais comme c'est toi qui les as fait pousser, tu es aussi un producteur. On t'appelle donc un **Prosumer** (Pro-ducteur + Con-sommateur) !",
+        "technicalDetails": "En Wallonie, le statut de [Prosumer](/lexique/prosumer) implique, pour les installations sans compteur intelligent, le paiement d'un tarif forfaitaire (Tarif Prosumer) pour l'utilisation du réseau de distribution. Avec un [compteur bidirectionnel](/lexique/compteur-bidirectionnel) ou intelligent, ce tarif est calculé sur l'injection réelle (ou le prélèvement brut si on ne change pas de régime). Le but est de participer aux frais du réseau électrique.",
+        "importance": "Être Prosumer change ta facture. Au lieu de juste payer pour l'électricité que tu achètes, tu payes aussi une petite taxe pour avoir le droit d'utiliser le réseau comme une 'batterie géante' quand tu injectes ton surplus. L'objectif est d'augmenter ton [autoconsommation](/lexique/autoconsommation) pour payer moins de frais réseau."
+    }
 }
