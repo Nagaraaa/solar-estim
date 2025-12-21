@@ -9,13 +9,14 @@ interface HeroSectionProps {
     title: React.ReactNode;
     subtitle: string;
     ctaLink: string;
+    backgroundImage?: string;
 }
 
-export function HeroSection({ title, subtitle, ctaLink }: HeroSectionProps) {
+export function HeroSection({ title, subtitle, ctaLink, backgroundImage }: HeroSectionProps) {
     return (
         <section className="relative py-20 lg:py-32 overflow-hidden bg-slate-900 text-white">
             <Image
-                src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80"
+                src={backgroundImage || "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80"}
                 alt="Panneaux solaires sur toit"
                 fill
                 priority

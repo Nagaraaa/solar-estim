@@ -152,31 +152,19 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill }
                                 </label>
                             </div>
 
-                            <div className="flex justify-center my-4 min-h-[65px] border border-dashed border-slate-300 rounded p-2 relative bg-slate-50">
-                                <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs text-slate-400">
-                                    Chargement Sécurité...
-                                </span>
-                                {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ? (
-                                    <div className="relative z-10">
-                                        <Turnstile
-                                            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-                                            onSuccess={(token) => {
-                                                console.log("Turnstile Success:", token);
-                                                setToken(token);
-                                            }}
-                                            onError={(err) => {
-                                                console.error("Turnstile Error:", err);
-                                                setSubmitError("Erreur de chargement du captcha security.");
-                                            }}
-                                            options={{
-                                                theme: 'light',
-                                            }}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="p-3 bg-red-100 border border-red-300 rounded text-red-800 text-xs font-mono text-center relative z-10">
-                                        DEV ERROR: NEXT_PUBLIC_TURNSTILE_SITE_KEY is missing.
-                                    </div>
+                            <div className="flex justify-center my-4 min-h-[65px]">
+                                {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+                                    <Turnstile
+                                        siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                                        onSuccess={(token) => setToken(token)}
+                                        onError={(err) => {
+                                            console.error("Turnstile Error:", err);
+                                            setSubmitError("Erreur de connexion au service de sécurité.");
+                                        }}
+                                        options={{
+                                            theme: 'light',
+                                        }}
+                                    />
                                 )}
                             </div>
 

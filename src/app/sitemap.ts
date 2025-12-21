@@ -1,6 +1,7 @@
 
 import { MetadataRoute } from 'next';
 import { getAllPosts } from '@/lib/blog';
+import { getAllDefinitions } from '@/lib/lexicon';
 import { CITIES } from './be/villes/cities';
 import { CITIES_FR } from './villes/cities';
 
@@ -9,6 +10,24 @@ const BASE_URL = 'https://www.solarestim.com';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const postsFr = await getAllPosts('FR');
     const postsBe = await getAllPosts('BE');
+
+    // 1. Fetch Lexicon Entries
+    const lexiconFr = await getAllDefinitions('FR');
+    const lexiconBe = await getAllDefinitions('BE');
+
+    const lexiconEntriesFr: MetadataRoute.Sitemap = lexiconFr.map((term) => ({
+        url: `${BASE_URL}/lexique/${term.slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'yearly',
+        priority: 0.7,
+    }));
+
+    const lexiconEntriesBe: MetadataRoute.Sitemap = lexiconBe.map((term) => ({
+        url: `${BASE_URL}/be/lexique/${term.slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'yearly',
+        priority: 0.7,
+    }));
 
     const blogEntriesFr: MetadataRoute.Sitemap = postsFr.map((post) => ({
         url: `${BASE_URL}/blog/${post.slug}`,
@@ -100,6 +119,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
         ...blogEntriesFr,
         ...blogEntriesBe,
+        ...lexiconEntriesFr,
+        ...lexiconEntriesBe,
         guideEntryFr,
         guideEntryBe,
     ];

@@ -2,10 +2,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 interface CtaSectionProps {
-    ctaLink: string;
+    ctaLink?: string;
 }
 
-export function CtaSection({ ctaLink }: CtaSectionProps) {
+export function CtaSection({ ctaLink = "/simulateur" }: CtaSectionProps) {
     return (
         <section className="py-20 bg-brand text-slate-900">
             <div className="container px-4 md:px-6 mx-auto text-center">

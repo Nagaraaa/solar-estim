@@ -1,0 +1,7 @@
+{
+    "term": "Certificat Vert",
+    "shortDefinition": "Titre immatériel octroyé aux producteurs d'énergie verte à Bruxelles (et anciennement Wallonie) pour soutenir la production écologique.",
+    "audience10yo": "C'est comme un 'bon point' que la région te donne parce que tu as fabriqué de l'énergie propre qui ne pollue pas. Ces bons points ont de la valeur : tu peux les revendre à des fournisseurs d'énergie pour gagner de l'argent en plus de tes économies !",
+    "technicalDetails": "Le régime des **Certificats Verts (CV)** est le principal mécanisme de soutien à Bruxelles. Chaque MWh produit donne droit à un certain nombre de CV (taux variable selon l'installation). Ces certificats sont ensuite revendus sur le marché (Elia ou fournisseurs) à un prix marché (env. 65€-95€/CV). En Wallonie, ce système n'existe plus pour les nouvelles petites installations résidentielles (<10kVA) mais perdure pour les grosses installations.",
+    "importance": "Si tu habites à Bruxelles, les Certificats Verts représentent une part énorme de la rentabilité de tes panneaux (parfois plus que l'économie d'électricité elle-même). Il est crucial de bien compter combien de CV tu vas recevoir chaque année pour calculer ton retour sur investissement."
+}

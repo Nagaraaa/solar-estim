@@ -155,7 +155,7 @@ export default async function CityPage({ params }: PageProps) {
                                     </h3>
                                     <p>
                                         En Wallonie, le mécanisme du "compteur qui tourne à l'envers" reste un avantage majeur pour les installations existantes, mais les nouvelles installations bénéficient aussi d'un cadre favorable pour l'autoconsommation.
-                                        À {city.name}, maximiser votre autoconsommation est la clé pour contourner le tarif Prosumer et rentabiliser votre installation en moins de 7 ans.
+                                        À {city.name}, maximiser votre autoconsommation est la clé pour contourner le <Link href="/be/lexique/prosumer" className="text-brand underline decoration-brand/30 hover:decoration-brand/100">tarif Prosumer</Link> et rentabiliser votre installation en moins de 7 ans.
                                     </p>
 
                                     <h3 className="text-xl font-bold text-slate-800 mt-6 flex items-center gap-2">
