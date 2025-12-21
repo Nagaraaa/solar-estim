@@ -8,9 +8,10 @@ import { SuccessMessage } from "@/components/SuccessMessage";
 import { cn } from "@/lib/utils";
 import { Globe } from "lucide-react";
 import { Turnstile } from "@marsidev/react-turnstile";
+import { type SimulationResult } from "@/lib/engine";
 
 interface ResultStepProps {
-    result: any;
+    result: SimulationResult;
     address: string;
     countryCode: "FR" | "BE";
     region?: string | null; // For BE display

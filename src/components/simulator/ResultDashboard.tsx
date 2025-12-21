@@ -9,18 +9,11 @@ import { Slider } from "@/components/ui/slider";
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"; // Assuming standard UI tooltips exist or standard approach
 import { cn } from "@/lib/utils";
 
-// --- Types ---
-interface SimulationResult {
-    systemSize: number; // kWc
-    annualProduction: number; // kWh
-    annualSavings: number; // €
-    roiYears: number; // years
-    totalCost: number; // €
-}
+import { calculateFinancialProjection, type SimulationResult } from "@/lib/engine";
 
 interface ResultDashboardProps {
     result: SimulationResult;
-    monthlyBill: number; // needed for "Without Solar" baseline
+    monthlyBill: number;
 }
 
 // --- Helper: Animated Number ---
@@ -32,8 +25,6 @@ function Counter({ value, currency = false }: { value: number; currency?: boolea
         animate(spring, value);
     }, [spring, value]);
 
-    // Format output manually to avoid heavy Intl hooks if not needed, or use Intl
-    // Using a simple display component to read the MotionValue
     return (
         <motion.span className="tabular-nums">
             {useTransform(rounded, (latest) =>
@@ -51,35 +42,12 @@ export function ResultDashboard({ result, monthlyBill }: ResultDashboardProps) {
 
     // --- Calculations ---
     const data = useMemo(() => {
-        const years = 25;
-        let cumulativeWithout = 0;
-        let cumulativeWith = result.totalCost; // Starts with installation cost
-
-        // Annual Bill without solar (approximated)
-        // If monthlyBill is provided, use it. If not, infer from savings/0.25 logic or similar? 
-        // We really need monthlyBill.
-        const startBill = monthlyBill * 12;
-
-        for (let i = 1; i <= years; i++) {
-            // Factor for specific year: (1 + rate)^(i-1)
-            // Year 1: No inflation yet (or base). Year 2: +Inflation.
-            const inflationFactor = Math.pow(1 + inflationRate / 100, i - 1);
-
-            const billForYear = startBill * inflationFactor;
-            const savingsForYear = result.annualSavings * inflationFactor;
-
-            cumulativeWithout += billForYear;
-
-            // "With Solar" cost = Install Cost + (Bill - Savings)
-            // If Savings > Bill, this term is negative (profit/surplus income)
-            cumulativeWith += (billForYear - savingsForYear);
-        }
-
-        return {
-            cumulativeWithout: Math.round(cumulativeWithout),
-            cumulativeWith: Math.round(cumulativeWith),
-            netBenefit: Math.round(cumulativeWithout - cumulativeWith)
-        };
+        return calculateFinancialProjection({
+            result,
+            monthlyBill,
+            inflationRate,
+            years: 25
+        });
     }, [result, monthlyBill, inflationRate]);
 
     // Determine Chart Domains for Stability
