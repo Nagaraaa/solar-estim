@@ -28,7 +28,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googleapis.com https://*.google.com https://*.gstatic.com https://api-adresse.data.gouv.fr; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com;",
+            value: "default-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googleapis.com https://*.google.com https://*.gstatic.com https://api-adresse.data.gouv.fr https://challenges.cloudflare.com; frame-src 'self' https://challenges.cloudflare.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com;",
           },
           {
             key: 'Referrer-Policy',
