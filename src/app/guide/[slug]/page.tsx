@@ -53,7 +53,7 @@ export default async function GuidePage({ params }: PageProps) {
                 </Link>
 
                 <article className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-brand hover:prose-a:text-yellow-500 prose-img:rounded-xl prose-img:shadow-lg prose-table:border-collapse prose-th:bg-slate-100 prose-th:p-4 prose-td:p-4 prose-td:border-b">
-
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
                 </article>
             </div>
 
