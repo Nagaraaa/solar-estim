@@ -89,7 +89,7 @@ export function ResultLock({ mainResult, hiddenContent, onUnlock }: ResultLockPr
 
                                 <div className="flex justify-center">
                                     <Turnstile
-                                        siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""}
+                                        siteKey={process.env.NODE_ENV === "development" ? "1x00000000000000000000AA" : (process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "")}
                                         onSuccess={(token) => setToken(token)}
                                     />
                                 </div>
