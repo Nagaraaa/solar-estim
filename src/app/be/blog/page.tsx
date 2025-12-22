@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getAllPosts } from "@/lib/blog";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -24,7 +25,14 @@ export default async function BlogIndex() {
                 {posts.map((post) => (
                     <Link key={post.slug} href={`/be/blog/${post.slug}`} className="group">
                         <Card className="h-full hover:shadow-xl transition-all duration-300 border-slate-200">
-                            <div className="h-56 bg-slate-100 rounded-t-lg bg-cover bg-center" style={{ backgroundImage: `url(${post.image})` }} />
+                            <div className="relative h-56 w-full">
+                                <Image
+                                    src={post.image}
+                                    alt={post.imageAlt || post.title}
+                                    fill
+                                    className="object-cover rounded-t-lg"
+                                />
+                            </div>
                             <CardHeader>
                                 <div className="flex justify-between items-center mb-2">
                                     <span className="text-xs font-bold text-brand uppercase tracking-wider">{post.category}</span>
