@@ -3,9 +3,7 @@ const path = require('path');
 
 const contentDir = path.join(__dirname, '../src/content');
 const authorData = {
-    author: "Steve Herremans",
-    authorBio: "Expert en énergie renouvelable et analyste du marché solaire depuis 2018.",
-    authorImage: "/images/steve-herremans.jpg"
+    author: "Steve H",
 };
 
 function updateFile(filePath) {

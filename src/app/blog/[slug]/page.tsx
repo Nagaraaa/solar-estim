@@ -45,7 +45,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 description={post.summary}
                 images={[post.image]}
                 datePublished={post.date}
-                authorName={post.author || "Steve Herremans"}
+                authorName={post.author || "Steve H"}
                 url={`https://www.solarestim.com/blog/${post.slug}`}
             />
 
@@ -85,31 +85,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                         <ReactMarkdown>{post.content}</ReactMarkdown>
                     </div>
 
-                    {/* E-E-A-T Author Bio Section */}
-                    {post.author && (
-                        <div className="mt-12 pt-8 border-t border-slate-200 flex items-start sm:items-center gap-6">
-                            <div className="relative h-16 w-16 min-w-[64px] rounded-full overflow-hidden border border-slate-200 bg-slate-100">
-                                {post.authorImage ? (
-                                    <Image
-                                        src={post.authorImage}
-                                        alt={post.author}
-                                        fill
-                                        className="object-cover"
-                                    />
-                                ) : (
-                                    <div className="flex items-center justify-center h-full w-full bg-brand/10 text-brand font-bold text-xl">
-                                        {post.author.charAt(0)}
-                                    </div>
-                                )}
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-slate-900 mb-1">À propos de {post.author}</h3>
-                                <p className="text-slate-600 text-sm leading-relaxed">
-                                    {post.authorBio || "Expert en transition énergétique."}
-                                </p>
-                            </div>
-                        </div>
-                    )}
+
                 </article>
 
                 {/* Sidebar with CTA */}
