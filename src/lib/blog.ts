@@ -13,7 +13,10 @@ export interface BlogPost {
     summary: string;
     description?: string; // For guide posts
     content: string;
-    country?: 'FR' | 'BE'; // Optional for backward compatibility (default to FR)
+    country?: 'FR' | 'BE';
+    author?: string;
+    authorBio?: string;
+    authorImage?: string;
 }
 
 export async function getPost(slug: string): Promise<BlogPost | null> {

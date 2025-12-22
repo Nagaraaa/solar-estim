@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import { FAQSchema } from "./seo/FAQSchema";
+
 interface FAQSectionProps {
     city: string;
     country: "FR" | "BE";
@@ -18,8 +20,14 @@ export function FAQSection({ city, country }: FAQSectionProps) {
 
     if (questions.length === 0) return null;
 
+    const schemaItems = questions.map(item => ({
+        question: item.question.replace("{ville}", city),
+        answer: item.answer.replace("{ville}", city)
+    }));
+
     return (
         <section className="py-16 bg-white border-t border-slate-100">
+            <FAQSchema items={schemaItems} />
             <div className="container px-4 md:px-6 mx-auto max-w-3xl">
                 <FadeIn>
                     <h2 className="text-3xl font-bold text-center text-slate-900 mb-10">
