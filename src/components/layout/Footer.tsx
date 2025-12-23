@@ -37,7 +37,7 @@ export function Footer() {
 
                 {/* Column 2: Navigation */}
                 <div>
-                    <h4 className="font-semibold text-slate-900 mb-4">Navigation</h4>
+                    <p className="font-semibold text-slate-900 mb-4">Navigation</p>
                     <ul className="space-y-2 text-sm">
                         <li><Link href={isBe ? "/be" : "/"} className="hover:text-brand transition-colors">Accueil</Link></li>
                         <li><Link href={simulatorLink} className="hover:text-brand transition-colors">Simulateur Solaire</Link></li>
@@ -48,7 +48,7 @@ export function Footer() {
 
                 {/* Column 3: Ressources */}
                 <div>
-                    <h4 className="font-semibold text-slate-900 mb-4">Ressources</h4>
+                    <p className="font-semibold text-slate-900 mb-4">Ressources</p>
                     <ul className="space-y-2 text-sm">
                         <li>
                             <Link href={isBe ? "/be/guide/comprendre-le-solaire" : "/guide/comprendre-le-solaire"} className="hover:text-brand transition-colors font-medium text-slate-900">
@@ -61,7 +61,7 @@ export function Footer() {
 
                 {/* Column 4: Légal & Contact */}
                 <div>
-                    <h4 className="font-semibold text-slate-900 mb-4">Légal</h4>
+                    <p className="font-semibold text-slate-900 mb-4">Légal</p>
                     <ul className="space-y-2 text-sm">
                         <li><Link href="/mentions-legales" className="hover:text-brand transition-colors">Mentions Légales</Link></li>
                         <li><Link href="/politique-confidentialite" className="hover:text-brand transition-colors">Politique de Confidentialité</Link></li>
