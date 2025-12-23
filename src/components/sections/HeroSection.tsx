@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { FadeIn } from "@/components/ui/fade-in";
+
 import { StructuredData } from "@/components/StructuredData";
 
 interface HeroSectionProps {
@@ -23,7 +23,7 @@ export function HeroSection({ title, subtitle, ctaLink, backgroundImage }: HeroS
                 className="object-cover object-center opacity-20"
                 sizes="100vw"
             />
-            <FadeIn className="container relative z-10 px-4 md:px-6 mx-auto text-center" delay={100}>
+            <div className="container relative z-10 px-4 md:px-6 mx-auto text-center">
                 <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6">
                     {title}
                 </h1>
@@ -38,7 +38,7 @@ export function HeroSection({ title, subtitle, ctaLink, backgroundImage }: HeroS
                         </Button>
                     </Link>
                 </div>
-            </FadeIn>
+            </div>
         </section>
     );
 }

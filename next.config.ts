@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  productionBrowserSourceMaps: true,
   async headers() {
     return [
       {

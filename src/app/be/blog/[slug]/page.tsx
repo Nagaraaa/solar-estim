@@ -14,12 +14,12 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps) {
-    const { slug } = await params;
-    const post = await getPost(slug);
-    if (!post) return { title: "Article non trouvé" };
     return {
         title: `${post.title} | Solar-Estim`,
-        description: post.summary
+        description: post.summary,
+        openGraph: {
+            images: [post.image],
+        },
     };
 }
 
