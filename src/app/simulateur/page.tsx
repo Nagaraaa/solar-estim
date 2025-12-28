@@ -21,7 +21,7 @@ const formSchema = z.object({
 export default function SimulatorPage() {
     const [step, setStep] = useState(1);
     const { calculate, loading, error, result } = useSolarSimulation();
-    const [coordinates, setCoordinates] = useState<{ lat?: number, lon?: number }>({});
+    const [coordinates, setCoordinates] = useState<{ lat?: number; lon?: number; countryCode?: "FR" | "BE" }>({ countryCode: "FR" });
 
     // Scroll to top on step change
     useEffect(() => {
@@ -77,7 +77,7 @@ export default function SimulatorPage() {
                                         form={form}
                                         onNext={nextStep}
                                         apiEndpoint="https://api-adresse.data.gouv.fr"
-                                        countryCode="FR"
+                                        countryCode={coordinates.countryCode}
                                         coordinates={coordinates}
                                         setCoordinates={setCoordinates}
                                     />
@@ -99,7 +99,7 @@ export default function SimulatorPage() {
                         <ResultStep
                             result={result}
                             address={form.getValues("address")}
-                            countryCode="FR"
+                            countryCode={coordinates.countryCode || "FR"}
                             monthlyBill={form.getValues("monthlyBill")}
                             isCalculating={loading}
                             simulationError={error}

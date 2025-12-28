@@ -14,8 +14,8 @@ interface AddressStepProps {
     apiEndpoint: string; // URL for the address API
     countryCode?: "FR" | "BE";
     placeholder?: string;
-    coordinates: { lat?: number, lon?: number };
-    setCoordinates: (coords: { lat?: number, lon?: number }) => void;
+    coordinates: { lat?: number, lon?: number, countryCode?: "FR" | "BE" };
+    setCoordinates: (coords: { lat?: number, lon?: number, countryCode?: "FR" | "BE" }) => void;
 }
 
 export function AddressStep({
@@ -112,11 +112,20 @@ export function AddressStep({
             }
         }
 
+        // Detect country code from response (Nominatim returns country_code="fr" or "be" usually)
+        let detectedCountry: "FR" | "BE" = countryCode || "FR";
+        if (item.address && item.address.country_code) {
+            const cc = item.address.country_code.toUpperCase();
+            if (cc === "FR" || cc === "BE") {
+                detectedCountry = cc;
+            }
+        }
+
         fieldChange(cleanLabel);
         setInputValue(cleanLabel);
         // Important: Update form 'address' field
         form.setValue("address", cleanLabel);
-        setCoordinates({ lat, lon });
+        setCoordinates({ lat, lon, countryCode: detectedCountry });
         setShowSuggestions(false);
         setSuggestions([]);
     };
