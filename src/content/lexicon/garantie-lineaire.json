@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Garantie Linéaire",
+        "shortDefinition": "Une promesse du fabricant que la perte de puissance du panneau sera régulière et limitée chaque année (ex: max -0.5%/an).",
+        "audience10yo": "C'est comme promettre que ta batterie de téléphone ne perdra que 1% de sa force chaque année, et pas 50% d'un coup.",
+        "technicalDetails": "Contrairement à une garantie 'à échelons' (ex: 90% à 10 ans, 80% à 25 ans), la garantie linéaire assure une courbe de dégradation constante. Cela protège le consommateur contre une chute brutale de performance la 11ème année.",
+        "importance": "C'est le vrai juge de paix de la qualité. Un panneau qui garantit 87% à 25 ans produira beaucoup plus d'énergie totale qu'un panneau garanti à 80%."
+    },
+    "be": {
+        "term": "Garantie Linéaire de Performance",
+        "shortDefinition": "L'assurance que vos panneaux ne perdront qu'un tout petit peu de puissance chaque année, de manière contrôlée.",
+        "audience10yo": "Si tes panneaux sont des sportifs, on te garantit qu'ils courront presque aussi vite à 25 ans qu'à 20 ans.",
+        "technicalDetails": "La dégradation annuelle est typiquement garantie autour de 0.4% à 0.6% pour les bons panneaux. En Wallonie, c'est crucial pour le calcul de rentabilité long terme des certificats verts ou de l'économie sur le réseau.",
+        "importance": "Vérifiez toujours ce chiffre. Une garantie linéaire faible (ex: -0.7%/an) peut vous faire perdre des milliers de kWh sur 25 ans par rapport à du -0.4%/an."
+    }
+}

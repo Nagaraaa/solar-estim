@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "FLASH (Gamme DualSun)",
+        "shortDefinition": "La gamme de panneaux photovoltaïques haute performance de DualSun (non-hybrides).",
+        "audience10yo": "C'est la famille de panneaux de DualSun qui fait juste de l'électricité, mais qui le fait très bien et pour moins cher.",
+        "technicalDetails": "La gamme FLASH utilise principalement la technologie Shingled ou Half-Cut PERC/TOPCon selon les versions. Elle offre un excellent rapport Wc/€ et est conçue pour l'autoconsommation résidentielle.",
+        "importance": "Le choix rationnel par excellence : une performance premium à un prix accessible."
+    },
+    "be": {
+        "term": "FLASH (DualSun)",
+        "shortDefinition": "Panneaux photovoltaïques optimisés pour le rendement résidentiel.",
+        "audience10yo": "Des panneaux solaires classiques mais très performants fabriqués par une marque de confiance.",
+        "technicalDetails": "Certifiés pour résister aux charges de neige et au vent, les panneaux FLASH sont parfaitement adaptés au climat wallon.",
+        "importance": "Une alternative crédible et économique aux marques asiatiques, avec un support technique francophone."
+    }
+}

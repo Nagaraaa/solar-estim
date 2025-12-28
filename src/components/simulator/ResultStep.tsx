@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { submitLead } from "@/app/actions/submitLead";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,16 +16,38 @@ interface ResultStepProps {
     countryCode: "FR" | "BE";
     region?: string | null; // For BE display
     monthlyBill: number;
+    recalculate?: (newValues: { slope: number; azimuth: number }) => void;
 }
 
 import { ResultDashboard } from "./ResultDashboard";
+import { Slider } from "@/components/ui/slider";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDown, Settings2 } from "lucide-react";
 
-export function ResultStep({ result, address, countryCode, region, monthlyBill }: ResultStepProps) {
+export function ResultStep({ result, address, countryCode, region, monthlyBill, recalculate }: ResultStepProps) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [phoneError, setPhoneError] = useState<string | null>(null);
     const [isAgreed, setIsAgreed] = useState(false);
     const [token, setToken] = useState<string | null>(null);
+
+    // Advanced Params State (use result details as initial defaults)
+    const [slope, setSlope] = useState(result.details.slope ?? 35);
+    const [azimuth, setAzimuth] = useState(result.details.azimuth ?? 0);
+    const [isOpen, setIsOpen] = useState(false);
+
+    // Debounce recalculation
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            // Only trigger if values differ from what's potentially in result
+            // Check if recalculate is provided
+            if (recalculate && (slope !== (result.details.slope ?? 35) || azimuth !== (result.details.azimuth ?? 0))) {
+                recalculate({ slope, azimuth });
+            }
+        }, 800); // 800ms debounce
+        return () => clearTimeout(timer);
+    }, [slope, azimuth, recalculate, result.details.slope, result.details.azimuth]);
+
 
     // Validation Logic
     const validatePhone = (phone: string): boolean => {
@@ -62,6 +84,55 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill }
                     </div>
                 </div>
             )}
+
+            {/* Advanced Settings */}
+            <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full space-y-2 border border-slate-200 rounded-lg p-4 bg-white shadow-sm">
+                <div className="flex items-center justify-between w-full">
+                    <h4 className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                        <Settings2 className="w-4 h-4" />
+                        Paramètres Avancés (Toiture)
+                    </h4>
+                    <CollapsibleTrigger asChild>
+                        <Button variant="ghost" size="sm" className="w-9 p-0">
+                            <ChevronDown className={cn("h-4 w-4 transition-all", isOpen && "rotate-180")} />
+                            <span className="sr-only">Toggle</span>
+                        </Button>
+                    </CollapsibleTrigger>
+                </div>
+                <CollapsibleContent className="space-y-6 pt-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {/* Inclinaison */}
+                        <div className="space-y-4">
+                            <div className="flex justify-between">
+                                <Label className="text-slate-600">Inclinaison (Pente)</Label>
+                                <span className="text-sm font-bold text-brand bg-brand/10 px-2 rounded">{slope}°</span>
+                            </div>
+                            <Slider
+                                value={[slope]}
+                                onValueChange={(vals) => setSlope(vals[0])}
+                                max={90}
+                                step={1}
+                            />
+                            <p className="text-xs text-slate-400">0° = Plat, 90° = Vertical. Optimal ~35°.</p>
+                        </div>
+                        {/* Orientation */}
+                        <div className="space-y-4">
+                            <div className="flex justify-between">
+                                <Label className="text-slate-600">Orientation (Azimut)</Label>
+                                <span className="text-sm font-bold text-brand bg-brand/10 px-2 rounded">{azimuth}°</span>
+                            </div>
+                            <Slider
+                                value={[azimuth]}
+                                onValueChange={(vals) => setAzimuth(vals[0])}
+                                max={180}
+                                min={-180}
+                                step={5}
+                            />
+                            <p className="text-xs text-slate-400">-90° = Est, 0° = Sud, 90° = Ouest.</p>
+                        </div>
+                    </div>
+                </CollapsibleContent>
+            </Collapsible>
 
             {/* 1. Dashboard Visualization */}
             <ResultDashboard result={result} monthlyBill={monthlyBill} />

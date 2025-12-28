@@ -101,6 +101,15 @@ export default function SimulatorPage() {
                             address={form.getValues("address")}
                             countryCode="FR"
                             monthlyBill={form.getValues("monthlyBill")}
+                            recalculate={(params) => {
+                                // Trigger recalculation without changing step
+                                calculate({
+                                    ...form.getValues(),
+                                    ...coordinates,
+                                    slope: params.slope,
+                                    azimuth: params.azimuth
+                                });
+                            }}
                         />
                     )}
                 </CardContent>

@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Shingled (Tuilé)",
+        "shortDefinition": "Technique d'assemblage où les cellules solaires sont découpées en bandes et superposées comme des tuiles pour éliminer les espaces vides.",
+        "audience10yo": "Imagine que tu poses des feuilles de papier les unes sur les autres comme des tuiles sur un toit, au lieu de les poser côte à côte avec un espace. Ça fait plus de papier sur la même table !",
+        "technicalDetails": "La technologie Shingled utilise la découpe laser pour diviser les cellules en 5 ou 6 bandes. Elles sont ensuite connectées par une colle conductrice (ECA) qui remplace les soudures métalliques fragiles. Cela réduit la résistance interne et améliore la tolérance à l'ombrage partiel.",
+        "importance": "C'est le secret de la gamme DualSun FLASH pour offrir une haute puissance et une esthétique soignée à un prix compétitif."
+    },
+    "be": {
+        "term": "Shingled (Technologie Tuilée)",
+        "shortDefinition": "Architecture de panneau solaire où les cellules se chevauchent, augmentant la surface active et la solidité.",
+        "audience10yo": "C'est comme des écailles de poisson : les cellules se recouvrent un peu les unes les autres pour ne pas laisser de trou.",
+        "technicalDetails": "En éliminant les espaces inter-cellules (environ 2-3mm sur un module standard), le Shingled augmente la surface active du module de 10-15%. La connexion souple par adhésif conducteur rend le panneau plus résistant aux variations de température fréquentes en Belgique.",
+        "importance": "Une technologie recommandée pour son rapport qualité/prix et sa robustesse face aux ombrages (cheminées, arbres)."
+    }
+}

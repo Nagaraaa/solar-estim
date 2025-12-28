@@ -13,6 +13,8 @@ export interface SimulationResult {
         pvgisProductionPerKwc: number; // kWh/kWc
         region?: string; // BE region
         futureProofMode?: boolean; // Advice flag
+        slope?: number; // Used slope (tilt)
+        azimuth?: number; // Used azimuth (aspect)
     };
 }
 
@@ -22,4 +24,6 @@ export interface SimulationInput {
     lat?: number;
     lon?: number;
     countryCode?: "FR" | "BE";
+    slope?: number; // 0-90
+    azimuth?: number; // -180 to 180
 }

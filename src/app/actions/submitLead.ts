@@ -88,13 +88,18 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
         const formattedDate = `${dateStr} ${timeStr}`;
 
         // MAPPING STRICT:
-        // [Date] | [Pays] | [Nom] | [Tel] | [CP] | [Facture actuelle] | [Prod estimée] | [Coût Net] | [ROI (ans)]
+        // [Date] | [Pays] | [Nom] | [Tel] | [CP] | [Facture actuelle] | [Prod estimée] | [Coût Net] | [ROI (ans)] | [Inclinaison] | [Orientation]
 
         const consumptionEst = simulationResult.estimatedConsumption ? `${simulationResult.estimatedConsumption} kWh/an` : "Non défini";
         const powerEst = `${simulationResult.systemSize} kWc`;
         const netCostEst = simulationResult.netCost ? `${simulationResult.netCost} €` : (simulationResult.totalCost ? `${simulationResult.totalCost} €` : "N/A");
         const roiEst = simulationResult.roiYears ? `${simulationResult.roiYears} ans` : "N/A";
+        // Correction format Bill
         const monthlyBill = simulationResult.monthlyBill ? `${simulationResult.monthlyBill} €/mois` : "N/A";
+
+        // Get Details
+        const slope = simulationResult.details?.slope ?? "35 (Défaut)";
+        const azimuth = simulationResult.details?.azimuth ?? "0 (Sud)";
 
         const row = [
             formattedDate,          // Date
@@ -105,7 +110,9 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
             monthlyBill,            // Facture actuelle
             `${simulationResult.annualProduction} kWh/an`, // Prod estimée
             netCostEst,             // Coût Net
-            roiEst                  // ROI (ans)
+            roiEst,                 // ROI (ans)
+            slope,                  // Inclinaison
+            azimuth                 // Orientation
         ];
 
         console.log("📝 Saving to Sheets:", row);

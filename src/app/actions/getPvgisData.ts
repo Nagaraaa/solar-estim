@@ -1,13 +1,12 @@
 'use server'
 
-export async function getPvgisData(lat: number, lon: number, peakPower: number) {
+export async function getPvgisData(lat: number, lon: number, peakPower: number, angle: number = 35, aspect: number = 0) {
     // 1. On vérifie les entrées pour le débogage (supprimé en prod)
 
     // 2. Construction de l'URL pour l'API PVGIS
-    // On force : Pente (angle) = 35°, Orientation (aspect) = 0 (Sud)
     // Si la puissance (peakPower) est manquante, on met 3 kWc par défaut
     const safePower = peakPower || 3;
-    const url = `https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?lat=${lat}&lon=${lon}&peakpower=${safePower}&loss=14&angle=35&aspect=0&outputformat=json`;
+    const url = `https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?lat=${lat}&lon=${lon}&peakpower=${safePower}&loss=14&angle=${angle}&aspect=${aspect}&outputformat=json`;
 
     try {
         const res = await fetch(url, { cache: 'no-store' }); // On ne garde pas en cache pour avoir des données fraiches

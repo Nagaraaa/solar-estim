@@ -5,6 +5,8 @@ export interface Details {
     pvgisProductionPerKwc: number;
     region?: string;
     futureProofMode?: boolean; // New flag for expert note
+    slope?: number;
+    azimuth?: number;
 }
 
 export interface SimulationResult {
@@ -77,13 +79,15 @@ interface EngineInput {
     countryCode: string;
     address: string;
     pvgisProductionPerKwc: number;
+    slope?: number;
+    azimuth?: number;
 }
 
 export function calculateRecommendedSystem(input: EngineInput): SimulationResult {
     const electricityPriceFr = 0.25;
     const electricityPriceBe = 0.37; // Updated BE Price
 
-    const { countryCode, monthlyBill, pvgisProductionPerKwc, lat, lon, address } = input;
+    const { countryCode, monthlyBill, pvgisProductionPerKwc, lat, lon, address, slope, azimuth } = input;
     const pricePerKwh = countryCode === "BE" ? electricityPriceBe : electricityPriceFr;
 
     // 1. Estimate Consumption
@@ -185,7 +189,9 @@ export function calculateRecommendedSystem(input: EngineInput): SimulationResult
             lon,
             pvgisProductionPerKwc,
             region,
-            futureProofMode
+            futureProofMode,
+            slope,
+            azimuth
         }
     };
 }

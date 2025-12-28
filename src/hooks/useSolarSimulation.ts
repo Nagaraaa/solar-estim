@@ -40,7 +40,9 @@ export function useSolarSimulation() {
 
             // 2. PVGIS Production (STRICT SERVER ACTION)
             let annualProductionPerKwc = 0;
-            annualProductionPerKwc = await getPvgisData(lat, lon, 1);
+            const slope = input.slope ?? 35;
+            const azimuth = input.azimuth ?? 0;
+            annualProductionPerKwc = await getPvgisData(lat, lon, 1, slope, azimuth);
 
             // 3. Financial Algorithm (Delegated to Engine)
             const inputEngine = {
@@ -49,7 +51,10 @@ export function useSolarSimulation() {
                 lon,
                 countryCode: country,
                 address: input.address,
-                pvgisProductionPerKwc: annualProductionPerKwc
+                pvgisProductionPerKwc: annualProductionPerKwc,
+                // Pass through new params to be stored in result details
+                slope,
+                azimuth
             };
 
             const calculationResult = calculateRecommendedSystem(inputEngine);

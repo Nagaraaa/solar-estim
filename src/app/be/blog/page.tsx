@@ -21,8 +21,46 @@ export default async function BlogIndex() {
                 </p>
             </div>
 
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                {posts.slice(0, 3).map((post) => (
+                    <Link key={post.slug} href={`/be/blog/${post.slug}`} className="group">
+                        <Card className="h-full hover:shadow-xl transition-all duration-300 border-slate-200">
+                            <div className="relative h-56 w-full">
+                                <Image
+                                    src={post.image}
+                                    alt={post.imageAlt || post.title}
+                                    fill
+                                    className="object-cover rounded-t-lg"
+                                />
+                            </div>
+                            <CardHeader>
+                                <div className="flex justify-between items-center mb-2">
+                                    <span className="text-xs font-bold text-brand uppercase tracking-wider">{post.category}</span>
+                                    <span className="text-xs text-slate-400 capitalize">
+                                        {new Date(post.date).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })}
+                                    </span>
+                                </div>
+                                <CardTitle className="text-2xl group-hover:text-brand transition-colors line-clamp-2">
+                                    {post.title}
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <CardDescription className="text-base line-clamp-3">
+                                    {post.summary}
+                                </CardDescription>
+                                <div className="mt-6 flex items-center text-brand font-bold text-sm">
+                                    Lire l'article &rarr;
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
+                ))}
+            </div>
+
+
+
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {posts.map((post) => (
+                {posts.slice(3).map((post) => (
                     <Link key={post.slug} href={`/be/blog/${post.slug}`} className="group">
                         <Card className="h-full hover:shadow-xl transition-all duration-300 border-slate-200">
                             <div className="relative h-56 w-full">

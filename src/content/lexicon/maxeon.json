@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Maxeon (Technologie SunPower)",
+        "shortDefinition": "La technologie phare de SunPower utilisant des cellules à contact arrière (IBC) pour une robustesse et une esthétique maximales.",
+        "audience10yo": "C'est le nom de la technologie 'super-héroïne' de SunPower. C'est grâce à elle que leurs panneaux sont s'ils solides qu'on pourrait presque danser dessus.",
+        "technicalDetails": "Maxeon repose sur une base cuivre massive qui prévient la corrosion et les fissures. Contrairement aux cellules standards, elle ne subit pas de dégradation induite par la lumière (LID) initiale.",
+        "importance": "C'est la garantie d'avoir la technologie la plus fiable du marché, capable de traverser 40 ans sans broncher."
+    },
+    "be": {
+        "term": "Maxeon (SunPower)",
+        "shortDefinition": "Gamme premium de SunPower, célèbre pour sa durabilité et son rendement élevé en lumière diffuse.",
+        "audience10yo": "Le haut de gamme des panneaux solaires. C'est comme le moteur d'une voiture de course.",
+        "technicalDetails": "En Belgique, la technologie Maxeon est prisée pour sa sensibilité spectrale large : elle capte mieux la lumière bleue (ciel nuageux) que les panneaux conventionnels.",
+        "importance": "Un investissement de sécurité absolue pour les toitures belges exposées aux vents et aux intempéries."
+    }
+}

@@ -29,9 +29,12 @@ function getRandomIntro(cityName: string) {
 // 1. Static Generation for high performance SEO
 export async function generateStaticParams() {
     const slugs = getAllCitySlugs();
-    return slugs.map((slug) => ({
-        city: slug,
-    }));
+    // Exclude 'montpellier' as it has its own static page
+    return slugs
+        .filter(slug => slug !== 'montpellier')
+        .map((slug) => ({
+            city: slug,
+        }));
 }
 
 // 2. Dynamic Metadata
