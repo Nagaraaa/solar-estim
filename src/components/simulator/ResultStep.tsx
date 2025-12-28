@@ -18,14 +18,15 @@ interface ResultStepProps {
     monthlyBill: number;
     recalculate?: (newValues: { slope: number; azimuth: number }) => void;
     isCalculating?: boolean;
+    simulationError?: string | null;
 }
 
 import { ResultDashboard } from "./ResultDashboard";
 import { Slider } from "@/components/ui/slider";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, Settings2, Loader2 } from "lucide-react";
+import { ChevronDown, Settings2, Loader2, AlertCircle } from "lucide-react";
 
-export function ResultStep({ result, address, countryCode, region, monthlyBill, recalculate, isCalculating = false }: ResultStepProps) {
+export function ResultStep({ result, address, countryCode, region, monthlyBill, recalculate, isCalculating = false, simulationError }: ResultStepProps) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [phoneError, setPhoneError] = useState<string | null>(null);
@@ -38,14 +39,15 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
     const [isOpen, setIsOpen] = useState(false);
 
     // Check if local state differs from result (Pending Update)
-    const isPending = slope !== (result.details.slope ?? 35) || azimuth !== (result.details.azimuth ?? 0);
-    const isBusy = isCalculating || isPending;
+    // IMPORTANT: If there is an error, we consider the update "done" (failed) so we unblock the UI.
+    const isPending = (slope !== (result.details.slope ?? 35) || azimuth !== (result.details.azimuth ?? 0)) && !simulationError;
+    const isBusy = (isCalculating || isPending) && !simulationError;
 
     // Debounce recalculation
     useEffect(() => {
         const timer = setTimeout(() => {
             // Only trigger if values differ from what's potentially in result
-            // Check if recalculate is provided
+            // Check if recalculate is provided. DO NOT trigger if we already have an error for this state unless values changed again.
             if (recalculate && isPending) {
                 recalculate({ slope, azimuth });
             }
@@ -97,6 +99,7 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
                         <Settings2 className="w-4 h-4" />
                         Paramètres Avancés (Toiture)
                         {isBusy && <Loader2 className="h-3 w-3 animate-spin text-brand" />}
+                        {simulationError && <AlertCircle className="h-4 w-4 text-red-500" />}
                     </h4>
                     <CollapsibleTrigger asChild>
                         <Button variant="ghost" size="sm" className="w-9 p-0">
@@ -106,6 +109,12 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
                     </CollapsibleTrigger>
                 </div>
                 <CollapsibleContent className="space-y-6 pt-4">
+                    {simulationError && (
+                        <div className="bg-red-50 border border-red-200 text-red-600 p-3 rounded-md text-sm flex items-center gap-2">
+                            <AlertCircle className="h-4 w-4 shrink-0" />
+                            <p>{simulationError} - Veuillez réessayer.</p>
+                        </div>
+                    )}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Inclinaison */}
                         <div className="space-y-4">
