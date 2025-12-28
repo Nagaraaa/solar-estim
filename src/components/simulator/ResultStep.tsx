@@ -45,6 +45,9 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
 
     // Debounce recalculation
     useEffect(() => {
+        // Prevent infinite loop: Do not schedule if already calculating
+        if (isCalculating) return;
+
         const timer = setTimeout(() => {
             // Only trigger if values differ from what's potentially in result
             // Check if recalculate is provided. DO NOT trigger if we already have an error for this state unless values changed again.
@@ -53,7 +56,7 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
             }
         }, 800); // 800ms debounce
         return () => clearTimeout(timer);
-    }, [slope, azimuth, recalculate, isPending]);
+    }, [slope, azimuth, recalculate, isPending, isCalculating]);
 
 
     // Validation Logic
