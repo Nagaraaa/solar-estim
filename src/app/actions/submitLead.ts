@@ -22,6 +22,8 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
         };
 
         // 0. Security Turnstile
+        console.log("🔍 SubmitLead received Details:", simulationResult.details); // DEBUG
+
         if (!token) {
             return { success: false, error: "Validation de sécurité manquante (Captcha)." };
         }

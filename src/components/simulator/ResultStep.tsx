@@ -17,14 +17,15 @@ interface ResultStepProps {
     region?: string | null; // For BE display
     monthlyBill: number;
     recalculate?: (newValues: { slope: number; azimuth: number }) => void;
+    isCalculating?: boolean;
 }
 
 import { ResultDashboard } from "./ResultDashboard";
 import { Slider } from "@/components/ui/slider";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, Settings2 } from "lucide-react";
+import { ChevronDown, Settings2, Loader2 } from "lucide-react";
 
-export function ResultStep({ result, address, countryCode, region, monthlyBill, recalculate }: ResultStepProps) {
+export function ResultStep({ result, address, countryCode, region, monthlyBill, recalculate, isCalculating = false }: ResultStepProps) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [phoneError, setPhoneError] = useState<string | null>(null);
@@ -36,17 +37,21 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
     const [azimuth, setAzimuth] = useState(result.details.azimuth ?? 0);
     const [isOpen, setIsOpen] = useState(false);
 
+    // Check if local state differs from result (Pending Update)
+    const isPending = slope !== (result.details.slope ?? 35) || azimuth !== (result.details.azimuth ?? 0);
+    const isBusy = isCalculating || isPending;
+
     // Debounce recalculation
     useEffect(() => {
         const timer = setTimeout(() => {
             // Only trigger if values differ from what's potentially in result
             // Check if recalculate is provided
-            if (recalculate && (slope !== (result.details.slope ?? 35) || azimuth !== (result.details.azimuth ?? 0))) {
+            if (recalculate && isPending) {
                 recalculate({ slope, azimuth });
             }
         }, 800); // 800ms debounce
         return () => clearTimeout(timer);
-    }, [slope, azimuth, recalculate, result.details.slope, result.details.azimuth]);
+    }, [slope, azimuth, recalculate, isPending]);
 
 
     // Validation Logic
@@ -91,6 +96,7 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
                     <h4 className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                         <Settings2 className="w-4 h-4" />
                         Paramètres Avancés (Toiture)
+                        {isBusy && <Loader2 className="h-3 w-3 animate-spin text-brand" />}
                     </h4>
                     <CollapsibleTrigger asChild>
                         <Button variant="ghost" size="sm" className="w-9 p-0">
@@ -135,7 +141,9 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
             </Collapsible>
 
             {/* 1. Dashboard Visualization */}
-            <ResultDashboard result={result} monthlyBill={monthlyBill} />
+            <div className={cn("transition-opacity duration-300", isBusy ? "opacity-50 pointer-events-none" : "opacity-100")}>
+                <ResultDashboard result={result} monthlyBill={monthlyBill} />
+            </div>
 
             {/* 3. Lead Capture Form */}
             {isSubmitted ? (
@@ -242,15 +250,22 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
 
                             <Button
                                 type="submit"
-                                disabled={!isAgreed || !token}
+                                disabled={!isAgreed || !token || isBusy}
                                 className={cn(
                                     "w-full h-14 text-lg font-bold mt-4 shadow-xl transition-all duration-300",
-                                    (isAgreed && token)
+                                    (isAgreed && token && !isBusy)
                                         ? "bg-brand text-slate-900 hover:bg-brand/90"
                                         : "bg-slate-300 text-slate-500 cursor-not-allowed shadow-none"
                                 )}
                             >
-                                ENVOYER MA DEMANDE &gt;&gt;
+                                {isBusy ? (
+                                    <span className="flex items-center gap-2">
+                                        <Loader2 className="h-5 w-5 animate-spin" />
+                                        Mise à jour de l'étude...
+                                    </span>
+                                ) : (
+                                    "ENVOYER MA DEMANDE >>"
+                                )}
                             </Button>
                             <p className="text-xs text-slate-400 text-center mt-4 px-2">
                                 Vos données restent confidentielles et sécurisées.
@@ -262,4 +277,3 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
         </div>
     );
 }
-

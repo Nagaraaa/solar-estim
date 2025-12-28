@@ -101,6 +101,7 @@ export default function SimulatorPage() {
                             address={form.getValues("address")}
                             countryCode="FR"
                             monthlyBill={form.getValues("monthlyBill")}
+                            isCalculating={loading}
                             recalculate={(params) => {
                                 // Trigger recalculation without changing step
                                 calculate({
