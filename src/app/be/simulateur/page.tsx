@@ -132,6 +132,17 @@ export default function SimulatorPageBe() {
                             countryCode="BE"
                             region={region}
                             monthlyBill={form.getValues("monthlyBill")}
+                            isCalculating={loading}
+                            simulationError={error}
+                            recalculate={(params) => {
+                                calculate({
+                                    ...form.getValues(),
+                                    ...coordinates,
+                                    countryCode: "BE",
+                                    slope: params.slope,
+                                    azimuth: params.azimuth
+                                });
+                            }}
                         />
                     )}
                 </CardContent>
