@@ -11,6 +11,7 @@ import { ArticleSchema } from "@/components/seo/ArticleSchema";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { AutoLink } from "@/components/content/AutoLink";
 import { ComparatorSection } from "@/components/sections/ComparatorSection";
+import remarkGfm from "remark-gfm";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -93,6 +94,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                             <React.Fragment key={index}>
                                 <div className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-brand hover:prose-a:text-yellow-500">
                                     <ReactMarkdown
+                                        remarkPlugins={[remarkGfm]}
                                         components={{
                                             p: ({ children }) => {
                                                 if (typeof children === 'string') {

@@ -11,6 +11,7 @@ import { ArticleSchema } from "@/components/seo/ArticleSchema";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { AutoLink } from "@/components/content/AutoLink";
 import { ComparatorSection } from "@/components/sections/ComparatorSection";
+import remarkGfm from "remark-gfm";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -103,21 +104,14 @@ export default async function BlogPostPage({ params }: PageProps) {
                             <React.Fragment key={index}>
                                 <div className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-brand hover:prose-a:text-yellow-500">
                                     <ReactMarkdown
+                                        remarkPlugins={[remarkGfm]}
                                         components={{
                                             p: ({ children }) => {
-                                                // Use AutoLink for paragraphs
-                                                // We need to extract text content. 
-                                                // Children can be complex.
                                                 if (typeof children === 'string') {
                                                     return <p className="mb-4"><AutoLink text={children} country="FR" /></p>;
                                                 }
-                                                // If children is array (e.g. bold text inside), we might miss autolinking parts.
-                                                // For now, let's just return p. 
-                                                // Ideally AutoLink should parse the full raw text, but ReactMarkdown parses it first.
                                                 return <p className="mb-4">{children}</p>;
                                             },
-                                            // Handle links to internal pages with proper prefixing if needed logic is complex
-                                            // But AutoLink handles most terms.
                                         }}
                                     >
                                         {part}

@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export function ComparatorSection() {
     return (
-        <section className="py-16 bg-slate-50 border-y border-slate-200">
+        <section className="py-16 bg-slate-50 border-y border-slate-200 overflow-hidden">
             <div className="container mx-auto px-4">
                 <div className="flex flex-col lg:flex-row items-center gap-12">
 
