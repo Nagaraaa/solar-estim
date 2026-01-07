@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getAllPosts } from "@/lib/blog";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { BlogHeader } from "@/components/blog/BlogHeader";
 
 export const metadata = {
     title: "Blog & Actualités Solaires | Solar-Estim",
@@ -14,12 +15,7 @@ export default async function BlogIndex() {
 
     return (
         <div className="container mx-auto px-4 py-12 md:py-20">
-            <div className="text-center mb-16">
-                <h1 className="text-4xl font-extrabold text-slate-900 mb-4">Le Blog Solaire</h1>
-                <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-                    Décrypter le marché de l'énergie pour vous aider à faire les bons choix.
-                </p>
-            </div>
+            <BlogHeader />
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
                 {posts.slice(0, 3).map((post) => (

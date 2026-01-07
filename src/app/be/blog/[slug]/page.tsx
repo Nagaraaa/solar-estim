@@ -68,7 +68,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
                 {/* Main Content */}
                 <article className="lg:col-span-2 prose prose-slate prose-lg max-w-none">
-                    <div className="relative w-full h-[300px] md:h-[400px] mb-8 rounded-xl overflow-hidden shadow-lg">
+                    <div className="relative w-full aspect-[21/9] mb-8 rounded-xl overflow-hidden shadow-lg">
                         <Image
                             src={post.image}
                             alt={post.imageAlt || post.title}
@@ -77,16 +77,26 @@ export default async function BlogPostPage({ params }: PageProps) {
                             priority
                         />
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">{post.title}</h1>
-                    <div className="flex items-center gap-4 text-sm text-slate-500 mb-10 pb-10 border-b border-slate-100">
-                        <span className="bg-brand/10 text-brand-foreground px-3 py-1 rounded-full font-bold">{post.category}</span>
-                        <span className="capitalize">Publié le {new Date(post.date).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })}</span>
-                        {post.author && (
-                            <span className="flex items-center gap-2">
-                                <span className="hidden md:inline">•</span>
-                                <span>Par <span className="font-semibold text-slate-900">{post.author}</span></span>
+                    {/* Header Block */}
+                    <div className="mb-10 pb-8 border-b border-slate-100">
+                        <span className="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider text-amber-600 uppercase bg-amber-50 rounded-full border border-amber-100">
+                            {post.category}
+                        </span>
+                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-slate-900 via-slate-800 to-slate-600 mb-6 leading-tight">
+                            {post.title}
+                        </h1>
+                        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium text-slate-500">
+                            <span className="capitalize flex items-center gap-2">
+                                <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                {new Date(post.date).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })}
                             </span>
-                        )}
+                            {post.author && (
+                                <span className="flex items-center gap-2">
+                                    <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                                    <span>Par <span className="font-bold text-slate-900 underline decoration-amber-400/50 underline-offset-4">{post.author}</span></span>
+                                </span>
+                            )}
+                        </div>
                     </div>
 
                     <div className="space-y-6">
@@ -96,12 +106,20 @@ export default async function BlogPostPage({ params }: PageProps) {
                                     <ReactMarkdown
                                         remarkPlugins={[remarkGfm]}
                                         components={{
-                                            p: ({ children }) => {
+                                            p: ({ node, children }) => {
                                                 if (typeof children === 'string') {
                                                     return <p className="mb-4"><AutoLink text={children} country="BE" /></p>;
                                                 }
                                                 return <p className="mb-4">{children}</p>;
                                             },
+                                            img: (props) => (
+                                                <span className="block my-8 relative group">
+                                                    <img
+                                                        {...props}
+                                                        className="rounded-xl shadow-lg border border-slate-200 w-full h-auto object-cover transform transition-all duration-500 hover:scale-[1.01] hover:shadow-xl"
+                                                    />
+                                                </span>
+                                            ),
                                             a: ({ node, ...props }) => {
                                                 const href = props.href || "";
                                                 const isLexicon = href.startsWith("/lexique");
