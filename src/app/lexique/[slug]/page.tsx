@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, BookOpen, Cpu, Info } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import Image from "next/image";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -57,17 +58,31 @@ export default async function LexiconPage({ params }: PageProps) {
             </Link>
 
             <article className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-                <div className="bg-slate-900 p-8 md:p-12 text-white">
-                    <div className="flex items-center gap-3 text-brand mb-4">
-                        <BookOpen className="h-6 w-6" />
-                        <span className="font-bold uppercase tracking-wider text-sm">Définition</span>
+                <div className="bg-slate-900 p-8 md:p-12 text-white relative overflow-hidden">
+                    {term.image && (
+                        <div className="absolute inset-0 opacity-20">
+                            <Image
+                                src={term.image}
+                                alt={term.term}
+                                fill
+                                className="object-cover"
+                                priority
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-900/50" />
+                        </div>
+                    )}
+                    <div className="relative z-10">
+                        <div className="flex items-center gap-3 text-brand mb-4">
+                            <BookOpen className="h-6 w-6" />
+                            <span className="font-bold uppercase tracking-wider text-sm">Définition</span>
+                        </div>
+                        <h1 className="text-3xl md:text-5xl font-extrabold mb-4">
+                            C'est quoi {term.term} ?
+                        </h1>
+                        <p className="text-xl text-slate-300">
+                            {term.shortDefinition}
+                        </p>
                     </div>
-                    <h1 className="text-3xl md:text-5xl font-extrabold mb-4">
-                        C'est quoi {term.term} ?
-                    </h1>
-                    <p className="text-xl text-slate-300">
-                        {term.shortDefinition}
-                    </p>
                 </div>
 
                 <div className="p-8 md:p-12 space-y-12">

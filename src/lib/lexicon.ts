@@ -9,6 +9,7 @@ export interface LexiconContent {
     audience10yo: string;
     technicalDetails: string;
     importance: string;
+    image?: string;
 }
 
 export interface LexiconEntry {

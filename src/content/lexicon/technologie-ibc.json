@@ -1,0 +1,18 @@
+{
+    "fr": {
+        "term": "Technologie IBC",
+        "shortDefinition": "Interdigitated Back Contact. Technologie de cellules solaires haut de gamme où tous les contacts électriques sont placés à l'arrière pour maximiser la surface de captage.",
+        "audience10yo": "Imagine un panneau solaire sans aucune ligne métallique sur le dessus. Tout le câblage est caché derrière ! C'est comme un téléviseur sans bordure : plus joli et capte plus de lumière.",
+        "technicalDetails": "La technologie **IBC (Interdigitated Back Contact)** déplace les contacts métalliques (busbars et doigts) de la face avant vers la face arrière de la cellule. \n\n### Avantages clés :\n1. **Zéro Ombrage** : Aucune grille métallique ne bloque la lumière sur la face avant.\n2. **Rendement Record** : Permet d'atteindre des efficacités >24% (contre 21-22% pour le PERC standard).\n3. **Esthétique Pure** : Une surface noire uniforme, idéale pour les toitures résidentielles premium.\n\n### Marques Phares :\n* **Maxeon (anciennement SunPower)** : Le pionnier historique avec sa série Maxeon.\n* **Aiko Solar** : Un nouveau leader qui démocratise l'IBC avec ses modules 'Black Hole'.\n\nPour en savoir plus, consultez la [page officielle de la technologie Maxeon](https://sunpower.maxeon.com/fr/technologie-panneaux-solaires/technologie-ibc).",
+        "importance": "Offre le meilleur rendement au m² disponible sur le marché, idéal pour les petites toitures qui veulent maximiser la production.",
+        "image": "/images/lexicon/technologie-ibc.png"
+    },
+    "be": {
+        "term": "Technologie IBC",
+        "shortDefinition": "Cellules à contacts arrière, le summum de l'esthétique et du rendement.",
+        "audience10yo": "Idem.",
+        "technicalDetails": "Idem. En Belgique, l'avantage est double : un esthétisme parfait pour les nouvelles constructions et une production maximale même sur les toits de taille modeste (villes ou mitoyennes).",
+        "importance": "Maximise la puissance installée sur une surface limitée.",
+        "image": "/images/lexicon/technologie-ibc.png"
+    }
+}
