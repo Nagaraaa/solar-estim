@@ -56,6 +56,11 @@ export function Footer() {
                             </Link>
                         </li>
                         <li><Link href="/lexique" className="hover:text-brand transition-colors">Lexique Solaire</Link></li>
+                        <li>
+                            <Link href={isBe ? "/be/comparateur" : "/comparateur"} className="hover:text-brand transition-colors">
+                                Comparateur Technique
+                            </Link>
+                        </li>
                     </ul>
                 </div>
 

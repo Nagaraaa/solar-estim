@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "RESCert",
+        "shortDefinition": "Certification de compétence pour les installateurs d'énergie renouvelable (équivalent RGE belge).",
+        "audience10yo": "Le diplôme qui prouve que l'installateur sait ce qu'il fait.",
+        "technicalDetails": "Bien que le terme soit belge, en France on parle de RGE (Reconnu Garant de l'Environnement). RESCert est la certification officielle en Belgique prouvant la compétence théorique et pratique.",
+        "importance": "Gage de qualité et souvent nécessaire pour certaines primes régionales."
+    },
+    "be": {
+        "term": "RESCert",
+        "shortDefinition": "Certification officielle belge pour les installateurs de renouvelable.",
+        "audience10yo": "Idem.",
+        "technicalDetails": "Obligatoire pour obtenir certaines primes (exemple Prime Qualiwatt à l'époque) et gage de sérieux technique. Vérifiez toujours le numéro RESCert de votre installateur.",
+        "importance": "La preuve que votre installateur est formé et reconnu par la région."
+    }
+}

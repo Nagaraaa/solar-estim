@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Dégradation Annuelle",
+        "shortDefinition": "Perte naturelle de puissance du panneau chaque année (vieillissement).",
+        "audience10yo": "Comme une pile rechargeable qui dure un peu moins longtemps chaque année. Les meilleurs panneaux s'usent très lentement.",
+        "technicalDetails": "Un panneau standard perd environ 0.5% à 0.7% par an. Les panneaux Premium (SunPower, DualSun, Meyer Burger) garantissent une dégradation très faible (souvent < 0.25%/an), assurant plus de 90% de puissance initiale même après 25 ou 30 ans.",
+        "importance": "Détermine la quantité totale d'énergie produite sur la vie du système. Une faible dégradation = milliers de kWh en plus."
+    },
+    "be": {
+        "term": "Dégradation Annuelle",
+        "shortDefinition": "Taux d'usure annuel de la performance du module PV.",
+        "audience10yo": "Idem.",
+        "technicalDetails": "Idem. Crucial pour le calcul de rentabilité long terme, surtout avec l'incertitude des prix de l'énergie futurs.",
+        "importance": "Garantit la valeur de votre investissement sur 30 ans ou plus."
+    }
+}

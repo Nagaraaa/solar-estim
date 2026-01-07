@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Panneau solaire",
+        "shortDefinition": "Module captant la lumière du soleil pour la transformer en électricité (photovoltaïque) ou en chaleur (thermique).",
+        "audience10yo": "C'est une grande plaque noire ou bleue qu'on met sur le toit. Elle attrape les rayons du soleil pour fabriquer de l'électricité pour ta télé et tes lumières.",
+        "technicalDetails": "Composé de cellules en silicium (monocristallin ou polycristallin) connectées en série. La lumière excite les électrons du silicium, créant un courant continu (DC). On mesure sa puissance en Watt-crête (Wc).",
+        "importance": "C'est le générateur d'énergie. Sa qualité détermine le rendement surfacique et la durabilité de l'installation."
+    },
+    "be": {
+        "term": "Panneau solaire",
+        "shortDefinition": "Module photovoltaïque convertissant le rayonnement solaire en électricité.",
+        "audience10yo": "Idem.",
+        "technicalDetails": "Idem. En Belgique, on privilégie souvent les panneaux à haut rendement (type SunPower, Maxeon ou modules Bi-verre) pour maximiser la production malgré un ensoleillement diffus.",
+        "importance": "Base de l'installation. Permet de réduire drastiquement la facture et de valoriser le certificat vert (selon région/année)."
+    }
+}

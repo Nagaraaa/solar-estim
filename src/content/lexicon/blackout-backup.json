@@ -1,0 +1,22 @@
+{
+    "term": "Blackout Backup",
+    "slug": "blackout-backup",
+    "definitions": {
+        "fr": {
+            "simple": "C'est une fonction de secours. Si le réseau électrique général tombe en panne, votre batterie prend le relais instantanément pour alimenter votre maison (ou certains appareils critiques).",
+            "technical": "Système permettant à l'onduleur et à la batterie de créer un micro-réseau (îlotage) en cas de perte du réseau public. Nécessite un système de découplage physique (Gateway ou Backup Box) pour protéger les techniciens réseau. Peut être partiel (circuits critiques) ou total (toute la maison).",
+            "related": [
+                "Onduleur Hybride",
+                "Site Isolé"
+            ]
+        },
+        "be": {
+            "simple": "C'est une fonction de secours. Si le réseau électrique général tombe en panne, votre batterie prend le relais instantanément pour alimenter votre maison (ou certains appareils critiques).",
+            "technical": "Système permettant à l'onduleur et à la batterie de créer un micro-réseau (îlotage) en cas de perte du réseau public. Nécessite un système de découplage physique (Gateway ou Backup Box) pour protéger les techniciens réseau. Peut être partiel (circuits critiques) ou total (toute la maison).",
+            "related": [
+                "Onduleur Hybride",
+                "Site Isolé"
+            ]
+        }
+    }
+}

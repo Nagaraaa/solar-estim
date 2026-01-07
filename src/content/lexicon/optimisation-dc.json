@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Optimisation DC",
+        "shortDefinition": "Technologie permettant d'ajuster la tension de chaque panneau pour maximiser la production, même avec de l'ombre.",
+        "audience10yo": "C'est comme si chaque panneau avait un coach personnel qui l'aide à donner le meilleur de lui-même, même s'il est un peu fatigué ou à l'ombre.",
+        "technicalDetails": "L'optimisation DC (utilisée par SolarEdge) maintient une tension fixe sur la chaîne (string) tout en permettant à chaque panneau de varier son courant. Cela évite qu'un panneau ombragé ne 'bride' toute la chaîne (effet goulot d'étranglement).",
+        "importance": "Indispensable sur les toitures complexes ou ombragées pour ne pas perdre 20 à 30% de production. Permet aussi un monitoring panneau par panneau."
+    },
+    "be": {
+        "term": "Optimisation DC",
+        "shortDefinition": "Gestion intelligente de chaque panneau pour éviter les pertes dues à l'ombrage.",
+        "audience10yo": "Un petit boîtier intelligent derrière chaque panneau qui empêche les autres d'être ralentis si l'un d'eux est à l'ombre.",
+        "technicalDetails": "Idem France. En Belgique, l'optimisation est aussi cruciale pour maximiser la production sur les toits à orientations multiples (est-ouest) souvent rencontrés.",
+        "importance": "Maximise le rendement annuel et offre une sécurité supplémentaire (SafeDC) en réduisant la tension à 1V par module en cas de coupure."
+    }
+}

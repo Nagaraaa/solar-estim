@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "MPPT",
+        "shortDefinition": "Maximum Power Point Tracker. Algorithme électronique qui force le panneau solaire à fonctionner à sa puissance maximale à chaque instant.",
+        "audience10yo": "C'est un petit cerveau dans l'onduleur qui vérifie en permanence que les panneaux donnent toute leur force, même si le soleil bouge.",
+        "technicalDetails": "Le point de puissance maximale (Pmax = Vmp x Imp) varie selon l'ensoleillement et la température. Le MPPT ajuste l'impédance de charge toutes les millisecondes pour rester sur ce point optimal. Les optimiseurs et micro-onduleurs font du MPPT 'au niveau du module', ce qui est plus efficace en cas d'ombrage partiel.",
+        "importance": "Sans MPPT, on perdrait 20 à 30% de la production dès qu'un nuage passe. C'est le secret du rendement."
+    },
+    "be": {
+        "term": "MPPT",
+        "shortDefinition": "Tracker de Point de Puissance Maximale (Maximale Power Point Tracking).",
+        "audience10yo": "Idem.",
+        "technicalDetails": "Idem. En Belgique, où le ciel est souvent variable (nuages/soleil), un MPPT réactif (surtout distribué comme chez SolarEdge/Enphase) est crucial pour maximiser le 'Yield'.",
+        "importance": "Essentiel pour rentabiliser l'installation sous nos latitudes variables."
+    }
+}

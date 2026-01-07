@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Module AC",
+        "shortDefinition": "Panneau solaire avec micro-onduleur intégré en usine, produisant directement du courant alternatif.",
+        "audience10yo": "C'est un panneau solaire 'tout-en-un' qui a déjà son propre petit transformateur collé au dos. Il est prêt à être branché !",
+        "technicalDetails": "Un Module AC combine un module photovoltaïque (DC) et un micro-onduleur (souvent Enphase ou APsystems) assemblés en usine. Cela simplifie la logistique et l'installation, car il n'y a pas de montage de micro-onduleur à faire sur le toit.",
+        "importance": "Simplifie la pose et garantit une compatibilité parfaite entre le panneau et l'onduleur. Souvent utilisé pour les kits plug-and-play ou les installations haut de gamme."
+    },
+    "be": {
+        "term": "Module AC",
+        "shortDefinition": "Panneau avec micro-onduleur pré-monté, délivrant directement du 230V.",
+        "audience10yo": "Un super-panneau qui fabrique directement de l'électricité comme celle des prises de la maison.",
+        "technicalDetails": "Similaire à la France. En Belgique, l'utilisation de Modules AC peut simplifier la réception RGIE car le câblage DC est inexistant (tout est en AC sur le toit).",
+        "importance": "Gain de temps à l'installation et sécurité accrue (pas de haute tension DC)."
+    }
+}

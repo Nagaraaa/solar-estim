@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Monitoring",
+        "shortDefinition": "Système de suivi en temps réel de votre production solaire via une application mobile ou web.",
+        "audience10yo": "C'est comme le tableau de bord d'une voiture, mais pour ta maison : ça te dit exactement combien d'électricité tes panneaux fabriquent à chaque instant.",
+        "technicalDetails": "Le monitoring (ou supervision) est assuré par l'onduleur ou le micro-onduleur qui communique via Wi-Fi, Ethernet ou 4G avec un serveur cloud. Il permet de visualiser la production (kWh), la consommation, et parfois l'état de chaque panneau individuellement (avec micro-onduleurs ou optimiseurs).",
+        "importance": "Crucial pour détecter rapidement une panne (ex: un onduleur HS) et optimiser son autoconsommation en lançant ses machines quand la courbe de production est haute."
+    },
+    "be": {
+        "term": "Monitoring",
+        "shortDefinition": "Système de suivi en temps réel de votre production et injection via une application.",
+        "audience10yo": "C'est comme une appli de jeu qui te montre combien d'énergie verte tu as gagné aujourd'hui grâce au soleil.",
+        "technicalDetails": "En Belgique, le monitoring est essentiel pour gérer l'injection (et éviter les frais de déséquilibre pour les gros systèmes) et surveiller la performance pour garantir les Certificats Verts (si applicable). Il se connecte souvent au port P1 du compteur digital.",
+        "importance": "Indispensable pour maximiser l'autoconsommation et donc rentabiliser l'installation face au Tarif Prosumer."
+    }
+}

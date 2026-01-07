@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Bilan Carbone",
+        "shortDefinition": "Quantité totale de CO2 émise lors de la fabrication et du transport du panneau solaire.",
+        "audience10yo": "C'est comme le sac à dos de pollution du panneau. Plus il est léger, mieux c'est pour la planète.",
+        "technicalDetails": "Exprimé en kg CO2/kWc. En France, un bilan carbone inférieur à 550 kg CO2/kWc est souvent exigé pour les appels d'offres (CRE) et certains projets aidés. Les panneaux européens (DualSun, Meyer Burger) ont souvent un bien meilleur score que les panneaux asiatiques grâce à l'électricité décarbonée utilisée pour leur production.",
+        "importance": "Crucial pour l'impact écologique réel et pour l'éligibilité à certaines primes en France (Critères Carbone Simplifié)."
+    },
+    "be": {
+        "term": "Bilan Carbone",
+        "shortDefinition": "Empreinte CO2 globale du cycle de vie du module photovoltaïque.",
+        "audience10yo": "Idem.",
+        "technicalDetails": "Idem. Bien que moins contraignant réglementairement en Wallonie pour les particuliers, un faible bilan carbone reste un argument fort pour les écologistes convaincus cherchant une cohérence totale dans leur démarche verte.",
+        "importance": "Un critère éthique majeur pour une transition énergétique cohérente."
+    }
+}

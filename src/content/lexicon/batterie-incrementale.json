@@ -1,0 +1,22 @@
+{
+    "term": "Batterie Incrémentale",
+    "slug": "batterie-incrementale",
+    "definitions": {
+        "fr": {
+            "simple": "C'est une batterie composée de 'briques' empilables. Vous pouvez commencer avec une petite capacité (ex: 5kWh) et ajouter des blocs plus tard si vos besoins augmentent (voiture électrique, piscine...).",
+            "technical": "Architecture modulaire de stockage d'énergie où la capacité totale est la somme de plusieurs modules de batterie indépendants ou connectés en série/parallèle. Permet un dimensionnement précis et une évolutivité (scalabilité) du système dans le temps sans remplacer l'onduleur.",
+            "related": [
+                "Huawei Luna",
+                "Stockage"
+            ]
+        },
+        "be": {
+            "simple": "C'est une batterie composée de 'briques' empilables. Vous pouvez commencer avec une petite capacité (ex: 5kWh) et ajouter des blocs plus tard si vos besoins augmentent (voiture électrique, piscine...).",
+            "technical": "Architecture modulaire de stockage d'énergie où la capacité totale est la somme de plusieurs modules de batterie indépendants ou connectés en série/parallèle. Permet un dimensionnement précis et une évolutivité (scalabilité) du système dans le temps sans remplacer l'onduleur.",
+            "related": [
+                "Huawei Luna",
+                "Stockage"
+            ]
+        }
+    }
+}

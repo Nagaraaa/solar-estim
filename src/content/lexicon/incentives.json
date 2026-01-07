@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Incentives",
+        "shortDefinition": "Aides financières ou primes gouvernementales pour encourager le solaire.",
+        "audience10yo": "C'est l'argent de poche que donne l'État pour t'aider à acheter tes panneaux.",
+        "technicalDetails": "En France : Obligation d'Achat (EDF OA), Prime à l'autoconsommation, TVA réduite, MaPrimeRénov' (selon revenus). Nécessite souvent RGE.",
+        "importance": "Réduit considérablement le coût initial et améliore le ROI."
+    },
+    "be": {
+        "term": "Incentives",
+        "shortDefinition": "Primes et soutiens régionaux (Wallonie, Bruxelles, Flandre) pour le photovoltaïque.",
+        "audience10yo": "Idem.",
+        "technicalDetails": "Variable selon les régions (ex: Prime batterie, Certificats Verts à Bruxelles, mais fin des primes directes en Wallonie/Flandre pour le PV simple).",
+        "importance": "À vérifier selon votre code postal pour optimiser le budget."
+    }
+}

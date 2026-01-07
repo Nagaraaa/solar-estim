@@ -1,0 +1,24 @@
+{
+    "term": "Cycle de vie (LFP)",
+    "slug": "cycle-de-vie",
+    "definitions": {
+        "fr": {
+            "simple": "C'est l'espérance de vie de votre batterie. Un cycle = une charge complète + une décharge complète. Plus le chiffre est haut, plus votre batterie durera longtemps (souvent 15-20 ans pour le LFP).",
+            "technical": "Mesure de la longévité d'une batterie, exprimée en nombre de cycles complets (100% à 0% puis à 100%) avant que sa capacité de rétention ne tombe sous un seuil (généralement 80% ou 70% SOH - State of Health). La chimie LFP (Lithium Fer Phosphate) offre > 6000 cycles contre ~800 pour le Plomb.",
+            "related": [
+                "DOD",
+                "Lithium-Ion",
+                "SOH"
+            ]
+        },
+        "be": {
+            "simple": "C'est l'espérance de vie de votre batterie. Un cycle = une charge complète + une décharge complète. Plus le chiffre est haut, plus votre batterie durera longtemps (souvent 15-20 ans pour le LFP).",
+            "technical": "Mesure de la longévité d'une batterie, exprimée en nombre de cycles complets (100% à 0% puis à 100%) avant que sa capacité de rétention ne tombe sous un seuil (généralement 80% ou 70% SOH - State of Health). La chimie LFP (Lithium Fer Phosphate) offre > 6000 cycles contre ~800 pour le Plomb.",
+            "related": [
+                "DOD",
+                "Lithium-Ion",
+                "SOH"
+            ]
+        }
+    }
+}

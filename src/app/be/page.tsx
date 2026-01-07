@@ -2,6 +2,7 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { FeatureSection } from "@/components/sections/FeatureSection";
 import { BlogPreviewSection } from "@/components/sections/BlogPreviewSection";
 import { CtaSection } from "@/components/sections/CtaSection";
+import { ComparatorSection } from "@/components/sections/ComparatorSection";
 
 export const metadata = {
     title: "Rentabilité Solaire Belgique 2025 | Simulateur Gratuit Wallonie",
@@ -21,6 +22,8 @@ export default function HomeBe() {
             />
 
             <FeatureSection variant="BE" />
+
+            <ComparatorSection />
 
             <BlogPreviewSection country="BE" />
 

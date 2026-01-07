@@ -1,29 +1,19 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-    // Check if we are on the root path
-    if (request.nextUrl.pathname === '/') {
-        // Check for country cookie
-        const countryCookie = request.cookies.get('solar_country')?.value;
-        const geoCountry = request.headers.get('x-vercel-ip-country');
+    const url = request.nextUrl.clone();
+    const hostname = url.hostname;
 
-        // Priority: Cookie > GeoIP
-        const country = countryCookie || geoCountry;
-
-        // If country is Belgium (BE), redirect to the Belgian homepage
-        // Only redirect if we detect BE preference/location and we are not already going there (which we aren't, since we are at '/')
-        if (country === 'BE') {
-            return NextResponse.redirect(new URL('/be', request.url))
-        }
+    // Force non-www
+    if (hostname.startsWith('www.')) {
+        url.hostname = hostname.replace('www.', '');
+        return NextResponse.redirect(url, 301);
     }
 
-    // Continue to the requested page
-    return NextResponse.next()
+    return NextResponse.next();
 }
 
-// Configure matcher to only run on the root path for performance
-// This prevents the middleware from running on every single image/asset request
 export const config = {
-    matcher: '/',
-}
+    matcher: '/:path*',
+};

@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "Onduleur Hybride",
+        "shortDefinition": "Onduleur capable de gérer à la fois les panneaux solaires ET une batterie de stockage.",
+        "audience10yo": "C'est un super-onduleur qui sait faire deux choses : envoyer l'électricité dans la maison et la garder dans une grosse pile pour la nuit.",
+        "technicalDetails": "Contrairement à un onduleur réseau standard, l'hybride possède une entrée DC pour les panneaux et une entrée/sortie DC (ou AC) pour la batterie. Il intègre le BMS (Battery Management System) ou communique avec. Permet souvent le fonctionnement en mode secours (Back-up) en cas de coupure réseau.",
+        "importance": "Indispensable si vous visez l'indépendance énergétique ou si vous voulez ajouter une batterie plus tard (Ready-to-battery)."
+    },
+    "be": {
+        "term": "Onduleur Hybride",
+        "shortDefinition": "Onduleur intelligent gérant panneaux photovoltaïques et stockage stationnaire.",
+        "audience10yo": "Idem.",
+        "technicalDetails": "Idem. En Wallonie, avec la fin progressive de la compensation (compteur qui tourne à l'envers), l'onduleur hybride devient la norme pour maximiser l'autoconsommation instantanée et éviter le prélèvement réseau coûteux.",
+        "importance": "La clé de l'autoconsommation en Belgique post-compteur qui tourne à l'envers."
+    }
+}

@@ -3,6 +3,8 @@ import { FeatureSection } from "@/components/sections/FeatureSection";
 import { BlogPreviewSection } from "@/components/sections/BlogPreviewSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 
+import { ComparatorSection } from "@/components/sections/ComparatorSection";
+
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -13,6 +15,8 @@ export default function Home() {
       />
 
       <FeatureSection variant="FR" />
+
+      <ComparatorSection />
 
       <BlogPreviewSection country="FR" />
 
