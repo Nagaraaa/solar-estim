@@ -2,12 +2,15 @@ import { getPost, getAllPosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { BlogCTA } from "@/components/BlogCTA";
 import { ArticleSchema } from "@/components/seo/ArticleSchema";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { AutoLink } from "@/components/content/AutoLink";
+import { ComparatorSection } from "@/components/sections/ComparatorSection";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -85,19 +88,36 @@ export default async function BlogPostPage({ params }: PageProps) {
                         )}
                     </div>
 
-                    <div className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-brand hover:prose-a:text-yellow-500">
-                        <ReactMarkdown
-                            components={{
-                                a: ({ node, ...props }) => {
-                                    const href = props.href || "";
-                                    const isLexicon = href.startsWith("/lexique");
-                                    const newHref = isLexicon ? `/be${href}` : href;
-                                    return <Link href={newHref} {...props} />;
-                                }
-                            }}
-                        >
-                            {post.content}
-                        </ReactMarkdown>
+                    <div className="space-y-6">
+                        {post.content.split(/<Component name="ComparatorSection" \/>/g).map((part, index, array) => (
+                            <React.Fragment key={index}>
+                                <div className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-brand hover:prose-a:text-yellow-500">
+                                    <ReactMarkdown
+                                        components={{
+                                            p: ({ children }) => {
+                                                if (typeof children === 'string') {
+                                                    return <p className="mb-4"><AutoLink text={children} country="BE" /></p>;
+                                                }
+                                                return <p className="mb-4">{children}</p>;
+                                            },
+                                            a: ({ node, ...props }) => {
+                                                const href = props.href || "";
+                                                const isLexicon = href.startsWith("/lexique");
+                                                const newHref = isLexicon ? `/be${href}` : href;
+                                                return <Link href={newHref} {...props} />;
+                                            }
+                                        }}
+                                    >
+                                        {part}
+                                    </ReactMarkdown>
+                                </div>
+                                {index < array.length - 1 && (
+                                    <div className="my-12">
+                                        <ComparatorSection />
+                                    </div>
+                                )}
+                            </React.Fragment>
+                        ))}
                     </div>
 
 

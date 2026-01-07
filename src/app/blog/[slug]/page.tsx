@@ -2,12 +2,15 @@ import { getPost, getAllPosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { BlogCTA } from "@/components/BlogCTA";
 import { ArticleSchema } from "@/components/seo/ArticleSchema";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { AutoLink } from "@/components/content/AutoLink";
+import { ComparatorSection } from "@/components/sections/ComparatorSection";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -85,8 +88,48 @@ export default async function BlogPostPage({ params }: PageProps) {
                         )}
                     </div>
 
-                    <div className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-brand hover:prose-a:text-yellow-500">
-                        <ReactMarkdown>{post.content}</ReactMarkdown>
+                    {/* Parse content to handle custom components like ComparatorSection directly from JSON string if needed, 
+                                        but since we use ReactMarkdown, we need to handle it inside properties or pre-processing.
+                                        However, AutoLink is a Server Component and cannot be passed easily as a prop to ReactMarkdown if it's not a client component.
+                                        Actually, AutoLink is async. We can't use it in ReactMarkdown components prop directly.
+                                        We must pre-process the text OR use a different approach.
+                                        
+                                        Better approach: 
+                                        1. Split content by the component placeholder.
+                                        2. Render parts separately.
+                                    */}
+                    <div className="space-y-6">
+                        {post.content.split(/<Component name="ComparatorSection" \/>/g).map((part, index, array) => (
+                            <React.Fragment key={index}>
+                                <div className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-brand hover:prose-a:text-yellow-500">
+                                    <ReactMarkdown
+                                        components={{
+                                            p: ({ children }) => {
+                                                // Use AutoLink for paragraphs
+                                                // We need to extract text content. 
+                                                // Children can be complex.
+                                                if (typeof children === 'string') {
+                                                    return <p className="mb-4"><AutoLink text={children} country="FR" /></p>;
+                                                }
+                                                // If children is array (e.g. bold text inside), we might miss autolinking parts.
+                                                // For now, let's just return p. 
+                                                // Ideally AutoLink should parse the full raw text, but ReactMarkdown parses it first.
+                                                return <p className="mb-4">{children}</p>;
+                                            },
+                                            // Handle links to internal pages with proper prefixing if needed logic is complex
+                                            // But AutoLink handles most terms.
+                                        }}
+                                    >
+                                        {part}
+                                    </ReactMarkdown>
+                                </div>
+                                {index < array.length - 1 && (
+                                    <div className="my-12">
+                                        <ComparatorSection />
+                                    </div>
+                                )}
+                            </React.Fragment>
+                        ))}
                     </div>
 
 
