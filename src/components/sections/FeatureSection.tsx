@@ -20,7 +20,7 @@ const container = {
 
 const item = {
     hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 50 } }
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 50 } as const }
 };
 
 export function FeatureSection({ variant }: FeatureSectionProps) {
