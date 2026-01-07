@@ -115,7 +115,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                                 </div>
                                 {index < array.length - 1 && (
                                     <div className="my-12">
-                                        <ComparatorSection />
+                                        <ComparatorSection country="BE" />
                                     </div>
                                 )}
                             </React.Fragment>

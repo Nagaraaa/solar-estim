@@ -6,7 +6,13 @@ import { ArrowRight, Scale, ShieldCheck, Zap } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-export function ComparatorSection() {
+interface ComparatorSectionProps {
+    country?: "FR" | "BE";
+}
+
+export function ComparatorSection({ country = "FR" }: ComparatorSectionProps) {
+    const baseUrl = country === "BE" ? "/be" : "";
+
     return (
         <section className="py-8 overflow-hidden">
             <motion.div
@@ -45,7 +51,7 @@ export function ComparatorSection() {
                                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold tracking-wide shadow-lg"
                             >
                                 <Scale className="w-3.5 h-3.5 text-amber-400" />
-                                GUIDE 2026
+                                GUIDE 2026 {country === "BE" ? "(BE)" : ""}
                             </motion.div>
                         </div>
 
@@ -73,7 +79,7 @@ export function ComparatorSection() {
                                     Ne choisissez pas <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">au hasard.</span>
                                 </h2>
                                 <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                                    Micro-onduleurs ou Optimiseurs ? Un mauvais choix peut réduire votre production de <strong className="text-slate-900">20%</strong>.
+                                    Micro-onduleurs ou Optimiseurs ? Un mauvais choix peut réduire votre production de <strong className="text-slate-900">20%</strong>{country === "BE" ? " sous la grisaille belge" : ""}.
                                 </p>
                             </div>
 
@@ -83,7 +89,7 @@ export function ComparatorSection() {
                                     className="bg-slate-900 hover:bg-slate-800 text-white rounded-full px-6 shadow-lg hover:shadow-xl transition-all h-12 text-sm md:text-base w-full sm:w-auto"
                                     asChild
                                 >
-                                    <Link href="/comparateur/enphase-vs-solaredge">
+                                    <Link href={`${baseUrl}/comparateur/enphase-vs-solaredge`}>
                                         Voir le Duel <ArrowRight className="ml-2 w-4 h-4" />
                                     </Link>
                                 </Button>
@@ -93,7 +99,7 @@ export function ComparatorSection() {
                                     className="rounded-full px-6 border-2 border-slate-100 hover:bg-slate-50 hover:border-slate-200 text-slate-700 h-12 text-sm md:text-base w-full sm:w-auto"
                                     asChild
                                 >
-                                    <Link href="/comparateur">Tous les tests</Link>
+                                    <Link href={`${baseUrl}/comparateur`}>Tous les tests</Link>
                                 </Button>
                             </div>
 

@@ -23,7 +23,7 @@ export default function HomeBe() {
 
             <FeatureSection variant="BE" />
 
-            <ComparatorSection />
+            <ComparatorSection country="BE" />
 
             <BlogPreviewSection country="BE" />
 
