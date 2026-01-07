@@ -51,6 +51,7 @@ export function ComparatorSection() {
                                     alt="Enphase vs SolarEdge"
                                     fill
                                     className="object-cover opacity-90"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                 />
                                 <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black/80 to-transparent w-full">
                                     <div className="text-white font-bold text-lg">Le verdict d'expert 2026</div>
