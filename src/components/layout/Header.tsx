@@ -33,6 +33,7 @@ export function Header() {
 
                 <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-700">
                     <Link href={isBe ? "/be" : "/"} className="hover:text-brand transition-colors">Accueil</Link>
+                    <Link href={blogLink} className="hover:text-brand transition-colors text-slate-500">Blog</Link>
                     <Link href={guideLink} className="hover:text-brand transition-colors text-slate-500">Guide 2026</Link>
                     <CountrySelector variant="header" />
                     <Link href={simuLink}>
