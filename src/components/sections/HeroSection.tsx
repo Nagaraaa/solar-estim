@@ -16,12 +16,12 @@ export function HeroSection({ title, subtitle, ctaLink, backgroundImage }: HeroS
     return (
         <section className="relative py-20 lg:py-32 overflow-hidden bg-slate-900 text-white">
             <Image
-                src={backgroundImage || "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80"}
+                src="/images/hero-background.jpg"
                 alt="Panneaux solaires sur toit"
                 fill
                 priority
                 className="object-cover object-center opacity-20"
-                sizes="100vw"
+                sizes="(max-width: 768px) 100vw, 100vw"
             />
             <div className="container relative z-10 px-4 md:px-6 mx-auto text-center">
                 <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6">
