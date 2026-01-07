@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { FadeIn } from "@/components/ui/fade-in";
 import { getAllPosts } from "@/lib/blog";
@@ -30,10 +31,15 @@ export async function BlogPreviewSection({ country }: BlogPreviewSectionProps) {
                         {recentPosts.map((post, i) => (
                             <Link key={i} href={`${blogBaseUrl}/${post.slug}`} className="group">
                                 <Card className="h-full hover:shadow-lg hover:scale-105 transition-all duration-300 border-slate-200">
-                                    <div
-                                        className="h-48 bg-slate-200 w-full object-cover rounded-t-lg bg-cover bg-center"
-                                        style={{ backgroundImage: `url(${post.image})` }}
-                                    />
+                                    <div className="relative h-48 bg-slate-200 w-full rounded-t-lg overflow-hidden">
+                                        <Image
+                                            src={post.image}
+                                            alt={post.title}
+                                            fill
+                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        />
+                                    </div>
                                     <CardContent className="p-6">
                                         <div className="text-xs font-semibold text-brand uppercase tracking-wider mb-2">
                                             {post.category}
