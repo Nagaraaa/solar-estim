@@ -96,7 +96,7 @@ export default function PolitiqueConfidentialite() {
 
                 <div className="border-t border-slate-200 pt-6 mt-8">
                     <p className="text-sm text-slate-500">
-                        Dernière mise à jour : 20/12/2025
+                        Dernière mise à jour : 20/01/2026
                     </p>
                 </div>
             </div>

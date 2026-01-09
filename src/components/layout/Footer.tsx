@@ -80,7 +80,7 @@ export function Footer() {
                 </div>
             </div>
             <div className="container mx-auto px-4 mt-12 pt-8 border-t border-slate-200 text-center text-xs text-slate-400">
-                &copy; 2025 Solar Estim. Tous droits réservés.
+                &copy; 2026 Solar Estim. Tous droits réservés.
             </div>
         </footer>
     );

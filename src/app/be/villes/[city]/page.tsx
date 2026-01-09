@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, MapPin, CheckCircle, Info } from "lucide-react";
+import { ArrowRight, MapPin, CheckCircle, Info, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FadeIn } from "@/components/ui/fade-in";
@@ -15,6 +15,45 @@ interface PageProps {
         city: string;
     }>;
 }
+
+// --- SPINTAX HELPER ---
+function getSeed(str: string): number {
+    let seed = 0;
+    for (let i = 0; i < str.length; i++) {
+        seed = (seed << 5) - seed + str.charCodeAt(i);
+        seed |= 0;
+    }
+    return Math.abs(seed);
+}
+
+function spin(options: string[], seed: number, index: number): string {
+    const combinedSeed = seed + index;
+    return options[combinedSeed % options.length];
+}
+
+// --- DYNAMIC INTERNAL LINKS (BE) ---
+const LEXICON_ARTICLES = [
+    { title: "Certification RESCert Obligatoire", slug: "rescert-installateur-photovoltaique", label: "Info RESCert" },
+    { title: "Comprendre le Tarif Prosumer", slug: "tarif-prosumer-wallonie-2025", label: "Guide Prosumer" },
+    { title: "Primes Région Wallonne 2026", slug: "primes-solaire-belgique-2025", label: "Primes 2026" },
+    { title: "Technologie IBC vs TOPCon", slug: "technologies-solaires-2026-ibc-topcon-hjt-be", label: "Comparatif Tech" },
+];
+
+const DynamicLexiconLink = ({ seed }: { seed: number }) => {
+    const article = LEXICON_ARTICLES[seed % LEXICON_ARTICLES.length];
+    return (
+        <div className="mt-8 pt-6 border-t border-slate-100">
+            <p className="text-sm text-slate-500 font-medium mb-2">Pour aller plus loin :</p>
+            <Link href={`/be/blog/${article.slug}`} className="group flex items-center gap-3 p-3 rounded-lg bg-slate-50 hover:bg-brand/5 border border-slate-200 transition-colors">
+                <div className="bg-white p-2 rounded-full shadow-sm group-hover:scale-110 transition-transform">
+                    <BookOpen className="w-4 h-4 text-brand" />
+                </div>
+                <span className="text-slate-700 group-hover:text-brand font-semibold">{article.title}</span>
+                <ArrowRight className="w-4 h-4 text-slate-400 ml-auto group-hover:translate-x-1 transition-transform" />
+            </Link>
+        </div>
+    );
+};
 
 // 1. Static Generation for high performance SEO
 export async function generateStaticParams() {
@@ -30,14 +69,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const city = getCityBySlug(citySlug);
     if (!city) return {};
 
+    const seed = getSeed(city.slug);
+    const title = spin([
+        `Expertise Solaire à ${city.name} : Rentabilité & Devis 2026`,
+        `Installation Photovoltaïque ${city.name} : Guide Complet 2026`,
+        `Panneaux Solaires ${city.name} : Prix et Primes Wallonie`
+    ], seed, 10);
+
     return {
-        title: `Expertise Solaire à ${city.name} : Rentabilité & Devis 2025`,
-        description: `Installation photovoltaïque à ${city.name} (${city.zip}) ? Découvrez les primes wallonnes et calculez votre rentabilité solaire exacte. Devis gratuit.`,
+        title: title,
+        description: `Installation photovoltaïque à ${city.name} (${city.zip}) ? Découvrez les primes, la rentabilité réelle et les meilleurs installateurs locaux (Mise à jour 2026).`,
         alternates: {
             canonical: `https://www.solarestim.com/be/villes/${city.slug}`,
         },
         openGraph: {
-            title: `Panneaux Solaires à ${city.name} : Guide Complet 2025`,
+            title: `Panneaux Solaires à ${city.name} : Guide Complet 2026`,
             description: `Rentabilité, primes et installateurs agréés à ${city.name}. Simulez votre projet en 2 min.`,
             url: `https://www.solarestim.com/be/villes/${city.slug}`,
             type: "article",
@@ -53,55 +99,17 @@ export default async function CityPage({ params }: PageProps) {
         notFound();
     }
 
-    // 3. Local Business Schema (JSON-LD)
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "Service",
-                "name": `Installation Panneaux Solaires ${city.name}`,
-                "provider": {
-                    "@type": "Organization",
-                    "name": "Solar Estim Belgique",
-                    "url": "https://www.solarestim.com/be"
-                },
-                "serviceType": "Solar Energy System Design",
-                "areaServed": {
-                    "@type": "City",
-                    "name": city.name,
-                    "postalCode": city.zip,
-                    "addressRegion": city.region,
-                    "addressCountry": "BE"
-                },
-                "description": `Étude de rentabilité et installation de panneaux photovoltaïques à ${city.name}.`,
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "EUR",
-                    "description": "Simulation et devis gratuits"
-                }
-            },
-            {
-                "@type": "FAQPage",
-                "mainEntity": (faqs.BE || []).map(faq => ({
-                    "@type": "Question",
-                    "name": faq.question.replace("{ville}", city.name),
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": faq.answer.replace("{ville}", city.name)
-                    }
-                }))
-            }
-        ]
-    };
+    const seed = getSeed(city.slug);
+
+    // --- SPINTAX INTRO ---
+    const introText = spin([
+        `Profitez de l'ensoleillement de votre région pour réduire vos factures. Analyse de rentabilité précise et raccordement au réseau ${city.region === "Wallonie" ? "wallon" : "belge"}.`,
+        `Même en Belgique, le solaire est rentable. Découvrez le potentiel de votre toiture à ${city.name} avec notre outil de simulation certifié.`,
+        `Propriétaires à ${city.name}, ne subissez plus les hausses d'énergie. Produisez votre électricité verte dès 2026.`
+    ], seed, 0);
 
     return (
         <div className="min-h-screen bg-slate-50">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
-
             {/* Hero Section */}
             <section className="relative py-20 lg:py-32 overflow-hidden bg-slate-900 text-white">
                 <Image
@@ -118,11 +126,20 @@ export default async function CityPage({ params }: PageProps) {
                         <MapPin className="h-4 w-4" /> Expertise Locale : {city.name} ({city.zip})
                     </div>
                     <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6">
-                        Passez au solaire à <span className="text-brand">{city.name}</span>
+                        {spin([
+                            `Passez au solaire à <span class="text-brand">${city.name}</span>`,
+                            `Votre projet photovoltaïque à <span class="text-brand">${city.name}</span>`,
+                            `L'énergie solaire à <span class="text-brand">${city.name}</span>`
+                        ], seed, 11).replace(/<span class="text-brand">/g, '<span className="text-brand">')}
                     </h1>
+                    {/* Cleaner H1 Override for JSX */}
+                    <h1 className="absolute opacity-0">Passez au solaire à {city.name}</h1>
+                    <div className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6">
+                        {spin(['Passez au solaire à', 'Votre projet solaire à', 'L\'énergie solaire à'], seed, 12)} <span className="text-brand">{city.name}</span>
+                    </div>
+
                     <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-10">
-                        Profitez de l'ensoleillement de votre région pour réduire vos factures.
-                        Analyse de rentabilité précise et raccordement au réseau {city.region === "Wallonie" ? "wallon" : "belge"}.
+                        {introText}
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
                         <Link href="/be/simulateur">
@@ -142,7 +159,11 @@ export default async function CityPage({ params }: PageProps) {
                         <div className="md:col-span-8 space-y-8">
                             <FadeIn delay={200}>
                                 <h2 className="text-3xl font-bold text-slate-900 mb-6">
-                                    Pourquoi installer des panneaux photovoltaïques à {city.name} ?
+                                    {spin([
+                                        `Pourquoi installer des panneaux photovoltaïques à ${city.name} ?`,
+                                        `Rentabilité solaire à ${city.name} : Ce qu'il faut savoir`,
+                                        `Vivre à ${city.name} : L'avantage du solaire en 2026`
+                                    ], seed, 13)}
                                 </h2>
                                 <div className="prose prose-slate max-w-none text-slate-600 space-y-4 leading-relaxed">
                                     <p>
@@ -155,17 +176,20 @@ export default async function CityPage({ params }: PageProps) {
                                     </h3>
                                     <p>
                                         En Wallonie, le mécanisme du "compteur qui tourne à l'envers" reste un avantage majeur pour les installations existantes, mais les nouvelles installations bénéficient aussi d'un cadre favorable pour l'autoconsommation.
-                                        À {city.name}, maximiser votre autoconsommation est la clé pour contourner le <Link href="/be/lexique/prosumer" className="text-brand underline decoration-brand/30 hover:decoration-brand/100">tarif Prosumer</Link> et rentabiliser votre installation en moins de 7 ans.
+                                        À {city.name}, maximiser votre autoconsommation est la clé pour contourner le <Link href="/be/blog/tarif-prosumer-wallonie-2025" className="text-brand underline decoration-brand/30 hover:decoration-brand/100">tarif Prosumer</Link> et rentabiliser votre installation en moins de 7 ans.
                                     </p>
 
                                     <h3 className="text-xl font-bold text-slate-800 mt-6 flex items-center gap-2">
-                                        <CheckCircle className="h-5 w-5 text-brand" /> Valorisation de votre bien immobilier
+                                        <CheckCircle className="h-5 w-5 text-brand" /> Valorisation et Certification RESCert
                                     </h3>
                                     <p>
                                         Au-delà des économies immédiates sur votre facture d'électricité, installer des panneaux solaires à {city.name} augmente significativement le score PEB de votre habitation.
                                         C'est un investissement pérenne qui valorise votre patrimoine immobilier dans le code postal {city.zip}.
                                     </p>
                                 </div>
+
+                                {/* Dynamic Lexicon Link */}
+                                <DynamicLexiconLink seed={seed} />
 
                                 <div className="mt-8 p-6 bg-blue-50 border border-blue-100 rounded-lg flex gap-4">
                                     <Info className="h-6 w-6 text-blue-600 shrink-0 mt-1" />

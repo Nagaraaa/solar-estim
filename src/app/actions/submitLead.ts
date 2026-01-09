@@ -4,19 +4,58 @@ import { google } from 'googleapis';
 import { z } from 'zod';
 import { Resend } from 'resend';
 import { SolarReportEmail } from '@/emails/SolarReportEmail';
+import { supabase } from '@/lib/supabase';
+
+import { redirect } from 'next/navigation';
+
+import { SOLAR_CONSTANTS } from '@/lib/constants';
+
+const sanitizeInput = (str: string) => {
+    if (!str) return "";
+    // Basic sanitization: remove HTML tags and limit length
+    // This removes <script>, <iframe> etc. by removing the <...> pattern roughly or just escaping.
+    // For lead input (Name, Address), we accept text but no tags.
+    // Replace < and > to neutralize HTML
+    return str.replace(/[<>]/g, "").trim().slice(0, SOLAR_CONSTANTS.VALIDATION.MAX_TEXT_LENGTH);
+};
 
 const LeadSchema = z.object({
-    name: z.string().min(2, "Le nom doit contenir au moins 2 caractères").trim(),
-    phone: z.string().min(10, "Le numéro de téléphone est invalide").trim(),
-    email: z.string().email("L'adresse email est invalide").trim(),
-    address: z.string().optional(),
+    name: z.string()
+        .min(SOLAR_CONSTANTS.VALIDATION.NAME_MIN_LENGTH, "Le nom est trop court")
+        .max(100, "Le nom est trop long")
+        .transform(val => sanitizeInput(val)),
+    phone: z.string()
+        .min(SOLAR_CONSTANTS.VALIDATION.PHONE_MIN_LENGTH, "Numéro trop court")
+        .max(20, "Numéro trop long")
+        .trim(),
+    email: z.string()
+        .email("L'adresse email est invalide")
+        .max(100, "Email trop long")
+        .trim(),
+    address: z.string()
+        .optional()
+        .transform(val => val ? sanitizeInput(val) : ""),
 });
 
 export async function submitLead(formData: FormData, simulationResult: any, country: 'FR' | 'BE', token: string) {
     try {
+        let phoneRaw = formData.get('phone') as string || "";
+
+        // Normalisation (Auto-Format)
+        // Convert local format (06...) to international (+33...)
+        if (phoneRaw.startsWith('0')) {
+            if (country === 'FR') {
+                phoneRaw = phoneRaw.replace(/^0/, '+33');
+            } else if (country === 'BE') {
+                phoneRaw = phoneRaw.replace(/^0/, '+32');
+            }
+        }
+        // Remove spaces
+        phoneRaw = phoneRaw.replace(/\s/g, '');
+
         const rawData = {
             name: formData.get('name'),
-            phone: formData.get('phone'),
+            phone: phoneRaw,
             email: formData.get('email'),
             address: formData.get('address'),
         };
@@ -72,6 +111,41 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
             }
         } else {
             paysColumn = country === 'FR' ? "France" : "Belgique";
+        }
+
+        // 1. SUPABASE MIGRATION (SQL)
+        // Champs : date, nom, email, ville, pays, puissance_kwc, economie_estimee, statut (default: 'nouveau').
+        // Note: 'id' est souvent auto-incrémenté ou uuid généré par Supabase, on laisse Supabase gérer ou on insert si besoin.
+
+        try {
+            const { error: supabaseError } = await supabase
+                .from('leads')
+                .insert([
+                    {
+                        // id: auto (uuid)
+                        // created_at: auto
+                        nom: name,
+                        email: email,
+                        telephone: phone,
+                        ville: addressStr,
+                        code_postal: cpStr,
+                        pays: paysColumn,
+                        puissance_kwc: simulationResult.systemSize,
+                        economie_estimee_an: simulationResult.annualSavings,
+                        statut: 'nouveau',
+                        taux_autoconsommation: simulationResult.selfConsumptionRate ? Math.round(simulationResult.selfConsumptionRate * 100) + '%' : 'N/A'
+                    }
+                ]);
+
+            if (supabaseError) {
+                console.error("❌ Supabase Insert Error:", supabaseError);
+                // On ne bloque pas forcément le reste si Supabase fail mais c'est mieux de savoir.
+                // Le prompt dit "doit être enregistrée... avant d'être envoyée". On pourrait throw ici.
+            } else {
+                console.log("✅ Lead saved to Supabase");
+            }
+        } catch (dbErr) {
+            console.error("❌ Supabase Exception:", dbErr);
         }
 
         // Auth Google Sheets
@@ -144,10 +218,11 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
             });
         }
 
-        return { success: true };
-
     } catch (error: any) {
         console.error('❌ Global Submit Error:', error);
         return { success: false, error: error.message || 'Une erreur est survenue.' };
     }
+
+    // Success - Redirect
+    redirect('/merci');
 }

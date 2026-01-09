@@ -5,18 +5,22 @@ import { CtaSection } from "@/components/sections/CtaSection";
 import { ComparatorSection } from "@/components/sections/ComparatorSection";
 
 export const metadata = {
-    title: "Rentabilité Solaire Belgique 2025 | Simulateur Gratuit Wallonie",
-    description: "Simulateur photovoltaïque pour la Belgique. Calculez votre rentabilité avec ou sans batterie, le tarif prosumer et les primes régionales. Données précises.",
+    title: "Rentabilité Solaire Belgique 2026 | Simulateur Gratuit Wallonie",
+    description: "Calculez votre rentabilité photovoltaïque en Wallonie et Bruxelles. Mise à jour 2026 : Tarif Prosumer, Certificats Verts, et Primes. Simulateur précis et gratuit.",
     alternates: {
-        canonical: "https://www.solarestim.com/be",
+        canonical: 'https://www.solarestim.com/be',
+        languages: {
+            'fr-BE': 'https://www.solarestim.com/be',
+            'fr-FR': 'https://www.solarestim.com/',
+        },
     },
 };
 
-export default function HomeBe() {
+export default function BelgiumHome() {
     return (
         <div className="flex flex-col min-h-screen">
             <HeroSection
-                title={<>Rentabilité Solaire en Belgique : <span className="text-brand">Le Guide 2025</span></>}
+                title={<>Rentabilité Solaire en Belgique : <span className="text-brand">Le Guide 2026</span></>}
                 subtitle="Wallonie, Bruxelles, Flandre : Calculez votre rentabilité selon votre région."
                 ctaLink="/be/simulateur"
             />

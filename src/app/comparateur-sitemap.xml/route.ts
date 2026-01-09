@@ -1,11 +1,21 @@
+import { promises as fs } from 'fs';
+import path from 'path';
+
 const BASE_URL = 'https://solarestim.com';
 
 export async function GET() {
-    const slugs = [
-        'enphase-vs-solaredge',
-        'premium-sunpower-dualsun-meyerburger',
-        'tesla-powerwall-vs-huawei-luna'
-    ];
+    const comparateurDir = path.join(process.cwd(), 'src/app/comparateur');
+
+    let slugs: string[] = [];
+
+    try {
+        const entries = await fs.readdir(comparateurDir, { withFileTypes: true });
+        slugs = entries
+            .filter(entry => entry.isDirectory())
+            .map(entry => entry.name);
+    } catch (error) {
+        console.error('Error reading comparateur directory:', error);
+    }
 
     // Hub Pages
     const routes = [

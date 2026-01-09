@@ -1,0 +1,16 @@
+{
+    "fr": {
+        "term": "DOD (Profondeur de Décharge)",
+        "shortDefinition": "Le pourcentage de la batterie que l'on peut utiliser sans l'endommager.",
+        "audience10yo": "Imagine ta bouteille d'eau. Si tu la vides complètement, elle s'abîme. Le DOD te dit jusqu'où tu peux boire avant de devoir t'arrêter.",
+        "technicalDetails": "Depth of Discharge. Pour les batteries Lithium LFP modernes, le DOD est souvent de 90% à 100%. Pour le plomb, il était limité à 50%. Un DOD élevé signifie une meilleure rentabilité de stockage.",
+        "importance": "Crucial pour le dimensionnement : une batterie de 10kWh avec 80% de DOD ne fournit que 8kWh utiles."
+    },
+    "be": {
+        "term": "DOD (Profondeur de Décharge)",
+        "shortDefinition": "Pourcentage de capacité utilisable d'une batterie domestique.",
+        "audience10yo": "Idem.",
+        "technicalDetails": "Depth of Discharge. En Belgique, où le coût de réseau incite à l'autoconsommation, choisir une batterie avec un DOD de 100% (comme Huawei Luna ou Tesla Powerwall) est économiquement plus pertinent.",
+        "importance": "Maximise l'autonomie nocturne."
+    }
+}

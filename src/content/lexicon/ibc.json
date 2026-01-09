@@ -1,13 +1,13 @@
 {
     "fr": {
-        "term": "IBC (Interdigitated Back Contact)",
+        "term": "IBC",
         "shortDefinition": "Technologie de panneau solaire où tous les contacts électriques sont placés à l'arrière pour maximiser la surface captant la lumière.",
         "audience10yo": "Au lieu d'avoir des fils électriques qui passent devant le panneau et font de l'ombre, on les a tous cachés derrière. Comme ça, le panneau prend tout le soleil !",
         "technicalDetails": "Les cellules IBC (Interdigitated Back Contact) ont une architecture complexe où les émetteurs p et n sont interdigités sur la face arrière. Cela élimine les pertes par ombrage des busbars en face avant et réduit la résistance série. C'est la technologie phare de SunPower (Maxeon).",
         "importance": "C'est la technologie qui offre les rendements les plus élevés du marché (22-24%) et la meilleure fiabilité mécanique (moins de micro-fissures car support arrière robuste)."
     },
     "be": {
-        "term": "IBC (Contact Arrière Interdigité)",
+        "term": "IBC",
         "shortDefinition": "Une technologie premium de cellules solaires sans grille métallique en face avant, offrant un rendement supérieur.",
         "audience10yo": "C'est comme un écran de smartphone sans bords : toute la surface sert à capter l'énergie, il n'y a pas de fils qui gênent.",
         "technicalDetails": "La technologie IBC déplace toute la collecte de courant à l'arrière de la cellule. Cela permet non seulement un gain esthétique (noir pur) mais aussi thermique. En Belgique, où la lumière diffuse est fréquente, l'absence d'ombrage frontal permet de capter le moindre rayon.",

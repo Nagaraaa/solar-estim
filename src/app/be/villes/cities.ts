@@ -41,6 +41,21 @@ export const CITIES: City[] = [
     { name: "Hannut", slug: "hannut", zip: "4280", region: "Wallonie" },
     { name: "Rochefort", slug: "rochefort", zip: "5580", region: "Wallonie" },
     { name: "Spa", slug: "spa", zip: "4900", region: "Wallonie" },
+    { name: "Bruxelles", slug: "bruxelles", zip: "1000", region: "Bruxelles" },
+    { name: "Ixelles", slug: "ixelles", zip: "1050", region: "Bruxelles" },
+    { name: "Uccle", slug: "uccle", zip: "1180", region: "Bruxelles" },
+    { name: "Schaerbeek", slug: "schaerbeek", zip: "1030", region: "Bruxelles" },
+    { name: "Anderlecht", slug: "anderlecht", zip: "1070", region: "Bruxelles" },
+    { name: "Malmedy", slug: "malmedy", zip: "4960", region: "Wallonie" },
+    { name: "Saint-Nicolas", slug: "saint-nicolas", zip: "4420", region: "Wallonie" },
+    { name: "Flémalle", slug: "flemalle", zip: "4400", region: "Wallonie" },
+    { name: "Chaudfontaine", slug: "chaudfontaine", zip: "4050", region: "Wallonie" },
+    { name: "Esneux", slug: "esneux", zip: "4130", region: "Wallonie" },
+    { name: "Visé", slug: "vise", zip: "4600", region: "Wallonie" },
+    { name: "Oupeye", slug: "oupeye", zip: "4680", region: "Wallonie" },
+    { name: "Ans", slug: "ans", zip: "4430", region: "Wallonie" },
+    { name: "Grâce-Hollogne", slug: "grace-hollogne", zip: "4460", region: "Wallonie" },
+    { name: "Herve", slug: "herve", zip: "4650", region: "Wallonie" },
 ];
 
 export function getCityBySlug(slug: string): City | undefined {

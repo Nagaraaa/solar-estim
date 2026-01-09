@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CookieConsent } from "@/components/CookieConsent";
+import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -66,19 +67,38 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+import { headers } from "next/headers";
+import CountrySelectorModal from "@/components/layout/CountrySelectorModal";
+import { NonceProvider } from "@/components/providers/NonceProvider";
+import { AdminAwareLayout } from "@/components/layout/AdminAwareLayout";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const detectedCountry = headersList.get('x-detected-country') || 'FR';
+
   return (
     <html lang="fr" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
         <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1 px-4">{children}</main>
-          <Footer />
-          <CookieConsent />
+          <NonceProvider nonce={headersList.get("x-nonce") || undefined}>
+            <AdminAwareLayout
+              header={<Header />}
+              footer={<Footer />}
+              mobileCta={<StickyMobileCTA />}
+              others={
+                <>
+                  <CountrySelectorModal detectedCountry={detectedCountry} />
+                  <CookieConsent />
+                </>
+              }
+            >
+              {children}
+            </AdminAwareLayout>
+          </NonceProvider>
         </div>
       </body>
     </html>

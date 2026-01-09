@@ -7,6 +7,7 @@ export interface Details {
     futureProofMode?: boolean; // New flag for expert note
     slope?: number;
     azimuth?: number;
+    recommendation?: string;
 }
 
 export interface SimulationResult {
@@ -18,6 +19,7 @@ export interface SimulationResult {
     netCost: number; // € (After incentives)
     monthlyBill: number;
     estimatedConsumption: number;
+    selfConsumptionRate?: number; // percentage (0.35 = 35%)
     details: Details;
 }
 
@@ -83,9 +85,13 @@ interface EngineInput {
     azimuth?: number;
 }
 
+import { SOLAR_CONSTANTS } from '@/lib/constants';
+
+// ... (existing interfaces)
+
 export function calculateRecommendedSystem(input: EngineInput): SimulationResult {
-    const electricityPriceFr = 0.25;
-    const electricityPriceBe = 0.37; // Updated BE Price
+    const electricityPriceFr = SOLAR_CONSTANTS.FR.ELECTRICITY_PRICE_EUR_KWH;
+    const electricityPriceBe = SOLAR_CONSTANTS.BE.ELECTRICITY_PRICE_EUR_KWH;
 
     const { countryCode, monthlyBill, pvgisProductionPerKwc, lat, lon, address, slope, azimuth } = input;
     const pricePerKwh = countryCode === "BE" ? electricityPriceBe : electricityPriceFr;
@@ -94,19 +100,19 @@ export function calculateRecommendedSystem(input: EngineInput): SimulationResult
     const annualConsumption = (monthlyBill * 12) / pricePerKwh;
 
     // 2. Sizing Logic
-    let systemSize = 3;
+    let systemSize = SOLAR_CONSTANTS.SIZING.SYSTEM_SIZE_TIER_1;
     let futureProofMode = false;
 
-    if (monthlyBill < 60) {
+    if (monthlyBill < SOLAR_CONSTANTS.SIZING.SMALL_CONSUMPTION_LIMIT_EUR) {
         // Small consumption profile
-        systemSize = 2.5;
+        systemSize = SOLAR_CONSTANTS.SIZING.SYSTEM_SIZE_SMALL;
         futureProofMode = true; // Flag for expert note
-    } else if (annualConsumption < 4500) {
-        systemSize = 3;
-    } else if (annualConsumption < 8000) {
-        systemSize = 6;
+    } else if (annualConsumption < SOLAR_CONSTANTS.SIZING.TIER_1_LIMIT_KWH) {
+        systemSize = SOLAR_CONSTANTS.SIZING.SYSTEM_SIZE_TIER_1;
+    } else if (annualConsumption < SOLAR_CONSTANTS.SIZING.TIER_2_LIMIT_KWH) {
+        systemSize = SOLAR_CONSTANTS.SIZING.SYSTEM_SIZE_TIER_2;
     } else {
-        systemSize = 9;
+        systemSize = SOLAR_CONSTANTS.SIZING.SYSTEM_SIZE_LARGE;
     }
 
     // 3. Production
@@ -131,7 +137,7 @@ export function calculateRecommendedSystem(input: EngineInput): SimulationResult
         // Taking into account 6% TVA is handled by the generic price usually, but let's be explicit
         // User asked: "Assure-toi que le 'Coût net estimé' prend bien en compte la TVA à 6%"
         // Let's set a base cost that reflects the 6% TVA reality.
-        const costPerKwc = 1400; // This is a "good price" (TVAC 6% implied for simulation)
+        const costPerKwc = SOLAR_CONSTANTS.BE.COST_PER_KWC_EUR;
         estimatedCost = systemSize * costPerKwc;
         netCost = estimatedCost; // No generic federal rebates
 
@@ -142,38 +148,49 @@ export function calculateRecommendedSystem(input: EngineInput): SimulationResult
         if (region === "Wallonie") {
             // Updated ORES tariff: 86.96 €/kWe
             // Assuming kWe (inverter) ~= kWc (panels) for simplicity, or 2.5kVA for 2.5kWc
-            prosumerTax = systemSize * 86.96;
+            prosumerTax = systemSize * SOLAR_CONSTANTS.BE.PROSUMER_TAX_EUR_KWE;
         }
 
         annualSavings = grossSavings - prosumerTax;
         if (annualSavings < 0) annualSavings = 0;
 
     } else {
-        // --- FRANCE ---
-        const costPerKwc = 2000;
+        // --- FRANCE (Q1 2026) ---
+        // Mise à jour : Coût installation stable (ex: 2000€/kWc pour simulation basique)
+        const costPerKwc = SOLAR_CONSTANTS.FR.COST_PER_KWC_EUR;
         estimatedCost = systemSize * costPerKwc;
 
-        // Prime à l'autoconsommation
-        let primePerKwc = 0;
-        if (systemSize <= 3) primePerKwc = 300; // Zones <= 3kWc
-        else if (systemSize <= 9) primePerKwc = 230; // Zones <= 9kWc
-        else primePerKwc = 200;
-
+        // Prime à l'autoconsommation 2026 : Maintenue à 80 €/kWc (Nouvelle directive)
+        const primePerKwc = SOLAR_CONSTANTS.FR.PRIME_AUTOCONSO_EUR_KWC;
         const totalPrime = systemSize * primePerKwc;
+
         netCost = estimatedCost - totalPrime;
 
         // Detailed Savings (Self-consumption + Sale)
-        const selfConsumptionRate = 0.35;
+        // Autoconsommation : on économise sur le prix du réseau (~0.25€)
+        const selfConsumptionRate = SOLAR_CONSTANTS.FR.DEFAULT_SELF_CONSUMPTION_RATE;
         const selfConsumed = totalProduction * selfConsumptionRate;
         const exported = totalProduction * (1 - selfConsumptionRate);
 
         const savingsBill = selfConsumed * electricityPriceFr;
-        const incomeOA = exported * 0.13; // EDF OA S21 (approx)
+
+        // Vente du surplus : Nouveau tarif de rachat à 0,04 €/kWh
+        const incomeOA = exported * SOLAR_CONSTANTS.FR.SURPLUS_RESALE_EUR_KWH;
 
         annualSavings = savingsBill + incomeOA;
     }
 
     roiYears = annualSavings > 0 ? netCost / annualSavings : 99;
+
+    let recommendation = "";
+    if (countryCode === "BE" && region === "Wallonie") {
+        recommendation = "💡 Conseil Tarif Impact 2026 : Pour maximiser votre rentabilité, déplacez vos consommations (machines, recharge VE) entre 11h et 17h lorsque l'énergie solaire est abondante.";
+    }
+
+    // Default self-consumption rate for logic (consistent with FR logic)
+    const selfConsumptionRate = countryCode === "BE"
+        ? SOLAR_CONSTANTS.BE.DEFAULT_SELF_CONSUMPTION_RATE
+        : SOLAR_CONSTANTS.FR.DEFAULT_SELF_CONSUMPTION_RATE;
 
     return {
         systemSize,
@@ -184,6 +201,7 @@ export function calculateRecommendedSystem(input: EngineInput): SimulationResult
         netCost: netCost,
         monthlyBill,
         estimatedConsumption: Math.round(annualConsumption),
+        selfConsumptionRate,
         details: {
             lat,
             lon,
@@ -191,7 +209,9 @@ export function calculateRecommendedSystem(input: EngineInput): SimulationResult
             region,
             futureProofMode,
             slope,
-            azimuth
+            azimuth,
+            // @ts-ignore adding dynamic recommendation prop
+            recommendation
         }
     };
 }

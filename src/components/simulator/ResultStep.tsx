@@ -25,6 +25,7 @@ import { ResultDashboard } from "./ResultDashboard";
 import { Slider } from "@/components/ui/slider";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, Settings2, Loader2, AlertCircle } from "lucide-react";
+import { useNonce } from "@/components/providers/NonceProvider";
 
 export function ResultStep({ result, address, countryCode, region, monthlyBill, recalculate, isCalculating = false, simulationError }: ResultStepProps) {
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -32,6 +33,7 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
     const [phoneError, setPhoneError] = useState<string | null>(null);
     const [isAgreed, setIsAgreed] = useState(false);
     const [token, setToken] = useState<string | null>(null);
+    const nonce = useNonce();
 
     // Advanced Params State (use result details as initial defaults)
     const [slope, setSlope] = useState(result.details.slope ?? 35);
@@ -252,6 +254,9 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
                                         onError={(err) => {
                                             console.error("Turnstile Error:", err);
                                             setSubmitError("Erreur de connexion au service de sécurité.");
+                                        }}
+                                        scriptOptions={{
+                                            nonce: nonce,
                                         }}
                                         options={{
                                             theme: 'light',

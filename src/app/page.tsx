@@ -4,6 +4,7 @@ import { BlogPreviewSection } from "@/components/sections/BlogPreviewSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 
 import { ComparatorSection } from "@/components/sections/ComparatorSection";
+import { TrustSection } from "@/components/sections/TrustSection";
 
 export default function Home() {
   return (
@@ -19,6 +20,8 @@ export default function Home() {
       <ComparatorSection />
 
       <BlogPreviewSection country="FR" />
+
+      <TrustSection />
 
       <CtaSection ctaLink="/simulateur" />
     </div>

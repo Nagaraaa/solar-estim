@@ -1,0 +1,39 @@
+export const SOLAR_CONSTANTS = {
+    // France
+    FR: {
+        ELECTRICITY_PRICE_EUR_KWH: 0.25,
+        COST_PER_KWC_EUR: 2000,
+        PRIME_AUTOCONSO_EUR_KWC: 80,
+        SURPLUS_RESALE_EUR_KWH: 0.04,
+        DEFAULT_SELF_CONSUMPTION_RATE: 0.35, // 35%
+        PHONE_PREFIX: '+33',
+        PHONE_REGEX: /^0[1-9]\d{8}$/,
+        PHONE_PLACEHOLDER: "06 12 34 56 78"
+    },
+    // Belgique
+    BE: {
+        ELECTRICITY_PRICE_EUR_KWH: 0.37,
+        COST_PER_KWC_EUR: 1400, // TVAC 6% implicit
+        PROSUMER_TAX_EUR_KWE: 86.96, // Wallonie ORES average
+        DEFAULT_SELF_CONSUMPTION_RATE: 0.40, // 40%
+        PHONE_PREFIX: '+32',
+        PHONE_REGEX: /^0\d{8,9}$/,
+        PHONE_PLACEHOLDER: "0470 12 34 56"
+    },
+    // Sizing
+    SIZING: {
+        SMALL_CONSUMPTION_LIMIT_EUR: 60, // Monthly Bill < 60€
+        TIER_1_LIMIT_KWH: 4500,
+        TIER_2_LIMIT_KWH: 8000,
+        SYSTEM_SIZE_SMALL: 2.5,
+        SYSTEM_SIZE_TIER_1: 3,
+        SYSTEM_SIZE_TIER_2: 6,
+        SYSTEM_SIZE_LARGE: 9,
+    },
+    // Security / Validation
+    VALIDATION: {
+        NAME_MIN_LENGTH: 2,
+        PHONE_MIN_LENGTH: 10,
+        MAX_TEXT_LENGTH: 500, // Prevent abuse
+    }
+};

@@ -1,10 +1,10 @@
 {
     "fr": {
-        "term": "TOPCon (Tunnel Oxide Passivated Contact)",
+        "term": "TOPCon",
         "shortDefinition": "La nouvelle génération de cellules solaires qui succède au PERC, offrant de meilleurs rendements, surtout par temps chaud.",
         "audience10yo": "C'est une amélioration invisible à l'intérieur de la cellule qui permet de piéger plus de lumière et de laisser moins d'énergie s'échapper.",
         "technicalDetails": "Le TOPCon ajoute une couche ultra-fine d'oxyde tunnel qui minimise les pertes par recombinaison électronique. Cela permet d'atteindre des rendements de cellule dépassant les 25% en laboratoire.",
-        "importance": "C'est le nouveau standard 2025/2026. Si on vous propose du PERC aujourd'hui, c'est de l'ancienne génération."
+        "importance": "C'est le nouveau standard 2026. Si on vous propose du PERC aujourd'hui, c'est de l'ancienne génération."
     },
     "be": {
         "term": "TOPCon",

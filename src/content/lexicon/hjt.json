@@ -1,13 +1,13 @@
 {
     "fr": {
-        "term": "Technologie HJT",
+        "term": "HJT",
         "shortDefinition": "Hétérojonction. Technologie premium combinant les avantages du silicium cristallin et des couches minces.",
         "audience10yo": "C'est un sandwich technologique qui piège la lumière des deux côtés pour faire plus d'électricité, même quand il fait chaud.",
         "technicalDetails": "Combine du silicium cristallin (monocristallin) avec des couches de silicium amorphe. Cela offre un rendement très élevé (>22%) et surtout un excellent coefficient de température. Meyer Burger et REC sont des leaders de cette technologie.",
         "importance": "Permet de produire plus de kWh par m², surtout en été lors des fortes chaleurs."
     },
     "be": {
-        "term": "Technologie HJT",
+        "term": "HJT",
         "shortDefinition": "Cellules à Hétérojonction, ultra-performantes même par faible luminosité.",
         "audience10yo": "Idem.",
         "technicalDetails": "Idem. En Belgique, la sensibilité du HJT à la lumière diffuse (ciel voilé) est un atout majeur par rapport au PERC standard.",
