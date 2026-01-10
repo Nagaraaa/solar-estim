@@ -1,11 +1,11 @@
 export const SOLAR_CONSTANTS = {
     // France
     FR: {
-        ELECTRICITY_PRICE_EUR_KWH: 0.25,
-        COST_PER_KWC_EUR: 2000,
-        PRIME_AUTOCONSO_EUR_KWC: 80,
-        SURPLUS_RESALE_EUR_KWH: 0.04,
-        DEFAULT_SELF_CONSUMPTION_RATE: 0.35, // 35%
+        ELECTRICITY_PRICE_EUR_KWH: 0.27, // Increased slighly to 2025 reality
+        COST_PER_KWC_EUR: 1800, // Reduced to represent decent large install price
+        PRIME_AUTOCONSO_EUR_KWC: 230, // Default to the 3-9kWc tier
+        SURPLUS_RESALE_EUR_KWH: 0.13, // OA is roughly 12.69 -> 13cts
+        DEFAULT_SELF_CONSUMPTION_RATE: 0.45, // 45% Optimistic
         PHONE_PREFIX: '+33',
         PHONE_REGEX: /^0[1-9]\d{8}$/,
         PHONE_PLACEHOLDER: "06 12 34 56 78"
@@ -23,7 +23,7 @@ export const SOLAR_CONSTANTS = {
     // Sizing
     SIZING: {
         SMALL_CONSUMPTION_LIMIT_EUR: 60, // Monthly Bill < 60€
-        TIER_1_LIMIT_KWH: 4500,
+        TIER_1_LIMIT_KWH: 3500,
         TIER_2_LIMIT_KWH: 8000,
         SYSTEM_SIZE_SMALL: 2.5,
         SYSTEM_SIZE_TIER_1: 3,

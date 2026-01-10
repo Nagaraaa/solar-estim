@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Scale, Zap, ShieldCheck, Leaf } from "lucide-react";
-import { AutoLink } from "@/components/content/AutoLink";
+import { SmartMarkdown } from "@/components/content/SmartMarkdown";
 import { TrustSection } from "@/components/sections/TrustSection";
 
 export const metadata = {
@@ -43,11 +43,10 @@ export default function ComparateurIndexContent({ country = "FR" }: { country?: 
                         Comparateur Solaire
                     </h1>
                     <div className="max-w-2xl mx-auto text-lg md:text-xl text-slate-200 leading-relaxed font-light">
-                        <AutoLink
+                        <SmartMarkdown
                             country={country}
                             text={introText}
-                            linkClassName="text-white underline decoration-white/50 hover:decoration-white"
-                            boldClassName="text-white font-bold"
+                            className="text-slate-200 leading-relaxed font-light [&_p]:mb-0 [&_strong]:text-white [&_a]:text-white [&_a]:underline [&_a]:decoration-white/50 hover:[&_a]:decoration-white"
                         />
                     </div>
                 </div>

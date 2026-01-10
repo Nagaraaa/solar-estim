@@ -27,7 +27,11 @@ export async function AutoLink({ text, country, linkClassName = "text-brand", bo
         // Group 1: Leading ** (optional)
         // Group 2: Trailing ** (optional)
         // Note: We scan the whole text for each term.
-        const regex = new RegExp(`(\\*\\*)?\\b${escaped}\\b(\\*\\*)?`, 'gi');
+        // Group 1: Leading ** (optional)
+        // Group 2: Trailing ** (optional)
+        // We use a regex that looks for the term, optionally surrounded by **.
+        // We handle the case where ** might be part of the word boundary check.
+        const regex = new RegExp(`(\\*\\*)?${escaped}(\\*\\*)?`, 'gi');
         let m;
         while ((m = regex.exec(text)) !== null) {
             const hasLeadingBold = m[1] === '**';
@@ -101,20 +105,25 @@ export async function AutoLink({ text, country, linkClassName = "text-brand", bo
         // The Link
         const prefix = country === 'BE' ? '/be' : '';
 
-        // Clean term is the matched term without the asterisks
-        const cleanTermMatch = m.term.replace(/^\*\*|\*\*$/g, '');
-
+        // Create the link element
         const linkElement = (
             <Link
                 key={`link-${i}`}
                 href={`${prefix}/lexique/${m.slug}`}
                 className={`${linkClassName} font-medium hover:underline underline-offset-2 decoration-brand/30 ${m.isBold ? 'font-bold' : ''}`}
             >
-                {cleanTermMatch}
+                {/* Remove asterisks from the display text if they exist in the match */}
+                {m.term.replace(/\*\*/g, '')}
             </Link>
         );
 
-        result.push(m.isBold ? <strong key={`bold-link-${i}`}>{linkElement}</strong> : linkElement);
+        // If the match was detected as bold (surrounded by **), we don't need to wrap it in <strong> again
+        // because the bold styling is applied via className above. 
+        // However, if the intention was semantic split, we can wrap it.
+        // Given the requirement: "Render them correctly as bold (strong) OR clean them."
+        // We will stick to the link. If it was surrounded by **, we removed them from text and added font-bold class.
+
+        result.push(linkElement);
 
         cursor = m.index + m.length;
     }

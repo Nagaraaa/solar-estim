@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { AutoLink } from "@/components/content/AutoLink";
+import { SmartMarkdown } from "@/components/content/SmartMarkdown";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, Zap, ShieldCheck, Banknote, BrainCircuit } from "lucide-react";
@@ -49,7 +49,7 @@ export default function ArticleEnphaseSolarEdgeContent({ country = "FR" }: { cou
 
                 {/* Intro */}
                 <div className="prose prose-lg prose-slate mx-auto mb-16 first-letter:text-5xl first-letter:font-bold first-letter:text-brand first-letter:mr-1">
-                    <AutoLink country={country} text={`
+                    <SmartMarkdown country={country} text={`
                         Je vais être direct avec vous : choisir ses panneaux solaires, c'est bien. Mais choisir son onduleur, c'est crucial. Imaginez acheter une Ferrari (vos panneaux Premium) et y mettre un moteur de Twingo (un onduleur bas de gamme). Résultat ? Vous n'avancerez pas.
 
                         L'Onduleur Hybride est le cœur et le cerveau de votre installation. C'est lui qui transforme l'énergie du soleil en électricité utilisable pour votre maison. S'il lâche, tout s'arrête. S'il est inefficace (mauvais MPPT), vous perdez de l'argent chaque jour.
@@ -73,7 +73,7 @@ export default function ArticleEnphaseSolarEdgeContent({ country = "FR" }: { cou
                                 <CardTitle className="text-blue-600 text-2xl">Enphase : Le Micro-Onduleur</CardTitle>
                             </CardHeader>
                             <CardContent className="prose prose-slate">
-                                <AutoLink country={country} text={`
+                                <SmartMarkdown country={country} text={`
                                     Imaginez une armée de fourmis indépendantes. Avec Enphase, chaque panneau solaire possède son propre **Micro-onduleur** (souvent fixé juste derrière).
                                     
                                     *   **Indépendance totale :** Chaque panneau travaille seul. Si l'un est à l'ombre ou sale, les autres continuent à 100%.
@@ -90,7 +90,7 @@ export default function ArticleEnphaseSolarEdgeContent({ country = "FR" }: { cou
                                 <CardTitle className="text-red-600 text-2xl">SolarEdge : L'Optimiseur</CardTitle>
                             </CardHeader>
                             <CardContent className="prose prose-slate">
-                                <AutoLink country={country} text={`
+                                <SmartMarkdown country={country} text={`
                                     Imaginez un chef d'orchestre génial (l'Onduleur central) avec un assistant derrière chaque musicien (l'Optimiseur).
                                     
                                     *   **Optimisation DC :** Chaque panneau a un petit boîtier (l'optimiseur) qui règle la tension pour tirer le maximum de puissance.
@@ -158,7 +158,7 @@ export default function ArticleEnphaseSolarEdgeContent({ country = "FR" }: { cou
                     </div>
 
                     <div className="prose prose-lg prose-slate text-justify">
-                        <AutoLink country={country} text={`
+                        <SmartMarkdown country={country} text={`
                             C'est ici que ça se joue. Sur un toit parfait, plein sud, sans ombre, à 25°C, les deux systèmes se valent (à 1% près). Mais la vraie vie, ce n'est pas un laboratoire.
                             
                             **Face à l'ombre (Cheminée, Arbre, Feuille) :**
@@ -191,7 +191,7 @@ export default function ArticleEnphaseSolarEdgeContent({ country = "FR" }: { cou
                     </div>
 
                     <div className="prose prose-lg prose-slate">
-                        <AutoLink country={country} text={`
+                        <SmartMarkdown country={country} text={`
                             Côté évolutivité, **Enphase** est le roi.
                             Vous voulez commencer petit (8 panneaux) et en ajouter 4 l'année prochaine ? Avec Enphase, c'est un jeu d'enfant.
                             
@@ -208,7 +208,7 @@ export default function ArticleEnphaseSolarEdgeContent({ country = "FR" }: { cou
                     </h2>
 
                     <div className="prose prose-lg prose-slate mb-8">
-                        <AutoLink country={country} text={`
+                        <SmartMarkdown country={country} text={`
                             C'est souvent le critère décisif. La technologie Micro-onduleur est une merveille de miniaturisation, et cela se paie.
                             Pour une installation standard de 6kWc (environ 14-16 panneaux) :
                             *   La solution **Enphase** coûtera généralement **800€ à 1200€ de plus**.

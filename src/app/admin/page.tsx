@@ -452,7 +452,11 @@ export default function AdminDashboard() {
                         </DialogDescription>
                     </DialogHeader>
                     <div className="flex justify-end gap-3 mt-4">
-                        <Button variant="outline" onClick={() => setLeadToDelete(null)} disabled={isDeleting}>
+                        <Button
+                            onClick={() => setLeadToDelete(null)}
+                            disabled={isDeleting}
+                            className="bg-transparent border border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white"
+                        >
                             Annuler
                         </Button>
                         <Button

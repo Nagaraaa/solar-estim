@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { AutoLink } from "@/components/content/AutoLink";
+import { SmartMarkdown } from "@/components/content/SmartMarkdown";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, Zap, Battery, Sliders, Smartphone, ShieldCheck } from "lucide-react";
@@ -49,7 +49,7 @@ export default function ArticleTeslaVsHuaweiContent({ country = "FR" }: { countr
 
                 {/* Intro */}
                 <div className="prose prose-lg prose-slate mx-auto mb-16 first-letter:text-5xl first-letter:font-bold first-letter:text-brand first-letter:mr-1">
-                    <AutoLink country={country} text={`
+                    <SmartMarkdown country={country} text={`
                         Stocker son énergie solaire, c'est le rêve de l'indépendance énergétique.
                         
                         Pourquoi donner votre électricité gratuite au réseau le jour pour la racheter très chère la nuit ?
@@ -76,7 +76,7 @@ export default function ArticleTeslaVsHuaweiContent({ country = "FR" }: { countr
                                 <CardTitle className="text-red-600 text-2xl">Tesla Powerwall 3</CardTitle>
                             </CardHeader>
                             <CardContent className="prose prose-slate">
-                                <AutoLink country={country} text={`
+                                <SmartMarkdown country={country} text={`
                                     **Le Monolithe de Puissance.**
                                     C'est une grosse brique de 13.5 kWh. Point.
                                     
@@ -92,7 +92,7 @@ export default function ArticleTeslaVsHuaweiContent({ country = "FR" }: { countr
                                 <CardTitle className="text-slate-800 text-2xl">Huawei Luna 2000</CardTitle>
                             </CardHeader>
                             <CardContent className="prose prose-slate">
-                                <AutoLink country={country} text={`
+                                <SmartMarkdown country={country} text={`
                                     **La Tour Évolutive.**
                                     C'est une **Batterie Incrémentale**.
                                     
@@ -152,7 +152,7 @@ export default function ArticleTeslaVsHuaweiContent({ country = "FR" }: { countr
                     </div>
 
                     <div className="prose prose-lg prose-slate text-justify">
-                        <AutoLink country={country} text={`
+                        <SmartMarkdown country={country} text={`
                             Les deux utilisent la technologie **LFP** (Lithium Fer Phosphate), bien plus sûre et durable que le vieux NMC (Lithium-Ion classique de téléphone). Pas de risque d'emballement thermique.
                             
                             **Profondeur de décharge (DOD) :**
@@ -173,7 +173,7 @@ export default function ArticleTeslaVsHuaweiContent({ country = "FR" }: { countr
                     </h2>
 
                     <div className="prose prose-lg prose-slate">
-                        <AutoLink country={country} text={`
+                        <SmartMarkdown country={country} text={`
                             **Tesla App :** Sans surprise, c'est le top.
                             L'interface est fluide, sexy, addictive. Si vous avez une voiture Tesla, tout est dans la même appli. La fonction "Storm Watch" charge la batterie à fond si une tempête est détectée par la météo locale. Génial.
                             

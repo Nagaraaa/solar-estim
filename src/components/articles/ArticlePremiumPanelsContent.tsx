@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { AutoLink } from "@/components/content/AutoLink";
+import { SmartMarkdown } from "@/components/content/SmartMarkdown";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, Zap, ShieldCheck, Banknote, BrainCircuit, Leaf } from "lucide-react";
@@ -49,7 +49,7 @@ export default function ArticlePremiumPanelsContent({ country = "FR" }: { countr
 
                 {/* Intro */}
                 <div className="prose prose-lg prose-slate mx-auto mb-16 first-letter:text-5xl first-letter:font-bold first-letter:text-brand first-letter:mr-1">
-                    <AutoLink country={country} text={`
+                    <SmartMarkdown country={country} text={`
                         Si vous lisez ceci, c'est que vous ne cherchez pas le "panneau pas cher". Vous cherchez le meilleur. Vous voulez une installation qui sera encore performante quand vos enfants seront propriétaires.
                         
                         Sur le marché du "Premium", trois noms reviennent sans cesse :
@@ -76,7 +76,7 @@ export default function ArticlePremiumPanelsContent({ country = "FR" }: { countr
                                 <CardTitle className="text-amber-600">SunPower</CardTitle>
                             </CardHeader>
                             <CardContent className="prose prose-sm prose-slate">
-                                <AutoLink country={country} text={`
+                                <SmartMarkdown country={country} text={`
                                     **La Légende.**
                                     Technologie **Maxeon** (IBC) : Pas de lignes métalliques en façade. C'est le panneau le plus solide du monde (cuivre derrière les cellules).
                                     *   Indestructible (ou presque).
@@ -91,7 +91,7 @@ export default function ArticlePremiumPanelsContent({ country = "FR" }: { countr
                                 <CardTitle className="text-blue-600">DualSun</CardTitle>
                             </CardHeader>
                             <CardContent className="prose prose-sm prose-slate">
-                                <AutoLink country={country} text={`
+                                <SmartMarkdown country={country} text={`
                                     **Le Pragmatique Français.**
                                     Technologie **TOPCon** ou PERC haut de gamme.
                                     *   Excellent Bilan Carbone.
@@ -107,7 +107,7 @@ export default function ArticlePremiumPanelsContent({ country = "FR" }: { countr
                                 <CardTitle className="text-red-600">Meyer Burger</CardTitle>
                             </CardHeader>
                             <CardContent className="prose prose-sm prose-slate">
-                                <AutoLink country={country} text={`
+                                <SmartMarkdown country={country} text={`
                                     **Le Génie Suisse.**
                                     Technologie **HJT** (Hétérojonction).
                                     *   Performance extrême quand il fait chaud.
@@ -166,7 +166,7 @@ export default function ArticlePremiumPanelsContent({ country = "FR" }: { countr
                     </div>
 
                     <div className="prose prose-lg prose-slate">
-                        <AutoLink country={country} text={`
+                        <SmartMarkdown country={country} text={`
                             C'est là que le fossé se creuse avec les panneaux standards garantis 15 ans.
 
                             *   **SunPower Maxeon 6 :** La référence absolue. **40 Ans** de garantie produit et performance. C'est simple, ils garantissent que votre panneau sera encore là quand vous serez peut-être parti.
@@ -184,7 +184,7 @@ export default function ArticlePremiumPanelsContent({ country = "FR" }: { countr
                     </h2>
 
                     <div className="prose prose-lg prose-slate text-justify">
-                        <AutoLink country={country} text={`
+                        <SmartMarkdown country={country} text={`
                             Vous avez une belle maison, vous ne voulez pas la défigurer.
                             
                             **Le look "Full Black" :**

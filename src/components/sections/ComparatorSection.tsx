@@ -14,7 +14,7 @@ export function ComparatorSection({ country = "FR" }: ComparatorSectionProps) {
     const baseUrl = country === "BE" ? "/be" : "";
 
     return (
-        <section className="py-12 sm:py-20 overflow-visible">
+        <section className="py-12 sm:py-20 overflow-hidden">
             <div className="container px-4 md:px-6 mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}

@@ -1,4 +1,4 @@
-import { AutoLink } from "@/components/content/AutoLink";
+import { SmartMarkdown } from "@/components/content/SmartMarkdown";
 import { TrustSection } from "@/components/sections/TrustSection";
 import Image from "next/image";
 import { Check, X, Trophy, Zap, Shield, Battery } from "lucide-react";
@@ -42,7 +42,7 @@ export default function ArticleFroniusVsSungrowContent({ country = "FR" }: { cou
                         C'est le match que tous les installateurs attendaient. D'un côté, **Fronius**, la référence absolue en matière de qualité de fabrication, made in Austria. De l'autre, **Sungrow**, le numéro 1 mondial qui casse les prix avec des machines ultra-performantes.
                     </p>
                     <p>
-                        En 2026, avec l'essor des <AutoLink country={country} text="batteries domestiques" /> (surtout en Belgique avec le <AutoLink country={country} text="Tarif Prosumer" />), le choix de l'<AutoLink country={country} text="onduleur hybride" /> est devenu crucial. Il ne s'agit plus seulement de convertir du courant, mais de piloter intelligemment votre maison et de vous protéger des coupures (Back-up).
+                        En 2026, avec l'essor des <SmartMarkdown country={country} text="batteries domestiques" /> (surtout en Belgique avec le <SmartMarkdown country={country} text="Tarif Prosumer" />), le choix de l'<SmartMarkdown country={country} text="onduleur hybride" /> est devenu crucial. Il ne s'agit plus seulement de convertir du courant, mais de piloter intelligemment votre maison et de vous protéger des coupures (Back-up).
                     </p>
                 </div>
 
@@ -124,7 +124,7 @@ export default function ArticleFroniusVsSungrowContent({ country = "FR" }: { cou
                         <div className="space-y-4">
                             <h3 className="font-bold text-xl">Solar.web (Fronius)</h3>
                             <p className="text-slate-600">
-                                L'interface est austère mais extrêmement riche en données. Pour les "geeks" qui veulent analyser chaque courbe de <AutoLink country={country} text="MPPT" />, c'est le paradis. La version Premium (payante après 1 an) offre des analyses poussées.
+                                L'interface est austère mais extrêmement riche en données. Pour les "geeks" qui veulent analyser chaque courbe de <SmartMarkdown country={country} text="MPPT" />, c'est le paradis. La version Premium (payante après 1 an) offre des analyses poussées.
                             </p>
                         </div>
                         <div className="space-y-4">

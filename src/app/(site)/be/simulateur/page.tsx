@@ -12,6 +12,7 @@ import { SimulatorProgressBar } from "@/components/simulator/SimulatorProgressBa
 import { AddressStep } from "@/components/simulator/AddressStep";
 import { ConsumptionStep } from "@/components/simulator/ConsumptionStep";
 import { ResultStep } from "@/components/simulator/ResultStep";
+import { cn } from "@/lib/utils";
 
 // Form Schema
 const formSchema = z.object({
@@ -24,7 +25,7 @@ type Region = "Wallonie" | "Bruxelles" | "Flandre" | null;
 export default function SimulatorPageBe() {
     const [step, setStep] = useState(0); // Starts at 0 for Region
     const [region, setRegion] = useState<Region>(null);
-    const { calculate, loading, error, result } = useSolarSimulation();
+    const { calculate, loading, isCalculating, error, result, recalculate } = useSolarSimulation();
     const [coordinates, setCoordinates] = useState<{ lat?: number, lon?: number }>({});
 
     // Scroll to top on step change
@@ -41,7 +42,7 @@ export default function SimulatorPageBe() {
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        const success = await calculate({ ...values, ...coordinates });
+        const success = await calculate({ ...values, ...coordinates, countryCode: "BE" });
         if (success) {
             setStep(3); // Result step
         }
@@ -60,7 +61,7 @@ export default function SimulatorPageBe() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-12 md:py-20 max-w-2xl">
+        <div className={cn("container mx-auto px-4 py-12 md:py-20 w-full", step < 3 ? "max-w-2xl" : "max-w-[1600px]")}>
             {/* Progress Bar (mapped to match BE steps 0-3 with display 1-4) */}
             <SimulatorProgressBar currentStep={step + 1} totalSteps={4} />
 
@@ -130,19 +131,11 @@ export default function SimulatorPageBe() {
                             result={result}
                             address={form.getValues("address")}
                             countryCode="BE"
-                            region={region}
+                            region={result.details.region}
                             monthlyBill={form.getValues("monthlyBill")}
-                            isCalculating={loading}
+                            recalculate={recalculate}
+                            isCalculating={isCalculating}
                             simulationError={error}
-                            recalculate={(params) => {
-                                calculate({
-                                    ...form.getValues(),
-                                    ...coordinates,
-                                    countryCode: "BE",
-                                    slope: params.slope,
-                                    azimuth: params.azimuth
-                                });
-                            }}
                         />
                     )}
                 </CardContent>

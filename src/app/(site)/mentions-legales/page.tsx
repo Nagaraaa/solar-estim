@@ -12,6 +12,8 @@ export default function MentionsLegales() {
                 Le site <strong>https://www.solarestim.com</strong> est édité par Solar Estim (Particulier).
                 <br />
                 Contact : contact@solarestim.com
+                <br />
+                Année de mise à jour : 2026
             </p>
 
             <h2>2. Hébergement</h2>

@@ -4,8 +4,9 @@ import { google } from 'googleapis';
 import { z } from 'zod';
 import { Resend } from 'resend';
 import { SolarReportEmail } from '@/emails/SolarReportEmail';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase';
 
+import React from 'react';
 import { redirect } from 'next/navigation';
 
 import { SOLAR_CONSTANTS } from '@/lib/constants';
@@ -38,6 +39,7 @@ const LeadSchema = z.object({
 });
 
 export async function submitLead(formData: FormData, simulationResult: any, country: 'FR' | 'BE', token: string) {
+    let shouldRedirect = false;
     try {
         let phoneRaw = formData.get('phone') as string || "";
 
@@ -118,7 +120,7 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
         // Note: 'id' est souvent auto-incrémenté ou uuid généré par Supabase, on laisse Supabase gérer ou on insert si besoin.
 
         try {
-            const { error: supabaseError } = await supabase
+            const { error: supabaseError } = await supabaseAdmin
                 .from('leads')
                 .insert([
                     {
@@ -191,7 +193,7 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
             azimuth                 // Orientation
         ];
 
-        console.log("📝 Saving to Sheets:", row);
+        // Logs supprimés pour confidentialité (RGPD)
 
         await sheets.spreadsheets.values.append({
             spreadsheetId: process.env.GOOGLE_SHEET_ID,
@@ -203,20 +205,37 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
 
         // Email
         if (process.env.RESEND_API_KEY) {
+            // Fetch Admin Contact Setting
+            const { fetchSettings } = await import("@/actions/settings");
+            const settings = await fetchSettings();
+            const adminEmail = settings['EMAIL_CONTACT'] || "contact@solarestim.com";
+
+            // Production Render
+            const { render } = await import('@react-email/render');
+            const emailHtml = await render(
+                <SolarReportEmail
+                    name={name}
+                    city={addressStr}
+                    annualProduction={simulationResult.annualProduction || 0}
+                    annualSavings={simulationResult.annualSavings || 0}
+                    totalCostObserved={simulationResult.netCost || simulationResult.totalCost || 0}
+                    selfConsumptionRate={simulationResult.selfConsumptionRate || 0.35}
+                    adminContactEmail={String(adminEmail)}
+                />
+            );
+
+            console.log("📧 Email Generated Length:", emailHtml.length);
+
             const resend = new Resend(process.env.RESEND_API_KEY);
             await resend.emails.send({
                 from: 'SolarEstim <contact@solarestim.com>',
                 to: [email],
-                subject: `Votre étude solaire pour ${addressStr.split(',')[0]} ☀️`,
-                react: SolarReportEmail({
-                    name: name,
-                    city: addressStr,
-                    annualProduction: simulationResult.annualProduction || 0,
-                    annualSavings: simulationResult.annualSavings || 0,
-                    totalCostObserved: simulationResult.totalCost || 0
-                }) as React.ReactElement,
+                subject: "Votre etude solaire - " + addressStr.split(',')[0],
+                html: emailHtml,
             });
         }
+
+        shouldRedirect = true;
 
     } catch (error: any) {
         console.error('❌ Global Submit Error:', error);
@@ -224,5 +243,9 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
     }
 
     // Success - Redirect
-    redirect('/merci');
+    if (shouldRedirect) {
+        redirect('/merci');
+    }
+
+    return { success: true }; // Should not reach here if redirected, but type safety
 }

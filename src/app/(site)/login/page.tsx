@@ -38,13 +38,13 @@ export default function LoginPage() {
 
             console.log("✅ Connexion réussie, redirection...", data);
 
-            // FIX: Manually set a cookie for the middleware to read
-            // supabase-js defaults to localStorage, so middleware can't see it without this or @supabase/ssr.
+            // ✅ Connexion réussie, set Secure Cookie via Server Action
             if (data.session) {
-                Cookies.set('solar-admin-auth', data.session.access_token, { expires: 1, path: '/' });
+                const { setAuthCookie } = await import('@/app/actions/auth');
+                await setAuthCookie(data.session.access_token);
             }
 
-            // Successful login - Force hard redirect to refresh middleware cookies
+            // Force hard redirect to refresh middleware
             window.location.href = '/admin';
 
         } catch (err: any) {

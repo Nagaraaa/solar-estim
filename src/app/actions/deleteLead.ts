@@ -1,22 +1,28 @@
 'use server'
 
-import { supabase } from '@/lib/supabase';
+import { supabase, supabaseAdmin } from '@/lib/supabase';
 import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 
 export async function deleteLead(leadId: number) {
     try {
-        // 1. Verify Auth (Admin Only)
-        // We use the same cookie as the middleware: 'solar-admin-auth'
+        // 1. Verify Auth with Supabase (Check JWT Validity)
         const cookieStore = await cookies();
-        const authCookie = cookieStore.get('solar-admin-auth');
+        const token = cookieStore.get('solar-admin-auth')?.value;
 
-        if (!authCookie || !authCookie.value) {
-            return { success: false, error: "Non autorisé. Session expirée." };
+        if (!token) {
+            return { success: false, error: "Non autorisé. Jeton manquant." };
         }
 
-        // 2. Perform Delete (Service Role bypasses RLS)
-        const { error } = await supabase
+        const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+        if (authError || !user) {
+            console.error("Auth verification failed:", authError);
+            return { success: false, error: "Session expirée ou invalide." };
+        }
+
+        // 2. Perform Delete with Admin Privileges (Bypass RLS)
+        const { error } = await supabaseAdmin
             .from('leads')
             .delete()
             .eq('id', leadId);

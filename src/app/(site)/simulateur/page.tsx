@@ -11,6 +11,7 @@ import { SimulatorProgressBar } from "@/components/simulator/SimulatorProgressBa
 import { AddressStep } from "@/components/simulator/AddressStep";
 import { ConsumptionStep } from "@/components/simulator/ConsumptionStep";
 import { ResultStep } from "@/components/simulator/ResultStep";
+import { cn } from "@/lib/utils";
 
 // Form Schema
 const formSchema = z.object({
@@ -20,7 +21,7 @@ const formSchema = z.object({
 
 export default function SimulatorPage() {
     const [step, setStep] = useState(1);
-    const { calculate, loading, error, result } = useSolarSimulation();
+    const { calculate, loading, isCalculating, error, result, recalculate } = useSolarSimulation();
     const [coordinates, setCoordinates] = useState<{ lat?: number; lon?: number; countryCode?: "FR" | "BE" }>({ countryCode: "FR" });
 
     // Scroll to top on step change
@@ -51,7 +52,7 @@ export default function SimulatorPage() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-12 md:py-20 max-w-2xl">
+        <div className={cn("container mx-auto px-4 py-12 md:py-20 w-full", step < 3 ? "max-w-2xl" : "max-w-[1600px]")}>
             {/* Progress Bar */}
             <SimulatorProgressBar currentStep={step} />
 
@@ -99,19 +100,11 @@ export default function SimulatorPage() {
                         <ResultStep
                             result={result}
                             address={form.getValues("address")}
-                            countryCode={coordinates.countryCode || "FR"}
+                            countryCode="FR"
                             monthlyBill={form.getValues("monthlyBill")}
-                            isCalculating={loading}
+                            recalculate={recalculate}
+                            isCalculating={isCalculating}
                             simulationError={error}
-                            recalculate={(params) => {
-                                // Trigger recalculation without changing step
-                                calculate({
-                                    ...form.getValues(),
-                                    ...coordinates,
-                                    slope: params.slope,
-                                    azimuth: params.azimuth
-                                });
-                            }}
                         />
                     )}
                 </CardContent>

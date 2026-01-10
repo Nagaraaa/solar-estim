@@ -1,18 +1,17 @@
+'use client';
+
+import * as React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, Home, Mail } from "lucide-react";
 import { FadeIn } from "@/components/ui/fade-in";
 
-export const metadata = {
-    title: "Demande reçue | Solar Estim",
-    description: "Votre demande d'étude solaire a bien été prise en compte.",
-    robots: {
-        index: false,
-        follow: false,
-    },
-};
+export default function SuccessView() {
+    // Force scroll top on mount
+    React.useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
-export default function MerciPage() {
     return (
         <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
             <FadeIn>
@@ -40,7 +39,7 @@ export default function MerciPage() {
                             <div>
                                 <h3 className="font-semibold text-slate-900">Vérifiez vos emails</h3>
                                 <p className="text-slate-600 text-sm mt-1">
-                                    Vous allez recevoir votre rapport de rentabilité détaillé dans moins de 5 minutes. Pensez à vérifier vos spams.
+                                    Votre rapport a été envoyé à votre adresse email. Un expert vérifiera vos données sous 48h pour valider la faisabilité technique.
                                 </p>
                             </div>
                         </div>
