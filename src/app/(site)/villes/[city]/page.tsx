@@ -223,25 +223,25 @@ export default async function CityPage({ params }: PageProps) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 to-slate-900/90" />
                 <FadeIn className="container relative z-10 px-4 md:px-6 mx-auto text-center" delay={100}>
+                    {/* BREADCRUMBS */}
+                    <nav className="flex justify-center items-center text-sm text-slate-400 mb-6 space-x-2">
+                        <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
+                        <span>&gt;</span>
+                        <Link href="/villes" className="hover:text-white transition-colors">Villes de France</Link>
+                        <span>&gt;</span>
+                        <span className="text-brand font-medium">{city.name}</span>
+                    </nav>
+
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-sm font-medium mb-6 border border-brand/20">
                         <MapPin className="h-4 w-4" /> Installation Solaire : {city.name} ({city.zip})
                     </div>
                     <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6">
                         {spin([
-                            `Passez au solaire à <span class="text-brand">${city.name}</span>`,
-                            `Votre installation solaire à <span class="text-brand">${city.name}</span>`,
-                            `Panneaux Photovoltaïques à <span class="text-brand">${city.name}</span>`
-                        ], seed, 11).replace(/<span class="text-brand">/g, '<span className="text-brand">')
-                            // Note: dangerouslySetInnerHTML needed for span if using real text replacement, 
-                            // but here we can just use React children if we structure differently. 
-                            // For simplicity, let's just hardcode the span in JSX below for the main visual and use spintax for words.
-                        }
+                            "Passez au solaire à",
+                            "Votre installation solaire à",
+                            "Panneaux Photovoltaïques à"
+                        ], seed, 11)} <span className="text-brand">{city.name}</span>
                     </h1>
-                    {/* Cleaner H1 Override for JSX safety */}
-                    <h1 className="absolute opacity-0">Passez au solaire à {city.name}</h1>
-                    <div className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6">
-                        {spin(['Passez au solaire à', 'Votre projet solaire à', 'L\'énergie solaire à'], seed, 12)} <span className="text-brand">{city.name}</span>
-                    </div>
 
                     <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-10">
                         {introText}

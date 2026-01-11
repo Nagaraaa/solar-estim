@@ -124,10 +124,16 @@ export default async function BlogPostPage({ params }: PageProps) {
                                             },
                                             img: (props) => (
                                                 <span className="block my-8 relative group">
-                                                    <img
-                                                        {...props}
-                                                        className="rounded-xl shadow-lg border border-slate-200 w-full h-auto object-cover transform transition-all duration-500 hover:scale-[1.01] hover:shadow-xl"
-                                                    />
+                                                    {(props.src as string) && (
+                                                        <Image
+                                                            src={props.src as string}
+                                                            alt={props.alt || "Illustration"}
+                                                            width={0}
+                                                            height={0}
+                                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 800px"
+                                                            className="rounded-xl shadow-lg border border-slate-200 w-full h-auto object-cover transform transition-all duration-500 hover:scale-[1.01] hover:shadow-xl"
+                                                        />
+                                                    )}
                                                 </span>
                                             ),
                                         }}

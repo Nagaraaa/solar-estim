@@ -61,6 +61,11 @@ export function Footer() {
                                 Comparateur Technique
                             </Link>
                         </li>
+                        <li>
+                            <Link href={isBe ? "/be/villes" : "/villes"} className="hover:text-brand transition-colors">
+                                {isBe ? "Nos villes en Belgique" : "Nos villes en France"}
+                            </Link>
+                        </li>
                     </ul>
                 </div>
 

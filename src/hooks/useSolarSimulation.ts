@@ -20,7 +20,7 @@ export function useSolarSimulation() {
             let lon = input.lon;
             const country = input.countryCode || "FR";
 
-            console.log("Input coordinates received in hook:", lat, lon, "Country:", country);
+
 
             if (!lat || !lon) {
                 const geoUrl = `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(
@@ -112,7 +112,7 @@ export function useSolarSimulation() {
 
             // If slope or azimuth changed, we MUST fetch new data
             if (params.slope !== undefined || params.azimuth !== undefined) {
-                console.log("🔄 Recalculating PVGIS for new angle:", newSlope, newAzimuth);
+
                 try {
                     // Fetch new production data
                     const { getPvgisData } = await import("@/app/actions/getPvgisData");

@@ -220,7 +220,7 @@ export function calculateRecommendedSystem(input: EngineInput, settings: Record<
         annualSavings = grossSavings - prosumerTax;
 
         // Debug Log
-        console.log(`[BE ENGINE] Size: ${systemSize}, Prod: ${safeProduction}, BillSave: ${billSavings}, InjIncome: ${injectionIncome}, Tax: ${prosumerTax}, NetSave: ${annualSavings}`);
+
 
     } else {
         // --- FRANCE LOGIC ---

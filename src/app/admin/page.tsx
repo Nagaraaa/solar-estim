@@ -285,7 +285,70 @@ export default function AdminDashboard() {
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <div className="rounded-md border border-slate-800">
+                    {/* Mobile View: Cards */}
+                    <div className="md:hidden space-y-4">
+                        {loading && (
+                            <div className="text-center p-8">
+                                <Loader2 className="w-8 h-8 animate-spin mx-auto text-brand" />
+                            </div>
+                        )}
+                        {!loading && filteredLeads.length === 0 && (
+                            <div className="text-center p-8 text-slate-500 bg-slate-900/50 rounded-lg border border-slate-800">
+                                Aucun lead trouvé.
+                            </div>
+                        )}
+
+                        {filteredLeads.map((lead) => (
+                            <div key={lead.id} className="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm relative overflow-hidden transition-all active:scale-[0.99]">
+                                <div className="absolute top-2 right-2">
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 text-slate-500 hover:text-red-500 hover:bg-slate-800 rounded-full"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setLeadToDelete(lead);
+                                        }}
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </Button>
+                                </div>
+
+                                <div className="mb-4 pr-10">
+                                    <p className="text-xs font-mono text-slate-500 mb-1">{formatDate(lead.created_at)}</p>
+                                    <h3 className="text-lg font-bold text-white leading-tight truncate">{lead.nom}</h3>
+                                    <p className="text-sm text-slate-400 mt-1 flex items-center gap-2 truncate">
+                                        <span className="text-lg">{getCountryFlag(lead.pays)}</span>
+                                        {formatAddress(lead.ville, lead.pays)}
+                                    </p>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-3 mb-4">
+                                    <div className="bg-slate-950/50 p-2 rounded-lg border border-slate-800/50 text-center">
+                                        <p className="text-[10px] uppercase text-slate-500 font-bold mb-1">Puissance</p>
+                                        <Badge variant="outline" className="bg-slate-900 text-slate-200 border-slate-700">{lead.puissance_kwc} kWc</Badge>
+                                    </div>
+                                    <div className="bg-slate-950/50 p-2 rounded-lg border border-slate-800/50 text-center">
+                                        <p className="text-[10px] uppercase text-slate-500 font-bold mb-1">Gain estimé</p>
+                                        <p className="text-emerald-400 font-mono font-bold text-sm bg-emerald-950/30 py-0.5 px-2 rounded inline-block">
+                                            {Math.round(lead.economie_estimee_an)} €<span className="text-xs opacity-70">/an</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <Button
+                                    className="w-full bg-brand text-slate-900 font-bold hover:bg-yellow-400 border-none h-11"
+                                    onClick={() => setSelectedLead(lead)}
+                                >
+                                    <Eye className="w-4 h-4 mr-2" />
+                                    Voir la fiche complète
+                                </Button>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Desktop View: Table */}
+                    <div className="hidden md:block rounded-md border border-slate-800">
                         <Table>
                             <TableHeader className="bg-slate-950/50">
                                 <TableRow className="border-slate-800 hover:bg-slate-800/50">
@@ -372,46 +435,48 @@ export default function AdminDashboard() {
                     </DialogHeader>
 
                     {selectedLead && (
-                        <div className="grid gap-4 py-4">
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <span className="font-bold text-slate-500">Nom :</span>
-                                <span className="col-span-2 text-slate-200">{selectedLead.nom}</span>
+                        <div className="grid gap-3 py-4 overflow-y-auto max-h-[70vh]">
+                            <div className="flex flex-col sm:grid sm:grid-cols-3 sm:items-center gap-1 sm:gap-4 border-b border-slate-800 pb-2 sm:border-none sm:pb-0">
+                                <span className="font-bold text-slate-500 text-xs uppercase sm:text-base sm:capitalize">Nom</span>
+                                <span className="col-span-2 text-slate-200 text-lg font-semibold">{selectedLead.nom}</span>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <span className="font-bold text-slate-500">Email :</span>
+
+                            <div className="flex flex-col sm:grid sm:grid-cols-3 sm:items-center gap-1 sm:gap-4 border-b border-slate-800 pb-2 sm:border-none sm:pb-0">
+                                <span className="font-bold text-slate-500 text-xs uppercase sm:text-base sm:capitalize">Email</span>
                                 <div className="col-span-2 flex items-center gap-2 min-w-0">
-                                    <span className="truncate text-blue-400 underline" title={selectedLead.email}>{selectedLead.email}</span>
+                                    <span className="truncate text-blue-400 underline decoration-blue-400/30" title={selectedLead.email}>{selectedLead.email}</span>
                                     <CopyButton text={selectedLead.email} />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4 bg-slate-950 p-2 rounded border border-slate-800">
-                                <span className="font-bold text-slate-500">Téléphone :</span>
+
+                            <div className="flex flex-col sm:grid sm:grid-cols-3 sm:items-center gap-1 sm:gap-4 bg-slate-950 p-3 rounded-lg border border-slate-800">
+                                <span className="font-bold text-slate-500 text-xs uppercase sm:text-base sm:capitalize">Téléphone</span>
                                 <div className="col-span-2 flex items-center gap-2">
-                                    <a href={`tel:${selectedLead.telephone}`} className="font-mono text-lg font-bold text-brand hover:underline">
+                                    <a href={`tel:${selectedLead.telephone}`} className="font-mono text-xl font-bold text-brand hover:underline">
                                         {selectedLead.telephone}
                                     </a>
                                     <CopyButton text={selectedLead.telephone} />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <span className="font-bold text-slate-500">Adresse :</span>
+
+                            <div className="flex flex-col sm:grid sm:grid-cols-3 sm:items-center gap-1 sm:gap-4 border-b border-slate-800 pb-2 sm:border-none sm:pb-0">
+                                <span className="font-bold text-slate-500 text-xs uppercase sm:text-base sm:capitalize">Adresse</span>
                                 <span className="col-span-2 text-slate-200">
-                                    {/* Format: Ville, CP, Pays - Using clean helper or raw fields */}
                                     {formatAddress(selectedLead.ville, selectedLead.pays)}{selectedLead.code_postal && !selectedLead.ville?.includes(selectedLead.code_postal) ? `, ${selectedLead.code_postal}` : ''}
                                 </span>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <span className="font-bold text-slate-500">Pays :</span>
+
+                            <div className="flex flex-col sm:grid sm:grid-cols-3 sm:items-center gap-1 sm:gap-4 border-b border-slate-800 pb-2 sm:border-none sm:pb-0">
+                                <span className="font-bold text-slate-500 text-xs uppercase sm:text-base sm:capitalize">Pays</span>
                                 <span className="col-span-2 text-slate-200">{selectedLead.pays}</span>
                             </div>
 
                             {/* Self-Consumption & Battery Badge */}
                             {(selectedLead as any).taux_autoconsommation && (
-                                <div className="grid grid-cols-3 items-center gap-4">
-                                    <span className="font-bold text-slate-500">Autoconso :</span>
+                                <div className="flex flex-col sm:grid sm:grid-cols-3 sm:items-center gap-1 sm:gap-4 border-b border-slate-800 pb-2 sm:border-none sm:pb-0">
+                                    <span className="font-bold text-slate-500 text-xs uppercase sm:text-base sm:capitalize">Autoconso</span>
                                     <div className="col-span-2 flex items-center gap-2">
                                         <span className="font-semibold text-slate-200">{(selectedLead as any).taux_autoconsommation}</span>
-                                        {/* Badge Logic: If < 50% (parsed) */}
                                         {parseInt((selectedLead as any).taux_autoconsommation) < 50 && (
                                             <Badge variant="default" className="bg-emerald-600 hover:bg-emerald-700 text-[10px] h-5">
                                                 Potentiel Batterie élevé
@@ -424,13 +489,13 @@ export default function AdminDashboard() {
                             <hr className="my-2 border-slate-800" />
 
                             <div className="grid grid-cols-2 gap-4 text-center">
-                                <div className="bg-slate-950 p-3 rounded border border-slate-800">
-                                    <p className="text-xs text-slate-500 uppercase">Puissance</p>
-                                    <p className="font-bold text-xl text-white">{selectedLead.puissance_kwc} kWc</p>
+                                <div className="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                                    <p className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Puissance</p>
+                                    <p className="font-bold text-2xl text-white font-mono">{selectedLead.puissance_kwc} <span className="text-sm text-slate-500">kWc</span></p>
                                 </div>
-                                <div className="bg-emerald-950/30 p-3 rounded border border-emerald-900/50">
-                                    <p className="text-xs text-emerald-500 uppercase">Éco / An</p>
-                                    <p className="font-bold text-xl text-emerald-400">{Math.round(selectedLead.economie_estimee_an)} €</p>
+                                <div className="bg-emerald-950/20 p-4 rounded-xl border border-emerald-900/30">
+                                    <p className="text-xs text-emerald-500 uppercase font-bold tracking-wider mb-1">Éco / An</p>
+                                    <p className="font-bold text-2xl text-emerald-400 font-mono">{Math.round(selectedLead.economie_estimee_an)} €</p>
                                 </div>
                             </div>
                         </div>

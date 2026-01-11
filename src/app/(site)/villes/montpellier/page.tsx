@@ -57,12 +57,25 @@ export default function MontpellierPage() {
             />
 
             {/* 1. HERO SECTION */}
-            <HeroSection
-                title={<>Installation Panneaux Solaires à <span className="text-brand">Montpellier</span> : Rentabilité & Aides 2026</>}
-                subtitle="Profitez des 2 800 heures d'ensoleillement annuel de l'Hérault pour réduire votre facture d'électricité jusqu'à 70%."
-                ctaLink="/simulateur"
-                backgroundImage="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80"
-            />
+            <div className="relative">
+                {/* Manual Breadcrumb Overlay */}
+                <div className="absolute top-24 left-0 right-0 z-20 flex justify-center">
+                    <nav className="flex items-center text-sm text-slate-300 bg-slate-900/50 backdrop-blur-sm px-4 py-1 rounded-full space-x-2">
+                        <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
+                        <span>&gt;</span>
+                        <Link href="/villes" className="hover:text-white transition-colors">Villes de France</Link>
+                        <span>&gt;</span>
+                        <span className="text-brand font-medium">Montpellier</span>
+                    </nav>
+                </div>
+
+                <HeroSection
+                    title={<>Installation Panneaux Solaires à <span className="text-brand">Montpellier</span> : Rentabilité & Aides 2026</>}
+                    subtitle="Profitez des 2 800 heures d'ensoleillement annuel de l'Hérault pour réduire votre facture d'électricité jusqu'à 70%."
+                    ctaLink="/simulateur"
+                    backgroundImage="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80"
+                />
+            </div>
 
             {/* 2. SPECIFIC LOCAL CONTENT */}
             <section className="py-16">

@@ -19,12 +19,12 @@ export default function LoginPage() {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("🚀 Tentative de connexion...");
+
         setLoading(true);
         setError(null);
 
         try {
-            console.log("Credentials:", { email }); // Don't log password
+
 
             const { data, error } = await supabaseBrowser.auth.signInWithPassword({
                 email,
@@ -36,7 +36,7 @@ export default function LoginPage() {
                 throw error;
             }
 
-            console.log("✅ Connexion réussie, redirection...", data);
+
 
             // ✅ Connexion réussie, set Secure Cookie via Server Action
             if (data.session) {

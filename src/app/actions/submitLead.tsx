@@ -63,7 +63,7 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
         };
 
         // 0. Security Turnstile
-        console.log("🔍 SubmitLead received Details:", simulationResult.details); // DEBUG
+
 
         if (!token) {
             return { success: false, error: "Validation de sécurité manquante (Captcha)." };
@@ -144,7 +144,7 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
                 // On ne bloque pas forcément le reste si Supabase fail mais c'est mieux de savoir.
                 // Le prompt dit "doit être enregistrée... avant d'être envoyée". On pourrait throw ici.
             } else {
-                console.log("✅ Lead saved to Supabase");
+
             }
         } catch (dbErr) {
             console.error("❌ Supabase Exception:", dbErr);
@@ -224,7 +224,7 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
                 />
             );
 
-            console.log("📧 Email Generated Length:", emailHtml.length);
+
 
             const resend = new Resend(process.env.RESEND_API_KEY);
             await resend.emails.send({
