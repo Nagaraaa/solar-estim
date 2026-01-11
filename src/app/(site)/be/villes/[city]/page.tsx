@@ -111,7 +111,7 @@ export default async function CityPage({ params }: PageProps) {
     return (
         <div className="min-h-screen bg-slate-50">
             {/* Hero Section */}
-            <section className="relative py-20 lg:py-32 overflow-hidden bg-slate-900 text-white">
+            <section className="relative py-12 lg:py-20 overflow-hidden bg-slate-900 text-white">
                 <Image
                     src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=80"
                     alt={`Panneaux solaires ${city.name}`}
@@ -142,7 +142,7 @@ export default async function CityPage({ params }: PageProps) {
                         ], seed, 11)} <span className="text-brand">{city.name}</span>
                     </h1>
 
-                    <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-10">
+                    <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-8">
                         {introText}
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">

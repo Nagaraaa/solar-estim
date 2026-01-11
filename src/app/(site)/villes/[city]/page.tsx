@@ -212,7 +212,7 @@ export default async function CityPage({ params }: PageProps) {
     return (
         <div className="min-h-screen bg-slate-50">
             {/* Hero Section */}
-            <section className="relative py-20 lg:py-32 overflow-hidden bg-slate-900 text-white">
+            <section className="relative py-12 lg:py-20 overflow-hidden bg-slate-900 text-white">
                 <Image
                     src={headerImage}
                     alt={headerAlt}
@@ -243,7 +243,7 @@ export default async function CityPage({ params }: PageProps) {
                         ], seed, 11)} <span className="text-brand">{city.name}</span>
                     </h1>
 
-                    <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-10">
+                    <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-8">
                         {introText}
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -255,7 +255,7 @@ export default async function CityPage({ params }: PageProps) {
                     </div>
 
                     {/* Dynamic Data Block */}
-                    <div className="mt-12 grid grid-cols-2 max-w-2xl mx-auto gap-4 md:gap-8">
+                    <div className="mt-8 grid grid-cols-2 max-w-2xl mx-auto gap-4 md:gap-8">
                         <div className="bg-slate-800/50 backdrop-blur-md rounded-xl p-4 border border-slate-700">
                             <div className="text-slate-400 text-sm uppercase tracking-wider font-semibold mb-1">Ensoleillement</div>
                             <div className="text-2xl md:text-3xl font-bold text-white flex items-center justify-center gap-2">
