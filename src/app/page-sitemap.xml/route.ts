@@ -14,6 +14,7 @@ export async function GET() {
         { url: `${BASE_URL}/simulateur`, priority: 0.9, freq: 'weekly' },
         { url: `${BASE_URL}/blog`, priority: 0.8, freq: 'weekly' },
         { url: `${BASE_URL}/guide/comprendre-le-solaire`, priority: 0.9, freq: 'monthly' },
+        { url: `${BASE_URL}/villes`, priority: 0.9, freq: 'weekly' },
         { url: `${BASE_URL}/mentions-legales`, priority: 0.3, freq: 'yearly' },
         { url: `${BASE_URL}/politique-confidentialite`, priority: 0.3, freq: 'yearly' },
 
@@ -21,6 +22,7 @@ export async function GET() {
         { url: `${BASE_URL}/be`, priority: 1.0, freq: 'weekly' },
         { url: `${BASE_URL}/be/simulateur`, priority: 0.9, freq: 'weekly' },
         { url: `${BASE_URL}/be/blog`, priority: 0.8, freq: 'weekly' },
+        { url: `${BASE_URL}/be/villes`, priority: 0.9, freq: 'weekly' },
         { url: `${BASE_URL}/be/guide/comprendre-le-solaire`, priority: 0.9, freq: 'monthly' },
     ];
 

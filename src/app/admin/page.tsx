@@ -31,6 +31,7 @@ import {
     ResponsiveContainer
 } from 'recharts';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { ExportLeadsButton } from "@/components/admin/ExportLeadsButton";
 
 // Types
 interface Lead {
@@ -205,15 +206,18 @@ export default function AdminDashboard() {
                         Retour au site
                     </a>
                 </div>
-                <Button
-                    onClick={fetchLeads}
-                    className="bg-brand text-slate-900 hover:bg-yellow-400 font-bold shadow-lg shadow-brand/20 transition-all hover:scale-105"
-                    size="sm"
-                    disabled={loading}
-                >
-                    {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-                    Rafraîchir
-                </Button>
+                <div className="flex items-center gap-2">
+                    <ExportLeadsButton leads={filteredLeads} />
+                    <Button
+                        onClick={fetchLeads}
+                        className="bg-brand text-slate-900 hover:bg-yellow-400 font-bold shadow-lg shadow-brand/20 transition-all hover:scale-105"
+                        size="sm"
+                        disabled={loading}
+                    >
+                        {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+                        Rafraîchir
+                    </Button>
+                </div>
             </div>
 
             {/* KPIs */}

@@ -1,103 +1,76 @@
+
 import { Metadata } from "next";
 import Link from "next/link";
-import { CITIES_FR } from "./cities";
 import { FadeIn } from "@/components/ui/fade-in";
-import { MapPin, Sun, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CITIES_FR } from "./cities";
+import { MapPin } from "lucide-react";
 
 export const metadata: Metadata = {
-    title: "Villes de France : Installation Panneaux Solaires & Aides",
-    description: "Découvrez le potentiel solaire de votre ville en France. Liste complète des zones éligibles aux primes et installateurs RGE par région.",
+    title: "Toutes nos villes en France - Solar Estim",
+    description: "Découvrez le potentiel solaire de votre ville en France. Estimation de production, rentabilité et installateurs locaux.",
     alternates: {
         canonical: "https://www.solarestim.com/villes",
     },
 };
 
 export default function CitiesIndexPage() {
-    // Group cities by Zone
-    const citiesByZone = CITIES_FR.reduce((acc, city) => {
-        if (!acc[city.zone]) acc[city.zone] = [];
-        acc[city.zone].push(city);
+    // Group cities by department (first 2 digits of zip)
+    const citiesByDept = CITIES_FR.reduce((acc, city) => {
+        const dept = city.zip.substring(0, 2);
+        if (!acc[dept]) acc[dept] = [];
+        acc[dept].push(city);
         return acc;
     }, {} as Record<string, typeof CITIES_FR>);
 
-    const zones = ["Sud", "Ouest", "Est", "Nord"];
+    const sortedDepts = Object.keys(citiesByDept).sort();
 
     return (
         <div className="min-h-screen bg-slate-50">
-            {/* Header */}
-            <section className="bg-slate-900 text-white py-20">
-                <div className="container px-4 mx-auto text-center">
-                    <FadeIn>
-                        <h1 className="text-4xl md:text-5xl font-extrabold mb-6">
-                            Nos Zones d'Intervention en <span className="text-brand">France</span>
-                        </h1>
-                        <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-                            Solar Estim accompagne les propriétaires dans toute la France. Trouvez votre ville ci-dessous pour découvrir le potentiel solaire de votre région et les aides disponibles localement.
-                        </p>
-                    </FadeIn>
-                </div>
-            </section>
-
-            {/* City List */}
-            <section className="py-16">
-                <div className="container px-4 mx-auto max-w-5xl">
-                    <FadeIn delay={200}>
-                        {zones.map((zone) => {
-                            const zoneCities = citiesByZone[zone];
-                            if (!zoneCities || zoneCities.length === 0) return null;
-
-                            return (
-                                <div key={zone} className="mb-12 last:mb-0">
-                                    <div className="flex items-center gap-3 mb-6 border-b border-slate-200 pb-3">
-                                        <div className="bg-brand/10 p-2 rounded-full">
-                                            <Sun className="h-6 w-6 text-brand" />
-                                        </div>
-                                        <h2 className="text-2xl font-bold text-slate-900">Zone {zone}</h2>
-                                    </div>
-
-                                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                        {zoneCities.map((city) => (
-                                            <Link
-                                                key={city.slug}
-                                                href={`/villes/${city.slug}`}
-                                                className="group bg-white border border-slate-200 p-4 rounded-lg hover:border-brand hover:shadow-md transition-all flex items-center justify-between"
-                                            >
-                                                <div className="flex items-center gap-2 overflow-hidden">
-                                                    <MapPin className="h-4 w-4 text-slate-400 group-hover:text-brand shrink-0" />
-                                                    <span className="font-medium text-slate-700 group-hover:text-slate-900 truncate">
-                                                        {city.name}
-                                                    </span>
-                                                </div>
-                                                <span className="text-xs text-slate-400 font-mono group-hover:text-brand/80">
-                                                    {city.zip}
-                                                </span>
-                                            </Link>
-                                        ))}
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </FadeIn>
-                </div>
-            </section>
-
-            {/* CTA */}
-            <section className="py-16 bg-white border-t border-slate-200">
-                <div className="container px-4 mx-auto text-center">
-                    <h3 className="text-2xl font-bold text-slate-900 mb-4">
-                        Votre ville n'est pas dans la liste ?
-                    </h3>
-                    <p className="text-slate-600 mb-8 max-w-xl mx-auto">
-                        Pas d'inquiétude, nous intervenons sur l'ensemble du territoire français. Lancez une simulation pour vérifier votre éligibilité immédiatement.
+            <section className="bg-slate-900 text-white py-16 md:py-24">
+                <div className="container mx-auto px-4 text-center">
+                    <h1 className="text-4xl md:text-5xl font-extrabold mb-6">
+                        Où souhaitez-vous installer des panneaux solaires ?
+                    </h1>
+                    <p className="text-xl text-slate-300 max-w-2xl mx-auto">
+                        Solar Estim accompagne les propriétaires dans toute la France. Trouvez votre ville ci-dessous pour découvrir le potentiel solaire de votre région et les aides disponibles localement.
                     </p>
-                    <Link href="/simulateur">
-                        <Button size="lg" variant="brand" className="font-bold text-lg px-8">
-                            Tester mon éligibilité <ArrowRight className="ml-2 h-5 w-5" />
-                        </Button>
-                    </Link>
                 </div>
             </section>
+
+            <div className="container mx-auto px-4 py-12 md:py-20">
+                <div className="max-w-5xl mx-auto">
+                    {sortedDepts.map((dept) => (
+                        <FadeIn key={dept} className="mb-12">
+                            <h2 className="text-2xl font-bold text-slate-900 mb-6 border-b pb-2 flex items-center gap-2">
+                                <span className="bg-brand/10 text-brand px-3 py-1 rounded text-lg font-mono">
+                                    Département {dept}
+                                </span>
+                            </h2>
+                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                {citiesByDept[dept].map((city) => (
+                                    <Link
+                                        key={city.slug}
+                                        href={`/villes/${city.slug}`}
+                                        className="group bg-white p-4 rounded-xl border border-slate-200 hover:border-brand hover:shadow-md transition-all flex items-center gap-3"
+                                    >
+                                        <div className="bg-slate-100 p-2 rounded-lg group-hover:bg-brand/10 transition-colors">
+                                            <MapPin className="h-5 w-5 text-slate-400 group-hover:text-brand" />
+                                        </div>
+                                        <div>
+                                            <div className="font-semibold text-slate-900 group-hover:text-brand transition-colors">
+                                                {city.name}
+                                            </div>
+                                            <div className="text-xs text-slate-500">
+                                                {city.zip}
+                                            </div>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </FadeIn>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }

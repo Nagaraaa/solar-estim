@@ -147,7 +147,7 @@ export default async function LexiconPageBe({ params }: PageProps) {
                             </p>
                             <Link href="/be/simulateur">
                                 <Button size="lg" variant="brand" className="w-full md:w-auto font-bold text-lg">
-                                    Simuler ma rentabilité à Liège/Namur &rarr;
+                                    Simuler ma rentabilité &rarr;
                                 </Button>
                             </Link>
                         </div>

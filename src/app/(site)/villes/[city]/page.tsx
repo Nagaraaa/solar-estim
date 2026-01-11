@@ -218,13 +218,14 @@ export default async function CityPage({ params }: PageProps) {
                     alt={headerAlt}
                     fill
                     priority
-                    className="object-cover object-center opacity-30"
+                    className="object-cover object-center opacity-20"
                     sizes="100vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 to-slate-900/90" />
-                <FadeIn className="container relative z-10 px-4 md:px-6 mx-auto text-center" delay={100}>
+                <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-900/70" />
+
+                <div className="container relative z-10 px-4 md:px-6 mx-auto">
                     {/* BREADCRUMBS */}
-                    <nav className="flex justify-center items-center text-sm text-slate-400 mb-6 space-x-2">
+                    <nav className="flex items-center text-sm text-slate-400 mb-8 space-x-2 animate-in fade-in slide-in-from-top-4 duration-700">
                         <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
                         <span>&gt;</span>
                         <Link href="/villes" className="hover:text-white transition-colors">Villes de France</Link>
@@ -232,44 +233,61 @@ export default async function CityPage({ params }: PageProps) {
                         <span className="text-brand font-medium">{city.name}</span>
                     </nav>
 
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-sm font-medium mb-6 border border-brand/20">
-                        <MapPin className="h-4 w-4" /> Installation Solaire : {city.name} ({city.zip})
-                    </div>
-                    <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6">
-                        {spin([
-                            "Passez au solaire à",
-                            "Votre installation solaire à",
-                            "Panneaux Photovoltaïques à"
-                        ], seed, 11)} <span className="text-brand">{city.name}</span>
-                    </h1>
-
-                    <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-8">
-                        {introText}
-                    </p>
-                    <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <Link href="/simulateur">
-                            <Button size="lg" variant="brand" className="w-full sm:w-auto text-lg font-bold px-8 h-12 shadow-xl hover:shadow-2xl hover:scale-105 transition-all">
-                                Calculer ma prime EDF OA <ArrowRight className="ml-2 h-5 w-5" />
-                            </Button>
-                        </Link>
-                    </div>
-
-                    {/* Dynamic Data Block */}
-                    <div className="mt-8 grid grid-cols-2 max-w-2xl mx-auto gap-4 md:gap-8">
-                        <div className="bg-slate-800/50 backdrop-blur-md rounded-xl p-4 border border-slate-700">
-                            <div className="text-slate-400 text-sm uppercase tracking-wider font-semibold mb-1">Ensoleillement</div>
-                            <div className="text-2xl md:text-3xl font-bold text-white flex items-center justify-center gap-2">
-                                <Sun className="h-6 w-6 text-brand" /> {sunshineHours} h<span className="text-base font-normal text-slate-400">/an</span>
+                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        <FadeIn delay={100} className="text-left">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-sm font-medium mb-6 border border-brand/20">
+                                <MapPin className="h-4 w-4" /> Installation Solaire : {city.name} ({city.zip})
                             </div>
-                        </div>
-                        <div className="bg-slate-800/50 backdrop-blur-md rounded-xl p-4 border border-slate-700">
-                            <div className="text-slate-400 text-sm uppercase tracking-wider font-semibold mb-1">Gain Estimé</div>
-                            <div className="text-2xl md:text-3xl font-bold text-white flex items-center justify-center gap-2">
-                                ~{savingsAmount} €<span className="text-base font-normal text-slate-400">/an</span>
+                            <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-none">
+                                {spin([
+                                    "Passez au solaire à",
+                                    "Votre installation solaire à",
+                                    "Panneaux Photovoltaïques à"
+                                ], seed, 11)} <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-yellow-200 block mt-2">{city.name}</span>
+                            </h1>
+
+                            <p className="text-lg text-slate-300 mb-8 max-w-xl leading-relaxed">
+                                {introText}
+                            </p>
+
+                            <div className="flex flex-col sm:flex-row gap-4">
+                                <Link href="/simulateur">
+                                    <Button size="lg" variant="brand" className="w-full sm:w-auto text-base font-bold px-8 h-12 shadow-xl hover:shadow-2xl hover:scale-105 transition-all">
+                                        Calculer ma prime EDF OA <ArrowRight className="ml-2 h-5 w-5" />
+                                    </Button>
+                                </Link>
                             </div>
-                        </div>
+                        </FadeIn>
+
+                        {/* Right Side: Data Cards */}
+                        <FadeIn delay={300} className="w-full">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 max-w-md mx-auto lg:ml-auto">
+                                <div className="bg-slate-800/40 backdrop-blur-md rounded-2xl p-6 border border-slate-700 flex items-center gap-5 hover:bg-slate-800/60 transition-colors group">
+                                    <div className="bg-brand/10 p-4 rounded-xl shrink-0 group-hover:scale-110 transition-transform duration-300">
+                                        <Sun className="h-8 w-8 text-brand" />
+                                    </div>
+                                    <div>
+                                        <div className="text-slate-400 text-xs uppercase tracking-wider font-bold mb-1">Ensoleillement</div>
+                                        <div className="text-3xl font-bold text-white">
+                                            {sunshineHours} h<span className="text-sm font-normal text-slate-500 ml-1">/an</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="bg-slate-800/40 backdrop-blur-md rounded-2xl p-6 border border-slate-700 flex items-center gap-5 hover:bg-slate-800/60 transition-colors group">
+                                    <div className="bg-emerald-500/10 p-4 rounded-xl shrink-0 group-hover:scale-110 transition-transform duration-300">
+                                        <span className="text-3xl font-bold text-emerald-400">€</span>
+                                    </div>
+                                    <div>
+                                        <div className="text-slate-400 text-xs uppercase tracking-wider font-bold mb-1">Gain Estimé</div>
+                                        <div className="text-3xl font-bold text-white">
+                                            ~{savingsAmount} €<span className="text-sm font-normal text-slate-500 ml-1">/an</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </FadeIn>
                     </div>
-                </FadeIn>
+                </div>
             </section>
 
             {/* Advisory Content - STRUCTURE VARIATION */}
