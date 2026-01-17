@@ -85,8 +85,8 @@ export function CountrySelector({ variant = "header" }: { variant?: "header" | "
 
             {isOpen && (
                 <div className={cn(
-                    "absolute right-0 z-50 mt-2 w-32 origin-top-right rounded-lg bg-white p-1 shadow-lg ring-1 ring-black/5 animate-in fade-in zoom-in-95 duration-100",
-                    variant === "footer" ? "bottom-full mb-2 top-auto" : "top-full"
+                    "absolute z-50 mt-2 w-32 rounded-lg bg-white p-1 shadow-lg ring-1 ring-black/5 animate-in fade-in zoom-in-95 duration-100",
+                    variant === "footer" ? "bottom-full mb-2 top-auto left-0 origin-bottom-left" : "top-full right-0 origin-top-right"
                 )}>
                     <div className="space-y-1">
                         <button

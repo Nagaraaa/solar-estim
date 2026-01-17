@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
         hostname: 'images.unsplash.com',
       },
     ],
+    // Allow quality=50 for optimization
+    qualities: [50, 75],
   },
   productionBrowserSourceMaps: true,
   async headers() {

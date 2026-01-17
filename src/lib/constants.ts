@@ -8,7 +8,11 @@ export const SOLAR_CONSTANTS = {
         DEFAULT_SELF_CONSUMPTION_RATE: 0.45, // 45% Optimistic
         PHONE_PREFIX: '+33',
         PHONE_REGEX: /^0[1-9]\d{8}$/,
-        PHONE_PLACEHOLDER: "06 12 34 56 78"
+        PHONE_PLACEHOLDER: "06 12 34 56 78",
+        // New Constants for Refactor
+        PRIME_3KW: 230, // < 3kWc (Technically often higher ~300 in reality, but keeping logic consistent)
+        PRIME_9KW: 230, // < 9kWc
+        PRIME_36KW: 200, // < 36kWc
     },
     // Belgique
     BE: {
@@ -18,7 +22,10 @@ export const SOLAR_CONSTANTS = {
         DEFAULT_SELF_CONSUMPTION_RATE: 0.40, // 40%
         PHONE_PREFIX: '+32',
         PHONE_REGEX: /^0\d{8,9}$/,
-        PHONE_PLACEHOLDER: "0470 12 34 56"
+        PHONE_PLACEHOLDER: "0470 12 34 56",
+        // New Constants for Refactor
+        INJECTION_PRICE_EUR_KWH: 0.05,
+        SAFE_PRODUCTION_AVG: 950,
     },
     // Sizing
     SIZING: {
