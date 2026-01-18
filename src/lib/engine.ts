@@ -34,6 +34,12 @@ export interface SimulationResult {
     details: Details;
 }
 
+/**
+ * Intermediate result from strategy functions.
+ * Allows 'details' to be partial (missing lat/lon which are added later).
+ */
+type StrategyResult = Omit<Partial<SimulationResult>, 'details'> & { details?: Partial<Details> };
+
 export interface FinancialProjectionInput {
     result: SimulationResult;
     monthlyBill: number;
@@ -92,7 +98,7 @@ const getSetting = (settings: SolarSettings, key: string, fallback: number): num
  * Strategy: Calculate System for Belgium (BE).
  * Handles: Wallonie vs Bruxelles regions, Prosumer Tax, specific sizing logic.
  */
-function calculateBelgiumSystem(input: EngineInput, settings: SolarSettings, systemSize: number, totalProduction: number, batteryCost: number): Partial<SimulationResult> {
+function calculateBelgiumSystem(input: EngineInput, settings: SolarSettings, systemSize: number, totalProduction: number, batteryCost: number): StrategyResult {
     const { address, withBattery } = input;
     const { BE } = SOLAR_CONSTANTS;
 
@@ -150,7 +156,6 @@ function calculateBelgiumSystem(input: EngineInput, settings: SolarSettings, sys
         annualSavings: annualSavings,
         selfConsumptionRate: selfConsumptionRate,
         details: {
-            // @ts-ignore - Partial details to be merged
             region: region,
             recommendation: recommendation
         }
@@ -161,7 +166,7 @@ function calculateBelgiumSystem(input: EngineInput, settings: SolarSettings, sys
  * Strategy: Calculate System for France (FR).
  * Handles: Prime Autoconsommation, EDF OA (Resale), Tiered Pricing.
  */
-function calculateFranceSystem(input: EngineInput, settings: SolarSettings, systemSize: number, totalProduction: number, batteryCost: number): Partial<SimulationResult> {
+function calculateFranceSystem(input: EngineInput, settings: SolarSettings, systemSize: number, totalProduction: number, batteryCost: number): StrategyResult {
     const { withBattery } = input;
     const { FR } = SOLAR_CONSTANTS;
 
@@ -215,7 +220,6 @@ function calculateFranceSystem(input: EngineInput, settings: SolarSettings, syst
         annualSavings: annualSavings,
         selfConsumptionRate: selfConsumptionRate,
         details: {
-            // @ts-ignore - Partial details to be merged
             region: "",
             recommendation: ""
         }
@@ -277,7 +281,7 @@ export function calculateRecommendedSystem(input: EngineInput, settings: SolarSe
     }
 
     // 5. Strategy Dispatch (Financials)
-    let strategyResult: Partial<SimulationResult>;
+    let strategyResult: StrategyResult;
 
     if (countryCode === "BE") {
         strategyResult = calculateBelgiumSystem(input, settings, systemSize, totalProduction, batteryCost);
