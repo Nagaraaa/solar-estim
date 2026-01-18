@@ -2,7 +2,7 @@ import { getAllPosts } from '@/lib/blog';
 import { CITIES } from '../(site)/be/villes/cities';
 import { CITIES_FR } from '../(site)/villes/cities';
 
-const BASE_URL = 'https://solarestim.com';
+const BASE_URL = 'https://www.solarestim.com';
 
 export async function GET() {
     const postsFr = await getAllPosts('FR');

@@ -23,13 +23,7 @@ export const metadata: Metadata = {
   },
 
   metadataBase: new URL("https://www.solarestim.com"),
-  alternates: {
-    canonical: "/",
-    languages: {
-      'fr-FR': '/',
-      'fr-BE': '/be',
-    },
-  },
+  // Removed global alternates to avoid canonicalizing all pages to root
   openGraph: {
     title: "Solar-Estim : Simulateur Gratuit de Rentabilité Panneaux Solaires",
     description: "Calculez en 2 minutes la rentabilité de votre installation photovoltaïque avec une précision de 95 % grâce aux données officielles PVGIS. Simulation gratuite, sans engagement !",

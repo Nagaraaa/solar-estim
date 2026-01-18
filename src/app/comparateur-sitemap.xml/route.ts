@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
-const BASE_URL = 'https://solarestim.com';
+const BASE_URL = 'https://www.solarestim.com';
 
 export async function GET() {
     const comparateurDir = path.join(process.cwd(), 'src/app/comparateur');

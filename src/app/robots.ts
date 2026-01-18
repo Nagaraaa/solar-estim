@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
                 disallow: ['/admin/'],
             }
         ],
-        sitemap: 'https://solarestim.com/index-sitemap.xml',
+        sitemap: 'https://www.solarestim.com/index-sitemap.xml',
     };
 }

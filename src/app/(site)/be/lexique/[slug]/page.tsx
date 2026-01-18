@@ -18,6 +18,10 @@ export async function generateMetadata({ params }: PageProps) {
         description: term.shortDefinition,
         alternates: {
             canonical: `https://www.solarestim.com/be/lexique/${slug}`,
+            languages: {
+                'fr-FR': `https://www.solarestim.com/lexique/${slug}`,
+                'fr-BE': `https://www.solarestim.com/be/lexique/${slug}`,
+            },
         },
     };
 }

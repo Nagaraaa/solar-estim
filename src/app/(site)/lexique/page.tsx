@@ -5,6 +5,13 @@ import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/ca
 export const metadata = {
     title: "Lexique Solaire : Le Dictionnaire du Photovoltaïque | Solar-Estim",
     description: "Comprenez tous les termes techniques du solaire (kWc, Onduleur, Tarif Prosumer) avant de lancer votre installation.",
+    alternates: {
+        canonical: 'https://www.solarestim.com/lexique',
+        languages: {
+            'fr-FR': 'https://www.solarestim.com/lexique',
+            'fr-BE': 'https://www.solarestim.com/be/lexique',
+        },
+    },
 };
 
 export default async function LexiconIndex() {

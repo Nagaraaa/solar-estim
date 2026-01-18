@@ -1,6 +1,6 @@
 import { getAllDefinitions } from '@/lib/lexicon';
 
-const BASE_URL = 'https://solarestim.com';
+const BASE_URL = 'https://www.solarestim.com';
 
 export async function GET() {
     const lexiconFr = await getAllDefinitions('FR');

@@ -6,7 +6,11 @@ export const metadata = {
     title: "Lexique Solaire Belgique : Le Dictionnaire du Photovoltaïque | Solar-Estim",
     description: "Comprenez tous les termes techniques du solaire en Wallonie (RESCert, Tarif Prosumer, Compteur double flux) avant de lancer votre installation.",
     alternates: {
-        canonical: "https://www.solarestim.com/be/lexique",
+        canonical: 'https://www.solarestim.com/be/lexique',
+        languages: {
+            'fr-FR': 'https://www.solarestim.com/lexique',
+            'fr-BE': 'https://www.solarestim.com/be/lexique',
+        },
     },
 };
 

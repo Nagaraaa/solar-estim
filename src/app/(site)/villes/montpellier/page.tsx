@@ -143,6 +143,32 @@ export default function MontpellierPage() {
                             </FadeIn>
                         </div>
                     </div>
+                    {/* Internal Linking Block */}
+                    <div className="mt-12 pt-8 border-t border-slate-200">
+                        <h3 className="text-xl font-bold text-slate-900 mb-6">
+                            Approfondir votre projet solaire à Montpellier
+                        </h3>
+                        <div className="grid sm:grid-cols-2 gap-4">
+                            <Link href="/be/lexique/prime-autoconsommation" className="flex items-center gap-3 p-4 rounded-xl bg-white border border-slate-200 hover:border-brand hover:shadow-md transition-all group">
+                                <div className="bg-blue-50 p-2 rounded-lg text-blue-600 group-hover:text-brand transition-colors">
+                                    <Info className="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <div className="font-bold text-slate-900">Les Aides de l'État</div>
+                                    <div className="text-sm text-slate-500">Guide complet 2026</div>
+                                </div>
+                            </Link>
+                            <Link href="/lexique/roi" className="flex items-center gap-3 p-4 rounded-xl bg-white border border-slate-200 hover:border-brand hover:shadow-md transition-all group">
+                                <div className="bg-yellow-50 p-2 rounded-lg text-yellow-600 group-hover:text-brand transition-colors">
+                                    <TrendingUp className="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <div className="font-bold text-slate-900">Calcul Rentabilité</div>
+                                    <div className="text-sm text-slate-500">Comprendre le ROI</div>
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </section>
 

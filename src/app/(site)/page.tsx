@@ -6,6 +6,19 @@ import { CtaSection } from "@/components/sections/CtaSection";
 import { ComparatorSection } from "@/components/sections/ComparatorSection";
 import { TrustSection } from "@/components/sections/TrustSection";
 
+
+export const metadata = {
+    title: "Simulateur Rentabilité Panneaux Solaires | France & Belgique (Gratuit)",
+    description: "Calculez vos économies photovoltaïques en 2 min. Simulateur précis pour la Wallonie, Bruxelles et toute la France. Basé sur les données PVGIS. Sans inscription obligatoire.",
+    alternates: {
+        canonical: 'https://www.solarestim.com/',
+        languages: {
+            'fr-FR': 'https://www.solarestim.com/',
+            'fr-BE': 'https://www.solarestim.com/be',
+        },
+    },
+};
+
 export default function Home() {
     return (
         <div className="flex flex-col min-h-screen">

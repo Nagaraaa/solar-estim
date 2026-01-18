@@ -16,7 +16,14 @@ export async function generateMetadata({ params }: PageProps) {
     if (!term) return { title: "Terme non trouvé" };
     return {
         title: `C'est quoi ${term.term} ? Définition Simple`,
-        description: term.shortDefinition
+        description: term.shortDefinition,
+        alternates: {
+            canonical: `https://www.solarestim.com/lexique/${slug}`,
+            languages: {
+                'fr-FR': `https://www.solarestim.com/lexique/${slug}`,
+                'fr-BE': `https://www.solarestim.com/be/lexique/${slug}`,
+            },
+        }
     };
 }
 
