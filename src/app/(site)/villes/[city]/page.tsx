@@ -1,14 +1,14 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, MapPin, CheckCircle, Info, Sun, BookOpen } from "lucide-react";
+import { ArrowRight, MapPin, CheckCircle, Info, Sun, BookOpen, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FadeIn } from "@/components/ui/fade-in";
 import Image from "next/image";
 import { CITIES_FR, getCityBySlug, getAllCitySlugs } from "../cities";
 import { FAQSection } from "@/components/FAQSection";
-import { faqs } from "@/data/faqs";
+import * as React from "react";
 
 interface PageProps {
     params: Promise<{
@@ -16,7 +16,7 @@ interface PageProps {
     }>;
 }
 
-// --- SPINTAX HELPER ---
+// --- SPINTAX ENGINE (NESTED) ---
 function getSeed(str: string): number {
     let seed = 0;
     for (let i = 0; i < str.length; i++) {
@@ -26,98 +26,193 @@ function getSeed(str: string): number {
     return Math.abs(seed);
 }
 
-function spin(options: string[], seed: number, index: number): string {
-    const combinedSeed = seed + index;
-    return options[combinedSeed % options.length];
+// Recursive Spintax Parser: {A|B|{C|D}}
+function parseSpintax(text: string, seed: number): string {
+    const regex = /\{([^{}]+)\}/g;
+    let match;
+    let currentText = text;
+    let iteration = 0;
+
+    // Handle nested spintax by multiple passes (up to 5 levels deep)
+    while ((match = regex.exec(currentText)) !== null && iteration < 5) {
+        currentText = currentText.replace(regex, (fullMatch, content) => {
+            const options = content.split('|');
+            // Use a changing seed modifier based on content length to avoid "same choice" everywhere
+            const modifier = content.length + iteration;
+            const selected = options[(seed + modifier) % options.length];
+            return selected;
+        });
+        // Reset regex to check for newly exposed braces or remaining ones
+        regex.lastIndex = 0;
+        // If no more braces, break early
+        if (!currentText.includes('{')) break;
+        iteration++;
+    }
+    return currentText;
 }
 
-// --- CONTENT BLOCKS ---
-const BlockWhy = ({ city, seed }: { city: any, seed: number }) => (
-    <div className="mb-8">
-        <h2 className="text-3xl font-bold text-slate-900 mb-6">
-            {spin([
-                `Pourquoi installer des panneaux solaires à ${city.name} ?`,
-                `L'intérêt du photovoltaïque à ${city.name} en 2026`,
-                `Rentabilité d'une installation solaire à ${city.name} : Analyse`
-            ], seed, 1)}
-        </h2>
-        <div className="prose prose-slate max-w-none text-slate-600 space-y-4 leading-relaxed">
-            <p>
-                {spin([
-                    `À ${city.name}, le potentiel photovoltaïque est idéal pour réduire votre facture d'électricité.`,
-                    `Les habitants de ${city.name} bénéficient d'un ensoleillement favorable pour l'autoconsommation.`,
-                    `Installer des panneaux à ${city.name} est une stratégie gagnante contre la hausse des prix de l'énergie.`
-                ], seed, 2)}
-                {' '}
-                {spin([
-                    `En produisant votre propre énergie verte, vous vous protégez contre les hausses tarifaires.`,
-                    `Devenez producteur d'électricité et réduisez votre dépendance au réseau public.`,
-                    `Valorisez votre toiture tout en faisant des économies immédiates.`
-                ], seed, 3)}
+// Wrapper for clean usage
+function spin(template: string, seed: number): string {
+    return parseSpintax(template, seed);
+}
+
+// --- RENDER COMPONENT FOR BOLD TEXT ---
+const RenderSpintax = ({ text }: { text: string }) => {
+    // Basic bold parser: **text** -> <strong>text</strong>
+    const parts = text.split(/(\*\*[^*]+\*\*)/g);
+    return (
+        <>
+            {parts.map((part, index) => {
+                if (part.startsWith('**') && part.endsWith('**')) {
+                    return <strong key={index} className="font-bold text-slate-900">{part.slice(2, -2)}</strong>;
+                }
+                return part;
+            })}
+        </>
+    );
+};
+
+// --- CONTENT BLOCKS (EXPLODED SPINTAX) ---
+
+const BlockWhy = ({ city, seed }: { city: any, seed: number }) => {
+    const template = `
+    {À|Pour votre projet à|Dans la ville de} ${city.name} (${city.zip}), {l'installation de panneaux solaires|le photovoltaïque|l'énergie solaire} {est une solution incontournable|représente un investissement stratégique|devient une nécessité} en 2026.
+    {Avec|Grâce à} un ensoleillement de **${city.sunshineHours} heures par an**, {votre toiture|votre maison|votre habitation} {bénéficie d'un potentiel|dispose d'un gisement solaire|offre un rendement} {exceptionnel|très favorable|idéal} pour {l'autoconsommation|réduire vos factures|produire votre électricité}.
+    
+    {En effet|Concrètement}, {le département ${city.department === "Rhône" || city.department === "Nord" ? "du" : "de"} ${city.department}|cette région|votre secteur géographique} {se prête parfaitement|est parfaitement adapté|convient idéalement} à la production d'énergie verte.
+    {Ne subissez plus|Protégez-vous contre|Oubliez} {la hausse des prix de l'énergie|l'inflation énergétique|les augmentations du tarif de l'électricité} en {devenant producteur|produisant vos propres kWh|passant à l'autonomie partielle}.
+    `;
+
+    return (
+        <div className="mb-8">
+            <h2 className="text-3xl font-bold text-slate-900 mb-6">
+                <RenderSpintax text={spin(`{Pourquoi passer au solaire|Les avantages du photovoltaïque|Vivre et investir} à ${city.name} ?`, seed)} />
+            </h2>
+            <div className="prose prose-slate max-w-none text-slate-600 space-y-4 leading-relaxed text-justify">
+                <p><RenderSpintax text={spin(template, seed)} /></p>
+                <p>
+                    <RenderSpintax text={spin(`{De plus|Par ailleurs|En outre}, {la valeur verte|la plus-value immobilière} de votre bien à ${city.name} {augmentera|sera valorisée|progressera} {significativement|durablement} avec une installation {certifiée|aux normes|performante}.`, seed + 1)} />
+                </p>
+            </div>
+        </div>
+    );
+};
+
+const BlockPrimes = ({ city, seed }: { city: any, seed: number }) => {
+    const template = `
+    {Les habitants de|Les propriétaires à} ${city.name} {sont éligibles|ont droit|peuvent prétendre} {à l'ensemble des aides de l'État|aux dispositifs nationaux de soutien|aux subventions gouvernementales} pour la rénovation énergétique.
+    {La prime à l'autoconsommation|La prime à l'investissement}, {versée en une fois|attribuée dès la première année}, {permet de financer|réduit le coût de} {une partie de vos travaux|votre installation}.
+    
+    {En parallèle|De plus|Ajoutez à cela}, le {mécanisme|système} **EDF OA (Obligation d'Achat)** {garantit|sécurise|assure} la vente de votre surplus d'électricité {pendant 20 ans|sur deux décennies|à un tarif fixe} {à un prix subventionné|contractuel}.
+    {C'est une opportunité unique|Un levier financier puissant} pour {rentabiliser|amortir} vos panneaux à ${city.name} {plus rapidement|en un temps record}.
+    `;
+
+    return (
+        <div className="mb-8">
+            <h3 className="text-xl font-bold text-slate-800 mt-6 flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-brand" />
+                <RenderSpintax text={spin(`{Primes et Aides|Subventions Solaires|Financement} à ${city.name}`, seed + 2)} />
+            </h3>
+            <div className="text-slate-600 mt-2 space-y-2">
+                <p><RenderSpintax text={spin(template, seed + 3)} /></p>
+            </div>
+        </div>
+    );
+};
+
+const BlockRGE = ({ city, seed }: { city: any, seed: number }) => {
+    const template = `
+    {Pour bénéficier de ces aides|Pour débloquer ces primes}, {il est obligatoire|il est impératif|la condition sine qua non est} de {faire appel|choisir|sélectionner} un installateur **RGE (Reconnu Garant de l'Environnement)** {intervenant à ${city.name}|local|certifié}.
+    {Nos partenaires|Les experts Solar Estim|Nos artisans référencés} {dans le ${city.department}|sur le secteur de ${city.name}} {disposent tous|sont tous titulaires} des qualifications **QualiPV**, {gage de qualité|assurance de conformité|garantie de sécurité}.
+    
+    {Ne prenez pas de risques|Évitez les malfaçons} : {une installation solaire|un chantier photovoltaïque} à ${city.name} {doit être réalisé|demande une expertise|nécessite un savoir-faire} {technique pointu|professionnel}.
+    `;
+
+    return (
+        <div className="mb-8">
+            <h3 className="text-xl font-bold text-slate-800 mt-6 flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-brand" />
+                <RenderSpintax text={spin(`{Trouver un Installateur RGE|Artisans Certifiés|Entreprises Qualifiées} à ${city.name}`, seed + 4)} />
+            </h3>
+            <p className="text-slate-600 mt-2">
+                <RenderSpintax text={spin(template, seed + 5)} />
             </p>
         </div>
-    </div>
-);
+    );
+};
 
-const BlockPrimes = ({ city, seed }: { city: any, seed: number }) => (
-    <div className="mb-8">
-        <h3 className="text-xl font-bold text-slate-800 mt-6 flex items-center gap-2">
-            <CheckCircle className="h-5 w-5 text-brand" />
-            {spin([
-                `Prime à l'autoconsommation et EDF OA`,
-                `Aides de l'État et Rachat Surplus`,
-                `Les Subventions Solaires à ${city.name}`
-            ], seed, 4)}
-        </h3>
-        <p className="text-slate-600 mt-2">
-            {spin([
-                `En France, l'État encourage la transition. Vous bénéficiez d'une prime à l'investissement versée en une fois.`,
-                `Le dispositif EDF OA vous garantit un tarif d'achat fixe pour votre surplus pendant 20 ans.`,
-                `Profitez de la prime à l'autoconsommation (jusqu'à 1110€ pour 3kWc selon périodes) et vendez votre surplus.`
-            ], seed, 5)}
-        </p>
-    </div>
-);
+const BlockRentabilite = ({ city, seed }: { city: any, seed: number }) => {
+    const isSud = city.sunshineHours > 2200;
+    const template = `
+    {Située en|Avec sa position en} zone **${city.zone}**, ${city.name} {profite d'un|bénéficie d'un|jouit d'un} {climat|ensoleillement} {favorable|propice} avec **${city.sunshineHours} heures de soleil** par an.
+    ${isSud
+            ? `{C'est une performance idéale|Un score excellent} qui permet {d'atteindre|de viser} une rentabilité {maximale|optimale}.`
+            : `{Malgré une météo parfois variable|Même sans être dans le sud}, {la lumière diffuse|le rayonnement} suffit à {garantir|assurer} une production {élevée|rentable} grâce aux {panneaux modernes|technologies actuelles}.`
+        }
+    
+    {Votre retour sur investissement|La période d'amortissement|Le ROI} à ${city.name} est estimé {entre 6 et 9 ans|rapidement|sous la barre des 10 ans}, {selon votre autoconsommation|en fonction de vos habitudes|selon la puissance installée}.
+    `;
 
-const BlockRGE = ({ city, seed }: { city: any, seed: number }) => (
-    <div className="mb-8">
-        <h3 className="text-xl font-bold text-slate-800 mt-6 flex items-center gap-2">
-            <CheckCircle className="h-5 w-5 text-brand" />
-            {spin([
-                `Installateurs RGE QualiPV obligatoires`,
-                `Pourquoi choisir un artisan RGE à ${city.name} ?`,
-                `La certification RGE : Condition des aides`
-            ], seed, 6)}
-        </h3>
-        <p className="text-slate-600 mt-2">
-            {spin([
-                `Pour bénéficier de ces aides, il est impératif de faire appel à un artisan certifié RGE (Reconnu Garant de l'Environnement).`,
-                `Sans installateur RGE, impossible de toucher la prime EDF OA.`,
-                `Nos artisans partenaires sur ${city.name} détiennent tous le label QualiPV RGE.`
-            ], seed, 7)}
-        </p>
-    </div>
-);
+    return (
+        <div className="mb-8">
+            <h3 className="text-xl font-bold text-slate-800 mt-6 flex items-center gap-2">
+                <Sun className="h-5 w-5 text-brand" />
+                <RenderSpintax text={spin(`{Rentabilité Solaire|Production Photovoltaïque|Gains Estiminés} à ${city.name}`, seed + 6)} />
+            </h3>
+            <p className="text-slate-600 mt-2">
+                <RenderSpintax text={spin(template, seed + 7)} />
+            </p>
+        </div>
+    );
+};
 
-const BlockRentabilite = ({ city, seed }: { city: any, seed: number }) => (
-    <div className="mb-8">
-        <h3 className="text-xl font-bold text-slate-800 mt-6 flex items-center gap-2">
-            <Sun className="h-5 w-5 text-brand" />
-            {spin([
-                `Rentabilité Zone Ensoleillement ${city.zone}`,
-                `Potentiel Solaire : Zone ${city.zone}`,
-                `Combien produit une installation à ${city.name} ?`
-            ], seed, 8)}
-        </h3>
-        <p className="text-slate-600 mt-2">
-            {spin([
-                `Située en zone ${city.zone}, ${city.name} offre un rendement optimal pour les installations bien orientées.`,
-                `Même en zone ${city.zone}, les panneaux modernes (IBC, TOPCon) garantissent une forte production.`,
-                `Le climat de ${city.name} (Zone ${city.zone}) permet un retour sur investissement rapide, souvent sous les 10 ans.`
-            ], seed, 9)}
-        </p>
-    </div>
-);
+// --- DYNAMIC LOCAL FAQ ---
+const LocalFAQ = ({ city, seed }: { city: any, seed: number }) => {
+    // Generate questions based on city data/department
+    const q1 = spin(`{Quel est le prix|Combien coûte|Quel budget pour} une installation solaire à ${city.name} ?`, seed);
+    const r1 = spin(`Le prix {moyen|constaté} à ${city.name} {varie|oscille} entre **7 000€ et 9 000€** pour {3 kWc|une centrale de 3 000 Wc}, prime déduite. Ce montant {dépend|fluctue selon} {de la complexité du toit|du type de tuiles} et du choix du matériel (Micro-onduleurs ou onduleur central).`, seed + 1);
+
+    const q2 = spin(`{Y a-t-il des aides|Existe-t-il des primes} locales {dans le ${city.department === "Rhône" || city.department === "Nord" ? "département du" : "département de"} ${city.department}|en région} pour le solaire ?`, seed + 2);
+    const r2 = spin(`{Actuellement|À ce jour}, {les principales aides|l'essentiel du soutien} {provient de l'État|est national} (Prime à l'autoconsommation, TVA réduite). Certaines collectivités {autour de ${city.name}|locales} {peuvent proposer|offrent parfois} des aides ponctuelles, il est {conseillé|recommandé} de vérifier auprès de la mairie de ${city.name} ou du département ${city.department === "Rhône" || city.department === "Nord" ? "du" : "de"} ${city.department}.`, seed + 3);
+
+    const q3 = spin(`{Faut-il|Est-il nécessaire de} nettoyer ses panneaux solaires à ${city.name} ?`, seed + 4);
+    const r3 = spin(`{Oui|Absolument}, {l'entretien|le nettoyage} est {recommandé|conseillé} {tous les ans|une fois par an}, surtout à ${city.name} {pour éliminer|afin d'enlever} {les poussières|les dépôts|le pollen}. Un panneau propre {produit|génère} jusqu'à **{5%|10%} d'énergie en plus** {sur l'année|annuellement}.`, seed + 5);
+
+    return (
+        <section className="mt-12 pt-8 border-t border-slate-200">
+            <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                <HelpCircle className="text-brand h-6 w-6" />
+                Questions Fréquentes à {city.name}
+            </h3>
+            <div className="space-y-4">
+                <Card className="border-l-4 border-l-brand border-y-0 border-r-0 rounded-none shadow-sm bg-slate-50/50">
+                    <CardHeader className="py-3 px-4">
+                        <CardTitle className="text-base font-semibold text-slate-800"><RenderSpintax text={q1} /></CardTitle>
+                    </CardHeader>
+                    <CardContent className="py-0 pb-3 px-4 text-sm text-slate-600">
+                        <RenderSpintax text={r1} />
+                    </CardContent>
+                </Card>
+                <Card className="border-l-4 border-l-brand border-y-0 border-r-0 rounded-none shadow-sm bg-slate-50/50">
+                    <CardHeader className="py-3 px-4">
+                        <CardTitle className="text-base font-semibold text-slate-800"><RenderSpintax text={q2} /></CardTitle>
+                    </CardHeader>
+                    <CardContent className="py-0 pb-3 px-4 text-sm text-slate-600">
+                        <RenderSpintax text={r2} />
+                    </CardContent>
+                </Card>
+                <Card className="border-l-4 border-l-brand border-y-0 border-r-0 rounded-none shadow-sm bg-slate-50/50">
+                    <CardHeader className="py-3 px-4">
+                        <CardTitle className="text-base font-semibold text-slate-800"><RenderSpintax text={q3} /></CardTitle>
+                    </CardHeader>
+                    <CardContent className="py-0 pb-3 px-4 text-sm text-slate-600">
+                        <RenderSpintax text={r3} />
+                    </CardContent>
+                </Card>
+            </div>
+        </section>
+    );
+}
 
 // --- DYNAMIC INTERNAL LINKS ---
 const LEXICON_ARTICLES = [
@@ -161,17 +256,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const city = getCityBySlug(citySlug);
     if (!city) return {};
 
-    // Simple Spintax for meta
     const seed = getSeed(city.slug);
-    const title = spin([
-        `Panneaux Solaires à ${city.name} : Prime & Rentabilité 2026`,
-        `Installation Photovoltaïque ${city.name} : Prix et Aides 2026`,
-        `${city.name} : Devis Panneaux Solaires et Primes`
-    ], seed, 10);
+    // Spintax for meta title
+    const title = spin(`{Panneaux Solaires à ${city.name} : Guide 2026|Installation Solaire ${city.name} (${city.zip}) : Prix & Aides|${city.name} : Rentabilité Panneaux Photovoltaïques}`, seed);
+
+    // Spintax for meta description with data injection
+    const description = spin(`{Projet solaire à|Vous habitez} ${city.name} (${city.department}) ? {Découvrez|Tout savoir sur} la rentabilité avec **${city.sunshineHours}h de soleil/an**, les {aides|primes} de l'État et {les tarifs|le coût} d'installation. {Devis gratuit|Simulation en ligne}.`, seed + 1);
 
     return {
         title: title,
-        description: `Installation photovoltaïque à ${city.name} (${city.zip}) ? Tout sur la Prime à l'autoconsommation, le tarif d'achat EDF OA et les installateurs RGE.`,
+        description: description,
         alternates: {
             canonical: `https://www.solarestim.com/villes/${city.slug}`,
         },
@@ -188,24 +282,25 @@ export default async function CityPage({ params }: PageProps) {
 
     // --- VARIABLES & LOGIC ---
     const seed = getSeed(city.slug);
-    const isSud = city.zone === 'Sud';
-    const sunshineHours = isSud ? 2400 : 1600;
-    const savingsAmount = Math.round(sunshineHours * 0.5);
+    const isSud = city.sunshineHours > 2200; // Updated logic based on real data
+    const savingsAmount = Math.round(city.sunshineHours * 0.55); // More precise formula
 
     const headerImage = isSud ? "/images/villes/sud-archetype.png" : "/images/villes/nord-archetype.png";
     const headerAlt = isSud
-        ? `Panneaux solaires sur toiture tuiles à ${city.name}, région ensoleillée.`
-        : `Installation photovoltaïque sur toiture ardoise à ${city.name}, rendement optimisé.`;
+        ? `Panneaux solaires sur toiture tuiles à ${city.name} (${city.department}), région ensoleillée.`
+        : `Installation photovoltaïque sur toiture ardoise à ${city.name} (${city.department}).`;
 
     // --- SPINTAX INTRO ---
-    const introText = spin([
-        `Calculez votre rentabilité solaire à ${city.name} et découvrez les aides de l'État disponibles.`,
-        `Estimez vos économies solaires précises pour votre maison à ${city.name} grâce à notre simulateur.`,
-        `Le guide solaire complet pour les propriétaires à ${city.name} : prix, primes et rentabilité.`
-    ], seed, 0);
+    // Massive spintax for Intro
+    const introTemplate = `
+    {Calculez|Estimez|Simulez} {votre rentabilité solaire|vos économies d'énergie|votre potentiel photovoltaïque} à **${city.name}** {grâce à notre outil|avec notre simulateur précis|en quelques clics}.
+    {Profitez de|Valorisez} les **${city.sunshineHours} heures d'ensoleillement** {du département ${city.department === "Rhône" || city.department === "Nord" ? "du" : "de"} ${city.department}|de votre région} pour {réduire votre facture|devenir autonome|passer au vert}.
+    {Découvrez|Accédez à} {toutes les aides|les subventions|les primes} 2026 et {trouvez|contactez} {les meilleurs installateurs|un artisan RGE|un pro} {local|près de chez vous}.
+    `;
+    const introText = spin(introTemplate, seed);
+
 
     // --- SELECTION STRUCTURE (A, B, C) ---
-    // Alternance basée sur le seed modulo 3
     const structureType = seed % 3; // 0, 1, 2
 
     // --- RENDER ---
@@ -230,30 +325,28 @@ export default async function CityPage({ params }: PageProps) {
                         <span>&gt;</span>
                         <Link href="/villes" className="hover:text-white transition-colors">Villes de France</Link>
                         <span>&gt;</span>
+                        <Link href={`/villes`} className="hover:text-white transition-colors">{city.department}</Link>
+                        <span>&gt;</span>
                         <span className="text-brand font-medium">{city.name}</span>
                     </nav>
 
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
                         <FadeIn delay={100} className="text-left">
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-sm font-medium mb-6 border border-brand/20">
-                                <MapPin className="h-4 w-4" /> Installation Solaire : {city.name} ({city.zip})
+                                <MapPin className="h-4 w-4" /> Solaire {city.department} : {city.name} ({city.zip})
                             </div>
                             <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-none">
-                                {spin([
-                                    "Passez au solaire à",
-                                    "Votre installation solaire à",
-                                    "Panneaux Photovoltaïques à"
-                                ], seed, 11)} <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-yellow-200 block mt-2">{city.name}</span>
+                                <RenderSpintax text={spin(`{Passez au solaire à|Votre installation à|Panneaux Solaires à}`, seed)} /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-yellow-200 block mt-2">{city.name}</span>
                             </h1>
 
                             <p className="text-lg text-slate-300 mb-8 max-w-xl leading-relaxed">
-                                {introText}
+                                <RenderSpintax text={introText} />
                             </p>
 
                             <div className="flex flex-col sm:flex-row gap-4">
                                 <Link href="/simulateur">
                                     <Button size="lg" variant="brand" className="w-full sm:w-auto text-base font-bold px-8 h-12 shadow-xl hover:shadow-2xl hover:scale-105 transition-all">
-                                        Calculer ma prime EDF OA <ArrowRight className="ml-2 h-5 w-5" />
+                                        Calculer ma prime {city.name} <ArrowRight className="ml-2 h-5 w-5" />
                                     </Button>
                                 </Link>
                             </div>
@@ -267,9 +360,9 @@ export default async function CityPage({ params }: PageProps) {
                                         <Sun className="h-8 w-8 text-brand" />
                                     </div>
                                     <div>
-                                        <div className="text-slate-400 text-xs uppercase tracking-wider font-bold mb-1">Ensoleillement</div>
+                                        <div className="text-slate-400 text-xs uppercase tracking-wider font-bold mb-1">Ensoleillement {city.name}</div>
                                         <div className="text-3xl font-bold text-white">
-                                            {sunshineHours} h<span className="text-sm font-normal text-slate-500 ml-1">/an</span>
+                                            {city.sunshineHours} h<span className="text-sm font-normal text-slate-500 ml-1">/an</span>
                                         </div>
                                     </div>
                                 </div>
@@ -325,27 +418,29 @@ export default async function CityPage({ params }: PageProps) {
                                 {/* Dynamic Lexicon Link */}
                                 <DynamicLexiconLink seed={seed} />
 
+                                {/* NEW: Local FAQ */}
+                                <LocalFAQ city={city} seed={seed} />
+
                             </FadeIn>
                         </div>
 
                         {/* Sidebar / CTA */}
                         <div className="md:col-span-4 space-y-6">
                             <FadeIn delay={300}>
-                                <Card className="border-brand border-2 shadow-lg bg-slate-900 text-white">
+                                <Card className="border-brand border-2 shadow-lg bg-slate-900 text-white sticky top-24">
                                     <CardContent className="p-6 pt-8 text-center space-y-6">
                                         <h3 className="text-2xl font-bold">Votre Étude à {city.name}</h3>
                                         <p className="text-slate-300">
-                                            {spin([
-                                                "Découvrez le montant de vos aides et votre rentabilité financière précise.",
-                                                "Obtenez votre rapport solaire détaillé et gratuit en 2 minutes.",
-                                                "Vérifiez votre éligibilité aux primes 2026."
-                                            ], seed, 20)}
+                                            <RenderSpintax text={spin("{Découvrez le montant de vos aides|Obtenez votre rapport solaire|Vérifiez votre éligibilité} et {calculez votre rentabilité précise|la production de votre toiture|vos futurs revenus}.", seed + 20)} />
                                         </p>
                                         <Link href="/simulateur" className="block w-full">
                                             <Button size="lg" variant="brand" className="w-full font-bold">
                                                 Lancer la simulation
                                             </Button>
                                         </Link>
+                                        <p className="text-xs text-slate-400">
+                                            Données {city.department} • Certifié PVGIS
+                                        </p>
                                     </CardContent>
                                 </Card>
                             </FadeIn>
@@ -354,7 +449,7 @@ export default async function CityPage({ params }: PageProps) {
                 </div>
             </section>
 
-            {/* DYNAMIC FAQ SECTION */}
+            {/* STATIC FAQ SECTION (Global) */}
             <FAQSection city={city.name} country="FR" />
 
             {/* Cross Linking Grid */}
