@@ -1,0 +1,18 @@
+{
+    "fr": {
+        "term": "V2G (Vehicle-to-Grid)",
+        "shortDefinition": "Technologie permettant de revendre l'électricité stockée dans la batterie de votre voiture électrique au réseau public, notamment lors des pics de prix.",
+        "audience10yo": "Imagine que ta voiture électrique est une grosse pile. Quand le prix de l'électricité est très haut parce que tout le monde en a besoin, ta voiture peut renvoyer de l'énergie au réseau pour gagner de l'argent.",
+        "technicalDetails": "Le V2G nécessite une borne de recharge bidirectionnelle et un véhicule compatible (souvent norme CHAdeMO ou ISO 15118-20). Il permet de participer à l'équilibrage du réseau (services systèmes) et de générer des revenus passifs.",
+        "importance": "Future source de revenus pour les propriétaires de VE et élément clé des réseaux intelligents (Smart Grids).",
+        "category": "mobility"
+    },
+    "be": {
+        "term": "V2G (Vehicle-to-Grid)",
+        "shortDefinition": "Technologie permettant de réinjecter l'électricité de votre voiture électrique vers le réseau belge.",
+        "audience10yo": "C'est comme si ta voiture partageait son énergie avec tout le quartier quand il y en a besoin, et tu reçois de l'argent en échange.",
+        "technicalDetails": "En Belgique, le cadre légal du V2G est en développement (Synergrid C10/26). Il permettra bientôt de valoriser le stockage mobile face aux tarifs dynamiques d'injection.",
+        "importance": "Crucial pour stabiliser le réseau belge face à l'intermittence du solaire et de l'éolien.",
+        "category": "mobility"
+    }
+}

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, MapPin, CheckCircle, Info, Sun, BookOpen, HelpCircle } from "lucide-react";
+import { ArrowRight, MapPin, CheckCircle, Info, Sun, BookOpen, HelpCircle, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FadeIn } from "@/components/ui/fade-in";
@@ -162,6 +162,40 @@ const BlockRentabilite = ({ city, seed }: { city: any, seed: number }) => {
             <p className="text-slate-600 mt-2">
                 <RenderSpintax text={spin(template, seed + 7)} />
             </p>
+        </div>
+    );
+};
+
+const BlockMobility = ({ city, seed }: { city: any, seed: number }) => {
+    const template = `
+    {À ${city.name}|Pour les habitants de ${city.name}|Dans la région de ${city.name}}, l'ensoleillement {optimal|généreux|favorable} de ${city.sunshineHours} heures par an est une aubaine pour les propriétaires de véhicules électriques.
+    {En installant des panneaux solaires|Grâce à une installation photovoltaïque}, vous pouvez {charger votre voiture gratuitement|faire le plein de votre VE à 0€|rouler à l'énergie solaire} une grande partie de l'année.
+    De plus, les nouvelles bornes [Borne Bidirectionnelle](/lexique/borne-bidirectionnelle) permettent d'utiliser la batterie de votre voiture pour alimenter votre maison via le [V2H](/lexique/v2h) lors des soirées à ${city.name}, {augmentant|boostant|maximisant} votre indépendance énergétique.
+    `;
+
+    return (
+        <div className="mb-8 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+            <div className="flex flex-col md:flex-row gap-6 items-center">
+                <div className="flex-1">
+                    <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <Zap className="h-5 w-5 text-amber-500" />
+                        <RenderSpintax text={spin(`{Solaire & Voiture Électrique|Roulez au Solaire|Recharge VE Gratuite} à ${city.name}`, seed + 10)} />
+                    </h3>
+                    <p className="text-slate-600 leading-relaxed text-justify">
+                        <RenderSpintax text={spin(template, seed + 11)} />
+                    </p>
+                </div>
+                <div className="w-full md:w-1/3 shrink-0">
+                    <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
+                        <Image
+                            src="/images/villes/ev-charging-generic.jpg"
+                            alt={`Recharge voiture électrique via panneaux solaires à ${city.name}`}
+                            fill
+                            className="object-cover"
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
@@ -414,6 +448,9 @@ export default async function CityPage({ params }: PageProps) {
                                         <BlockWhy city={city} seed={seed} />
                                     </>
                                 )}
+
+                                {/* Block Mobility (Always visible at the end) */}
+                                <BlockMobility city={city} seed={seed} />
 
                                 {/* Dynamic Lexicon Link */}
                                 <DynamicLexiconLink seed={seed} />

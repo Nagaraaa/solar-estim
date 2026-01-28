@@ -30,6 +30,7 @@ import { useNonce } from "@/components/providers/NonceProvider";
 
 import { SimulatorControls } from "./SimulatorControls";
 import { SimulatorResults } from "./SimulatorResults";
+import { AffiliatePartnerCard } from "@/components/ui/AffiliatePartnerCard";
 
 // ... imports
 
@@ -142,7 +143,7 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
                     <div id="lead-form">
                         {isSubmitted ? (
                             <div className="min-h-[70vh] flex items-center justify-center animate-in fade-in zoom-in duration-500">
-                                <SuccessMessage />
+                                <SuccessMessage cityName={address.split(/\d{5}\s+/)[1] || address.split(',')[0]} />
                             </div>
                         ) : (
                             // ... (Existing Lead Form Card code - reusing exact structure)

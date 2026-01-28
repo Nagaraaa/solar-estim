@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getAllDefinitions } from "@/lib/lexicon";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { LexiconFilterableGrid } from "@/components/lexicon/LexiconFilterableGrid";
 
 export const metadata = {
     title: "Lexique Solaire Belgique : Le Dictionnaire du Photovoltaïque | Solar-Estim",
@@ -26,22 +26,8 @@ export default async function LexiconIndexBe() {
                 </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {terms.map((term) => (
-                    <Link key={term.slug} href={`/be/lexique/${term.slug}`} className="group">
-                        <Card className="h-full hover:shadow-lg transition-all duration-300 border-slate-200 hover:border-brand/50">
-                            <CardHeader>
-                                <CardTitle className="text-xl mb-2 group-hover:text-brand transition-colors">
-                                    {term.term}
-                                </CardTitle>
-                                <CardDescription className="text-slate-600">
-                                    {term.shortDefinition}
-                                </CardDescription>
-                            </CardHeader>
-                        </Card>
-                    </Link>
-                ))}
-            </div>
+            <LexiconFilterableGrid terms={terms} country="BE" />
+
         </div>
     );
 }

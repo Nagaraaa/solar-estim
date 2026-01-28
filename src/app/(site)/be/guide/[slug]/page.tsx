@@ -9,6 +9,7 @@ import { FeatureSection } from "@/components/sections/FeatureSection";
 import { BlogPreviewSection } from "@/components/sections/BlogPreviewSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { ArrowLeft } from "lucide-react";
+import { AffiliatePartnerCard } from "@/components/ui/AffiliatePartnerCard";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -16,14 +17,14 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps) {
     const { slug } = await params;
-    // Magic switch: If we are on the main guide, load the BE specific content
-    const effectiveSlug = slug === 'comprendre-le-solaire' ? 'comprendre-le-solaire-be' : slug;
-
-    const post = await getGuidePost(effectiveSlug);
+    const post = await getGuidePost(slug);
     if (!post) return { title: "Guide non trouvé" };
     return {
-        title: `${post.title} | Solar-Estim Belgique`,
-        description: post.summary || post.description
+        title: `${post.title} | Solar-Estim Guide Belgique`,
+        description: post.summary || post.description,
+        alternates: {
+            canonical: `https://www.solarestim.com/be/guide/${post.slug}`,
+        }
     };
 }
 
@@ -34,12 +35,9 @@ export async function generateStaticParams() {
     }));
 }
 
-export default async function GuidePageBe({ params }: PageProps) {
+export default async function GuidePage({ params }: PageProps) {
     const { slug } = await params;
-    // Magic switch: If we are on the main guide, load the BE specific content
-    const effectiveSlug = slug === 'comprendre-le-solaire' ? 'comprendre-le-solaire-be' : slug;
-
-    const post = await getGuidePost(effectiveSlug);
+    const post = await getGuidePost(slug);
 
     if (!post) {
         notFound();
@@ -47,10 +45,10 @@ export default async function GuidePageBe({ params }: PageProps) {
 
     return (
         <div className="flex flex-col min-h-screen">
-            {/* BE Custom Hero */}
+            {/* Custom Hero using the shared component but with Guide data */}
             <HeroSection
                 title={<>{post.title}</>}
-                subtitle={post.description || "Guide complet pour la Belgique."}
+                subtitle={post.description || "Le guide complet pour comprendre."}
                 ctaLink="/be/simulateur"
             />
 
@@ -60,25 +58,14 @@ export default async function GuidePageBe({ params }: PageProps) {
                 </Link>
 
                 <article className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-brand hover:prose-a:text-yellow-500 prose-img:rounded-xl prose-img:shadow-lg prose-table:border-collapse prose-th:bg-slate-100 prose-th:p-4 prose-td:p-4 prose-td:border-b">
-                    <ReactMarkdown
-                        remarkPlugins={[remarkGfm]}
-                        components={{
-                            a: ({ node, ...props }) => {
-                                const href = props.href || "";
-                                // Rewrite /lexique to /be/lexique and /simulateur to /be/simulateur
-                                let newHref = href;
-                                if (href.startsWith("/lexique")) {
-                                    newHref = `/be${href}`;
-                                } else if (href === "/simulateur") {
-                                    newHref = "/be/simulateur";
-                                }
-                                return <Link href={newHref} {...props} />;
-                            }
-                        }}
-                    >
-                        {post.content}
-                    </ReactMarkdown>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
                 </article>
+
+                {slug === 'guide-solaire-vehicule-electrique-2026' && (
+                    <div className="mt-12 not-prose">
+                        <AffiliatePartnerCard cityName="votre domicile" className="shadow-xl ring-1 ring-slate-200" />
+                    </div>
+                )}
             </div>
 
             <FeatureSection variant="BE" />

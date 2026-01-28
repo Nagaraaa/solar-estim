@@ -10,6 +10,7 @@ export interface LexiconContent {
     technicalDetails: string;
     importance: string;
     image?: string;
+    category?: 'mobility' | 'technical' | 'financial' | 'general';
 }
 
 export interface LexiconEntry {
@@ -35,7 +36,7 @@ export async function getDefinition(slug: string, country: 'FR' | 'BE'): Promise
     return null;
 }
 
-export async function getAllDefinitions(country: 'FR' | 'BE'): Promise<{ slug: string; term: string; shortDefinition: string }[]> {
+export async function getAllDefinitions(country: 'FR' | 'BE'): Promise<{ slug: string; term: string; shortDefinition: string; category?: string }[]> {
     if (!fs.existsSync(lexiconDirectory)) {
         return [];
     }
@@ -54,10 +55,11 @@ export async function getAllDefinitions(country: 'FR' | 'BE'): Promise<{ slug: s
             return {
                 slug,
                 term: content.term,
-                shortDefinition: content.shortDefinition
+                shortDefinition: content.shortDefinition,
+                category: content.category
             };
         })
-        .filter((item): item is { slug: string; term: string; shortDefinition: string } => item !== null);
+        .filter((item): item is { slug: string; term: string; shortDefinition: string; category?: string } => item !== null);
 
     return allTerms.sort((a, b) => a.term.localeCompare(b.term));
 }

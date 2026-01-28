@@ -1,0 +1,18 @@
+{
+    "fr": {
+        "term": "Borne Bidirectionnelle",
+        "shortDefinition": "Borne de recharge intelligente capable de faire circuler l'électricité dans les deux sens : du réseau vers la voiture, et de la voiture vers la maison ou le réseau.",
+        "audience10yo": "C'est une prise magique qui sait charger ta voiture, mais aussi vider un peu ta voiture pour donner du courant à ta maison.",
+        "technicalDetails": "Indispensable pour le V2G et le V2H. Elle convertit le courant continu (DC) de la batterie en courant alternatif (AC) pour le réseau domestique (sauf si le chargeur embarqué du véhicule le gère).",
+        "importance": "Le lien essentiel pour transformer un véhicule électrique en unité de stockage mobile.",
+        "category": "mobility"
+    },
+    "be": {
+        "term": "Borne Bidirectionnelle",
+        "shortDefinition": "Borne de recharge permettant le flux d'énergie dans les deux sens (charge et décharge).",
+        "audience10yo": "Une borne spéciale qui laisse l'électricité entrer dans la voiture, mais aussi en sortir quand on a besoin de lumière à la maison.",
+        "technicalDetails": "Doit être homologuée Synergrid en Belgique pour être raccordée au réseau. Elle permet de gérer dynamiquement les flux d'énergie du bâtiment.",
+        "importance": "Technologie clé pour l'avenir de la gestion énergétique résidentielle en Belgique.",
+        "category": "mobility"
+    }
+}

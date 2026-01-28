@@ -1,7 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { AffiliatePartnerCard } from "@/components/ui/AffiliatePartnerCard";
 
-export function SuccessMessage() {
+interface SuccessMessageProps {
+    cityName?: string;
+}
+
+export function SuccessMessage({ cityName = "votre ville" }: SuccessMessageProps) {
     return (
         <Card className="border-0 shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-700">
             <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-8 text-white text-center relative overflow-hidden">
@@ -24,6 +30,16 @@ export function SuccessMessage() {
                     <p className="text-slate-600 leading-relaxed">
                         Votre rapport détaillé vient d'être généré. Vous allez le recevoir par <span className="font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded">email</span> dans quelques instants.
                     </p>
+                </div>
+
+                <div className="text-left mt-4">
+                    <AffiliatePartnerCard cityName={cityName} />
+
+                    <div className="mt-4 text-center">
+                        <Link href="/guide/guide-solaire-vehicule-electrique-2026" className="text-xs text-slate-500 hover:text-brand flex items-center justify-center gap-1 transition-colors">
+                            Pour aller plus loin, lisez notre Guide Solaire & Mobilité 2026 <ArrowRight className="w-3 h-3" />
+                        </Link>
+                    </div>
                 </div>
 
                 <div className="w-16 h-1 bg-slate-200 mx-auto rounded-full"></div>

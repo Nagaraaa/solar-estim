@@ -1,0 +1,18 @@
+{
+    "fr": {
+        "term": "V2H (Vehicle-to-Home)",
+        "shortDefinition": "Utilisation de la batterie de votre voiture électrique pour alimenter directement votre maison, réduisant votre dépendance au réseau.",
+        "audience10yo": "Ta voiture charge tes panneaux solaires le jour, et le soir, c'est elle qui allume la télé et le frigo de la maison !",
+        "technicalDetails": "Le V2H permet d'utiliser le VE comme une batterie domestique (souvent 50 à 80 kWh, soit 10x une batterie résidentielle standard). Idéal pour l'autoconsommation et le backup en cas de coupure.",
+        "importance": "Maximise l'autonomie énergétique et l'utilisation de l'énergie solaire produite localement.",
+        "category": "mobility"
+    },
+    "be": {
+        "term": "V2H (Vehicle-to-Home)",
+        "shortDefinition": "Solution pour alimenter votre habitation belge avec la batterie de votre véhicule électrique.",
+        "audience10yo": "Ta voiture devient une super-batterie pour ta maison. Tu n'as plus besoin d'acheter de l'électricité le soir.",
+        "technicalDetails": "En Wallonie et Flandre, le V2H permet de lisser les pics de consommation (réduction du tarif capacitaire en Flandre) et d'éviter les prélèvements sur le réseau.",
+        "importance": "Permet d'économiser sur la facture en évitant les tarifs de pointe et en augmentant l'autoconsommation.",
+        "category": "mobility"
+    }
+}
