@@ -46,6 +46,8 @@ interface Lead {
     puissance_kwc: number;
     economie_estimee_an: number;
     statut: string;
+    ev_modele?: string;
+    ev_conso?: number;
 }
 
 // Helper Helpers
@@ -54,8 +56,26 @@ const CopyButton = ({ text }: { text: string }) => {
 
     const handleCopy = async () => {
         try {
-            await navigator.clipboard.writeText(text);
-            setCopied(true);
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+                setCopied(true);
+            } else {
+                // Fallback for HTTP / Non-Secure
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-9999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    setCopied(true);
+                } catch (err) {
+                    console.error('Fallback: Oops, unable to copy', err);
+                }
+                document.body.removeChild(textArea);
+            }
             setTimeout(() => setCopied(false), 2000);
         } catch (err) {
             console.error("Failed to copy", err);
@@ -475,6 +495,8 @@ export default function AdminDashboard() {
                                 <span className="col-span-2 text-slate-200">{selectedLead.pays}</span>
                             </div>
 
+
+
                             {/* Self-Consumption & Battery Badge */}
                             {(selectedLead as any).taux_autoconsommation && (
                                 <div className="flex flex-col sm:grid sm:grid-cols-3 sm:items-center gap-1 sm:gap-4 border-b border-slate-800 pb-2 sm:border-none sm:pb-0">
@@ -486,6 +508,29 @@ export default function AdminDashboard() {
                                                 Potentiel Batterie élevé
                                             </Badge>
                                         )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* EV Info Block */}
+                            {selectedLead.ev_modele && (
+                                <div className="mt-4 bg-blue-950/30 border border-blue-900/50 rounded-xl p-4">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <div className="bg-blue-500/20 p-1.5 rounded-lg text-blue-400">
+                                            {/* Car Icon inline */}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H12c-.6 0-1.2.9-1.2 1.3 0 .4.6 1.7.6 1.7S8.7 9.4 7.2 9.1c-1.5-.3-2.2 2.9-2.2 2.9v4c0 .6.4 1 1 1h2" /><circle cx="7" cy="17" r="2" /><path d="M9 17h6" /><circle cx="17" cy="17" r="2" /></svg>
+                                        </div>
+                                        <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Véhicule Électrique</span>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <p className="text-[10px] text-slate-500 uppercase mb-1">Modèle</p>
+                                            <p className="text-slate-200 font-medium text-sm">{selectedLead.ev_modele}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-[10px] text-slate-500 uppercase mb-1">Impact Conso</p>
+                                            <p className="text-slate-200 font-medium text-sm">~{selectedLead.ev_conso?.toLocaleString() ?? '?'} kWh/an</p>
+                                        </div>
                                     </div>
                                 </div>
                             )}

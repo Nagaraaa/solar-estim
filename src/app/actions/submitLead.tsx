@@ -135,7 +135,9 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
                         puissance_kwc: simulationResult.systemSize,
                         economie_estimee_an: simulationResult.annualSavings,
                         statut: 'nouveau',
-                        taux_autoconsommation: simulationResult.selfConsumptionRate ? Math.round(simulationResult.selfConsumptionRate * 100) + '%' : 'N/A'
+                        taux_autoconsommation: simulationResult.selfConsumptionRate ? Math.round(simulationResult.selfConsumptionRate * 100) + '%' : 'N/A',
+                        ev_modele: simulationResult.details?.ev_model ?? simulationResult.details?.ev_model_name ?? null,
+                        ev_conso: simulationResult.details?.ev_kwh ?? null
                     }
                 ]);
 
@@ -221,6 +223,8 @@ export async function submitLead(formData: FormData, simulationResult: any, coun
                     totalCostObserved={simulationResult.netCost || simulationResult.totalCost || 0}
                     selfConsumptionRate={simulationResult.selfConsumptionRate || 0.35}
                     adminContactEmail={String(adminEmail)}
+                    evModel={simulationResult.details?.ev_model ?? simulationResult.details?.ev_model_name}
+                    evKwh={simulationResult.details?.ev_kwh}
                 />
             );
 

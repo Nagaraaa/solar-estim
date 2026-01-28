@@ -16,6 +16,8 @@ Grâce aux nouvelles technologies **Bidirectionnelles**, votre voiture ne fait p
 * **[Le V2H (Vehicle-to-Home)](/lexique/v2h)** : Votre voiture alimente votre maison le soir avec l'énergie solaire stockée durant la journée. Fini les factures d'électricité aux heures de pointe.
 * **[Le V2G (Vehicle-to-Grid)](/lexique/v2g)** : Dans certaines conditions, vous pourrez même revendre l'énergie de votre voiture au réseau quand les prix s'envolent.
 
+[[EVSIMULATOR]]
+
 ### Comment ça marche concrètement ?
 
 Il ne suffit pas d'une prise classique. Il faut une infrastructure intelligente :

@@ -54,6 +54,8 @@ export function useSolarSimulation() {
                 countryCode: country,
                 address: input.address,
                 pvgisProductionPerKwc: annualProductionPerKwc,
+                ev_kwh: input.ev_kwh,
+                ev_model: input.ev_model
             });
 
             // 3. Fetch Settings (Server Action)
@@ -71,7 +73,9 @@ export function useSolarSimulation() {
                 // Pass through new params to be stored in result details
                 slope,
                 azimuth,
-                withBattery: false // Default to false
+                withBattery: false, // Default to false
+                ev_kwh: input.ev_kwh,
+                ev_model: input.ev_model
             };
 
             const calculationResult = calculateRecommendedSystem(inputEngine, settings);
@@ -102,7 +106,9 @@ export function useSolarSimulation() {
                 pvgisProductionPerKwc,
                 monthlyBill,
                 countryCode,
-                address
+                address,
+                ev_kwh,
+                ev_model
             } = baseCalculationParams;
 
             // Check if we need to fetch new PVGIS data
@@ -136,6 +142,8 @@ export function useSolarSimulation() {
                 slope: newSlope,
                 azimuth: newAzimuth,
                 withBattery: params.withBattery ?? false,
+                ev_kwh,
+                ev_model
             };
 
             const result = calculateRecommendedSystem(inputEngine, settings);

@@ -25,7 +25,7 @@ import { ResultDashboard } from "./ResultDashboard";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, Settings2, Loader2, AlertCircle } from "lucide-react";
+import { ChevronDown, Settings2, Loader2, AlertCircle, Zap } from "lucide-react";
 import { useNonce } from "@/components/providers/NonceProvider";
 
 import { SimulatorControls } from "./SimulatorControls";
@@ -84,6 +84,9 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
     };
     const phonePlaceholder = countryCode === "FR" ? "06 12 34 56 78" : "0470 12 34 56";
     const phoneErrorMsg = countryCode === "FR" ? "Format invalide (ex: 0612345678)" : "Format invalide (ex: 0470...)";
+
+    // Derived values for display
+    const formattedConsumption = Math.round(result.estimatedConsumption || 0).toLocaleString('fr-FR');
 
     return (
         <div className="w-full max-w-[1600px] mx-auto px-4 md:px-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -219,6 +222,23 @@ export function ResultStep({ result, address, countryCode, region, monthlyBill, 
                                             <Input name="email" type="email" required placeholder="jean.dupont@email.com" />
                                         </div>
 
+                                        <div className="flex items-center justify-between p-3 bg-slate-50 rounded border border-slate-100">
+                                            <div className="flex items-center gap-2">
+                                                <Zap className="w-5 h-5 text-amber-500" />
+                                                <span className="text-sm font-medium text-slate-700">Consommation Future</span>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="font-bold text-slate-900">{formattedConsumption} kWh/an</div>
+                                                {result.details?.ev_kwh ? (
+                                                    <div className="text-xs text-brand font-medium flex items-center gap-1 justify-end">
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-brand" />
+                                                        Dont {result.details.ev_kwh} kWh (VE)
+                                                    </div>
+                                                ) : (
+                                                    <div className="text-xs text-slate-400"> Estimée</div>
+                                                )}
+                                            </div>
+                                        </div>
                                         <div className="flex items-start gap-3 mt-4 p-3 bg-slate-100 rounded-md border border-slate-200">
                                             <input
                                                 type="checkbox"

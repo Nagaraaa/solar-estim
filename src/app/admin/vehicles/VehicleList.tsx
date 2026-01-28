@@ -6,6 +6,8 @@ import { VehicleForm } from "@/components/admin/VehicleForm";
 import { Plus, CarFront, Battery, Zap, Trash2, Edit } from "lucide-react";
 import { deleteVehicle } from "@/app/actions/vehicleActions";
 
+import { ImportVehiclesButton } from "@/components/admin/ImportVehiclesButton";
+
 interface VehicleListProps {
     initialVehicles: any[];
 }
@@ -22,7 +24,8 @@ export default function VehicleList({ initialVehicles }: VehicleListProps) {
 
     return (
         <>
-            <div className="flex justify-end mb-6 -mt-16">
+            <div className="flex justify-end gap-2 mb-6 -mt-16">
+                <ImportVehiclesButton />
                 <Button onClick={() => { setEditingVehicle(null); setIsAddOpen(true); }} className="bg-brand text-slate-900 hover:bg-brand/90 font-medium">
                     <Plus className="w-5 h-5 mr-2" />
                     Ajouter un véhicule
@@ -30,7 +33,55 @@ export default function VehicleList({ initialVehicles }: VehicleListProps) {
             </div>
 
             <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-                <table className="w-full text-left text-sm">
+                {/* Mobile View (Cards) */}
+                <div className="md:hidden divide-y divide-slate-100">
+                    {initialVehicles.length === 0 ? (
+                        <div className="p-8 text-center text-slate-500 text-sm">
+                            Aucun véhicule.
+                        </div>
+                    ) : (
+                        initialVehicles.map((v) => (
+                            <div key={v.id} className="p-4 flex flex-col gap-3">
+                                <div className="flex justify-between items-start">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-12 h-12 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200">
+                                            {v.image_url ? (
+                                                <img src={v.image_url} alt={v.model} className="w-full h-full object-cover" />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center text-slate-400">
+                                                    <CarFront className="w-6 h-6" />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <div className="font-semibold text-slate-900">{v.brand} {v.model}</div>
+                                            <div className="text-xs text-slate-500">{v.battery_usable} kWh • {v.consumption_wltp} kWh/100km</div>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-1">
+                                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => { setEditingVehicle(v); setIsAddOpen(true); }}>
+                                            <Edit className="w-4 h-4 text-blue-600" />
+                                        </Button>
+                                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleDelete(v.id, `${v.brand} ${v.model}`)}>
+                                            <Trash2 className="w-4 h-4 text-red-500" />
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    {v.is_bidirectional && (
+                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium bg-green-50 text-green-700 border border-green-100">
+                                            <Zap className="w-3 h-3 mr-1 fill-green-500" />
+                                            V2G Compatible
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                        ))
+                    )}
+                </div>
+
+                {/* Desktop View (Table) */}
+                <table className="hidden md:table w-full text-left text-sm">
                     <thead className="bg-slate-50 text-slate-600 font-medium border-b border-slate-200">
                         <tr>
                             <th className="px-6 py-4">Véhicule</th>
@@ -52,8 +103,14 @@ export default function VehicleList({ initialVehicles }: VehicleListProps) {
                                 <tr key={v.id} className="hover:bg-slate-50/50 transition-colors">
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">
-                                                <CarFront className="w-4 h-4" />
+                                            <div className="w-10 h-10 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200">
+                                                {v.image_url ? (
+                                                    <img src={v.image_url} alt={v.model} className="w-full h-full object-cover" />
+                                                ) : (
+                                                    <div className="w-full h-full flex items-center justify-center text-slate-400">
+                                                        <CarFront className="w-5 h-5" />
+                                                    </div>
+                                                )}
                                             </div>
                                             <div>
                                                 <div className="font-semibold text-slate-900">{v.brand} {v.model}</div>

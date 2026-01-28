@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { supabaseBrowser } from '@/lib/supabase-browser';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, Users, Settings, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Users, Settings, LogOut, Menu, X, CarFront as CarBase } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -34,11 +34,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     const navItems = [
         { href: '/admin', label: 'Tableau de bord', icon: LayoutDashboard },
+        { href: '/admin/vehicles', label: 'Catalogue Véhicules', icon: CarBase },
         { href: '/admin/settings', label: 'Paramètres', icon: Settings },
     ];
 
     return (
-        <div className="min-h-screen bg-[#0B1120] text-slate-100 flex">
+        <div className="min-h-screen bg-[#0F172A] text-slate-100 flex">
             {/* Mobile Sidebar Overlay */}
             {isSidebarOpen && (
                 <div
@@ -49,12 +50,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
             {/* Sidebar */}
             <aside className={cn(
-                "fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white transition-transform duration-300 transform lg:translate-x-0 flex flex-col shadow-xl",
+                "fixed inset-y-0 left-0 z-50 w-64 bg-[#1E293B] text-white transition-transform duration-300 transform lg:translate-x-0 flex flex-col shadow-xl border-r border-slate-700/50",
                 isSidebarOpen ? "translate-x-0" : "-translate-x-full"
             )}>
                 {/* Logo */}
-                <div className="h-16 flex items-center px-6 border-b border-slate-800 shrink-0">
-                    <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand to-yellow-400">
+                <div className="h-16 flex items-center px-6 border-b border-slate-700/50 shrink-0 bg-[#0F172A]/30">
+                    <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-amber-600">
                         Solar-Pulse
                     </span>
                     <button
@@ -76,13 +77,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                 href={item.href}
                                 onClick={() => setIsSidebarOpen(false)}
                                 className={cn(
-                                    "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                                    "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
                                     isActive
-                                        ? "bg-brand text-slate-900"
-                                        : "text-slate-400 hover:text-white hover:bg-slate-800"
+                                        ? "bg-yellow-400 text-slate-900 shadow-lg shadow-yellow-400/20"
+                                        : "text-slate-400 hover:text-white hover:bg-slate-700/50"
                                 )}
                             >
-                                <Icon className="w-5 h-5" />
+                                <Icon className={cn("w-5 h-5", isActive ? "text-slate-900" : "text-slate-400 group-hover:text-white")} />
                                 {item.label}
                             </Link>
                         )

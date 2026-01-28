@@ -15,6 +15,8 @@ export interface SimulationResult {
         futureProofMode?: boolean; // Advice flag
         slope?: number; // Used slope (tilt)
         azimuth?: number; // Used azimuth (aspect)
+        ev_kwh?: number;
+        ev_model?: string;
     };
 }
 
@@ -26,4 +28,6 @@ export interface SimulationInput {
     countryCode?: "FR" | "BE";
     slope?: number; // 0-90
     azimuth?: number; // -180 to 180
+    ev_kwh?: number; // Annual EV consumption in kWh
+    ev_model?: string; // EV Model Name
 }

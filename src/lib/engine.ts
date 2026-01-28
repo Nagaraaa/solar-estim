@@ -16,6 +16,8 @@ export interface Details {
     azimuth?: number;
     withBattery?: boolean;
     recommendation?: string;
+    ev_kwh?: number;
+    ev_model?: string;
 }
 
 /**
@@ -71,6 +73,8 @@ interface EngineInput {
     slope?: number;
     azimuth?: number;
     withBattery?: boolean;
+    ev_kwh?: number;
+    ev_model?: string;
 }
 
 /**
@@ -243,7 +247,9 @@ export function calculateRecommendedSystem(input: EngineInput, settings: SolarSe
     const pricePerKwh = countryCode === "BE" ? electricityPriceBe : electricityPriceFr;
 
     // 2. Estimate Annual Consumption and System Size
-    const annualConsumption = (monthlyBill * 12) / pricePerKwh;
+    // Add EV consumption (if any) to the household consumption
+    const householdConsumption = (monthlyBill * 12) / pricePerKwh;
+    const annualConsumption = householdConsumption + (input.ev_kwh || 0);
 
     let systemSize = SIZING.SYSTEM_SIZE_TIER_1;
     let futureProofMode = false;
@@ -322,6 +328,16 @@ export function calculateRecommendedSystem(input: EngineInput, settings: SolarSe
         recommendation += `\n\n🔋 Batterie ${batterySize}kWh incluse : Optimise l'autoconsommation et sécurise votre prix du kWh.`;
     }
 
+    // EV Note
+    if (input.ev_kwh && input.ev_kwh > 0) {
+        // Estimate panels for EV: (EV_KWH / (0.425 * Efficiency * PVGIS))
+        // Assuming Standard Panel ~425W and system efficiency
+        const productionPerPanel = 0.425 * pvgisProductionPerKwc;
+        const extraPanels = Math.ceil(input.ev_kwh / productionPerPanel);
+
+        recommendation += `\n\n🚗 Véhicule électrique inclus : Votre consommation inclut +${Math.round(input.ev_kwh)} kWh/an pour votre ${input.ev_model || 'VE'}.\n👉 Pour couvrir cette consommation, environ ${extraPanels} panneau${extraPanels > 1 ? 'x' : ''} ${extraPanels > 1 ? 'ont été ajoutés' : 'a été ajouté'} à votre dimensionnement idéal.`;
+    }
+
     return {
         systemSize,
         annualProduction: Math.round(totalProduction),
@@ -341,7 +357,9 @@ export function calculateRecommendedSystem(input: EngineInput, settings: SolarSe
             azimuth,
             withBattery,
             region: strategyResult.details?.region,
-            recommendation: recommendation
+            recommendation: recommendation,
+            ev_kwh: input.ev_kwh,
+            ev_model: input.ev_model
         }
     };
 }

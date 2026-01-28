@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { motion, useSpring, useTransform, animate } from "framer-motion";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Legend, CartesianGrid, ReferenceLine } from "recharts";
-import { Info, Sun, Zap, PiggyBank, TrendingUp, DollarSign } from "lucide-react";
+import { Info, Sun, Zap, PiggyBank, TrendingUp, DollarSign, Car, Lightbulb, CheckCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"; // Assuming standard UI tooltips exist or standard approach
@@ -264,22 +264,54 @@ export function ResultDashboard({ result, monthlyBill }: ResultDashboardProps) {
                 </div>
             </motion.div >
 
-            {/* 4. RECOMMENDATION / NOTES (DEBUG) */}
-            {
-                result.details.recommendation && (
-                    <motion.div variants={itemVars}>
-                        <div className="bg-amber-50 border border-amber-200 p-6 rounded-xl flex gap-4 items-start">
-                            <Info className="w-6 h-6 text-amber-600 shrink-0 mt-1" />
-                            <div>
-                                <h4 className="font-bold text-amber-900 mb-2">Analyse de notre expert</h4>
-                                <p className="text-amber-800 whitespace-pre-wrap text-sm leading-relaxed">
-                                    {result.details.recommendation}
-                                </p>
-                            </div>
+            {/* 4. ENHANCED RECOMMENDATION BLOCK */}
+            {result.details.recommendation && (
+                <motion.div variants={itemVars} className="space-y-4">
+                    <div className="flex items-center gap-2 mb-2">
+                        <div className="bg-amber-100 p-2 rounded-full">
+                            <Info className="w-5 h-5 text-amber-600" />
                         </div>
-                    </motion.div>
-                )
-            }
+                        <h4 className="font-bold text-slate-800 text-lg">Analyse de notre expert</h4>
+                    </div>
+
+                    <div className="grid gap-4 md:grid-cols-2">
+                        {/* Parser logic to split the Text block into actionable cards */}
+                        {result.details.recommendation.split('\n').filter(line => line.trim().length > 0).map((line, idx) => {
+                            let icon = <Info className="w-5 h-5 text-blue-500" />;
+                            let bgClass = "bg-blue-50 border-blue-100";
+                            let textClass = "text-blue-900";
+
+                            // EV Detection
+                            if (line.includes("Véhicule électrique") || line.includes("🚗")) {
+                                icon = <div className="p-2 bg-green-100 rounded-lg"><Car className="w-5 h-5 text-green-600" /></div>;
+                                bgClass = "bg-green-50 border-green-100";
+                                textClass = "text-green-900";
+                            }
+                            // Prosumer / Advice Detection
+                            else if (line.includes("Conseil") || line.includes("💡") || line.includes("Prosumer")) {
+                                icon = <div className="p-2 bg-amber-100 rounded-lg"><Lightbulb className="w-5 h-5 text-amber-600" /></div>;
+                                bgClass = "bg-amber-50 border-amber-100";
+                                textClass = "text-amber-900";
+                            }
+                            // Panel Addition Detection
+                            else if (line.includes("ajouté") || line.includes("👉")) {
+                                icon = <div className="p-2 bg-indigo-100 rounded-lg"><CheckCircle className="w-5 h-5 text-indigo-600" /></div>;
+                                bgClass = "bg-indigo-50 border-indigo-100";
+                                textClass = "text-indigo-900";
+                            }
+
+                            return (
+                                <div key={idx} className={cn("p-4 rounded-xl border flex gap-3 items-start transition-all hover:shadow-md", bgClass, line.length > 100 ? "md:col-span-2" : "")}>
+                                    <div className="shrink-0 mt-0.5">{icon}</div>
+                                    <p className={cn("font-medium text-sm leading-relaxed", textClass)}>
+                                        {line.replace(/🚗|👉|💡/g, '').trim()}
+                                    </p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </motion.div>
+            )}
         </motion.div >
     );
 }

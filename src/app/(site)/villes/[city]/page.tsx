@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, MapPin, CheckCircle, Info, Sun, BookOpen, HelpCircle, Zap } from "lucide-react";
+import { ArrowRight, MapPin, CheckCircle, Info, Sun, BookOpen, HelpCircle, Zap, CarFront } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FadeIn } from "@/components/ui/fade-in";
@@ -185,14 +185,17 @@ const BlockMobility = ({ city, seed }: { city: any, seed: number }) => {
                         <RenderSpintax text={spin(template, seed + 11)} />
                     </p>
                 </div>
-                <div className="w-full md:w-1/3 shrink-0">
-                    <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
-                        <Image
-                            src="/images/villes/ev-charging-generic.jpg"
-                            alt={`Recharge voiture électrique via panneaux solaires à ${city.name}`}
-                            fill
-                            className="object-cover"
-                        />
+                <div className="w-full md:w-1/3 shrink-0 flex flex-col gap-3">
+                    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center">
+                        <CarFront className="w-10 h-10 text-brand mx-auto mb-3" />
+                        <div className="text-sm font-medium text-slate-500 mb-4">
+                            Combien de panneaux pour rouler gratuit à {city.name} ?
+                        </div>
+                        <Link href="/simulateur-ve">
+                            <Button className="w-full bg-brand hover:bg-brand/90 text-slate-900 font-bold">
+                                Calculer mon autonomie <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>

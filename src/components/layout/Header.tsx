@@ -35,6 +35,12 @@ export function Header() {
                     <Link href={isBe ? "/be" : "/"} className="hover:text-brand transition-colors">Accueil</Link>
                     <Link href={blogLink} className="hover:text-brand transition-colors text-slate-500">Blog</Link>
                     <Link href={guideLink} className="hover:text-brand transition-colors text-slate-500">Guide 2026</Link>
+                    <Link href={isBe ? "/be/simulateur-ve" : "/simulateur-ve"} className="text-sm font-bold text-slate-900 hover:text-brand transition-colors flex items-center gap-1 group">
+                        Simulateur VE
+                        <span className="bg-brand text-white text-[10px] px-1.5 py-0.5 rounded-full uppercase tracking-wider group-hover:bg-amber-500 transition-colors">
+                            New
+                        </span>
+                    </Link>
                     <CountrySelector variant="header" />
                     <Link href={simuLink}>
                         <Button variant="brand" className="font-bold">

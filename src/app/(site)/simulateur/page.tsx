@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -16,10 +17,21 @@ import { cn } from "@/lib/utils";
 // Form Schema
 const formSchema = z.object({
     address: z.string().min(5, "L'adresse doit être valide"),
-    monthlyBill: z.coerce.number().min(30, "La facture mensuelle semble trop basse.").max(1000, "La facture semble très élevée.")
+    monthlyBill: z.coerce.number().min(30, "La facture mensuelle semble trop basse.").max(1000, "La facture semble très élevée."),
+    hasEv: z.boolean().default(false).optional(),
+    evModel: z.string().optional(),
+    ev_model_name: z.string().optional(),
+    evDistance: z.coerce.number().optional().default(15000),
+    ev_kwh_estimated: z.number().optional()
 });
 
 export default function SimulatorPage() {
+    const searchParams = useSearchParams();
+    const evKwhParam = searchParams.get('ev_kwh');
+    const evModelNameParam = searchParams.get('ev_model_name') || searchParams.get('ev_model'); // Fallback
+    const evIdParam = searchParams.get('ev_id');
+    const evDistanceParam = searchParams.get('ev_distance');
+
     const [step, setStep] = useState(1);
     const { calculate, loading, isCalculating, error, result, recalculate } = useSolarSimulation();
     const [coordinates, setCoordinates] = useState<{ lat?: number; lon?: number; countryCode?: "FR" | "BE" }>({ countryCode: "FR" });
@@ -34,11 +46,21 @@ export default function SimulatorPage() {
         defaultValues: {
             address: "",
             monthlyBill: 0,
+            hasEv: !!evIdParam, // Auto-enable if ID is present
+            evModel: evIdParam || undefined,
+            ev_model_name: evModelNameParam || undefined,
+            evDistance: evDistanceParam ? parseFloat(evDistanceParam) : 15000,
+            ev_kwh_estimated: evKwhParam ? parseFloat(evKwhParam) : 0,
         },
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        const success = await calculate({ ...values, ...coordinates });
+        const success = await calculate({
+            ...values,
+            ...coordinates,
+            ev_kwh: values.ev_kwh_estimated || (evKwhParam ? parseFloat(evKwhParam) : undefined),
+            ev_model: values.ev_model_name || evModelNameParam || undefined
+        });
         if (success) {
             setStep(3); // Result step
         }

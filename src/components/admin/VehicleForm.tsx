@@ -43,7 +43,7 @@ export function VehicleForm({ open, onOpenChange, vehicle }: VehicleFormProps) {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+            <DialogContent className="w-[95%] sm:max-w-[600px] max-h-[90vh] overflow-y-auto rounded-xl">
                 <DialogHeader>
                     <DialogTitle>{isEditing ? "Modifier un véhicule" : "Ajouter un véhicule"}</DialogTitle>
                     <DialogDescription>
