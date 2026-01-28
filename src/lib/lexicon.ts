@@ -57,7 +57,7 @@ export async function getAllDefinitions(country: 'FR' | 'BE'): Promise<{ slug: s
                 term: content.term,
                 shortDefinition: content.shortDefinition,
                 category: content.category
-            };
+            } as { slug: string; term: string; shortDefinition: string; category?: string };
         })
         .filter((item): item is { slug: string; term: string; shortDefinition: string; category?: string } => item !== null);
 
