@@ -32,8 +32,7 @@ export function VehicleForm({ open, onOpenChange, vehicle }: VehicleFormProps) {
     // We need to wrap the action to pass the ID if editing
     const action = isEditing ? updateVehicle.bind(null, vehicle.id) : createVehicle;
 
-    // useActionState (React 19) or useFormState (older Next)
-    // Assuming React 19 / Next 15+ based on project analysis (React 19.2.1)
+    // useActionState (React 19) or useFormState
     const [state, formAction, isPending] = useActionState(action, initialState);
 
     useEffect(() => {
@@ -48,7 +47,7 @@ export function VehicleForm({ open, onOpenChange, vehicle }: VehicleFormProps) {
                 <DialogHeader>
                     <DialogTitle>{isEditing ? "Modifier un véhicule" : "Ajouter un véhicule"}</DialogTitle>
                     <DialogDescription>
-                        Détails techniques pour le simulateur solaire.
+                        Configuration technique pour le simulateur solaire.
                     </DialogDescription>
                 </DialogHeader>
 
@@ -72,42 +71,29 @@ export function VehicleForm({ open, onOpenChange, vehicle }: VehicleFormProps) {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="year">Année</Label>
-                            <Input id="year" name="year" type="number" defaultValue={vehicle?.year || new Date().getFullYear()} />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="battery_capacity_kwh">Batterie (kWh)</Label>
-                            <Input id="battery_capacity_kwh" name="battery_capacity_kwh" type="number" step="0.1" defaultValue={vehicle?.battery_capacity_kwh} required />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="range_wltp_km">Autonomie (WLTP)</Label>
-                            <Input id="range_wltp_km" name="range_wltp_km" type="number" defaultValue={vehicle?.range_wltp_km} required />
-                        </div>
-                    </div>
-
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label htmlFor="consumption_kwh_100km">Conso (kWh/100km)</Label>
-                            <Input id="consumption_kwh_100km" name="consumption_kwh_100km" type="number" step="0.1" defaultValue={vehicle?.consumption_kwh_100km} />
+                            <Label htmlFor="battery_usable">Batterie Utile (kWh)</Label>
+                            <Input id="battery_usable" name="battery_usable" type="number" step="1" defaultValue={vehicle?.battery_usable} required />
+                            {state.fieldErrors?.battery_usable && <span className="text-xs text-red-500">{state.fieldErrors.battery_usable}</span>}
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="max_charge_power_kw">Charge Max (kW)</Label>
-                            <Input id="max_charge_power_kw" name="max_charge_power_kw" type="number" step="0.1" defaultValue={vehicle?.max_charge_power_kw} />
+                            <Label htmlFor="consumption_wltp">Conso WLTP (kWh/100km)</Label>
+                            <Input id="consumption_wltp" name="consumption_wltp" type="number" step="0.1" defaultValue={vehicle?.consumption_wltp} required />
+                            {state.fieldErrors?.consumption_wltp && <span className="text-xs text-red-500">{state.fieldErrors.consumption_wltp}</span>}
                         </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-lg">
                         <div className="space-y-2">
-                            <Label htmlFor="real_world_factor">Facteur Réel (0.5 - 1.0)</Label>
-                            <Input id="real_world_factor" name="real_world_factor" type="number" step="0.01" defaultValue={vehicle?.real_world_factor || 0.85} />
-                            <p className="text-[10px] text-slate-500">Ratio Autonomie Réelle / WLTP</p>
+                            <Label htmlFor="real_world_factor">Facteur Réel (x)</Label>
+                            <Input id="real_world_factor" name="real_world_factor" type="number" step="0.01" defaultValue={vehicle?.real_world_factor || 1.15} />
+                            <p className="text-[10px] text-slate-500">Multiplicateur vs WLTP (ex: 1.15)</p>
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="charging_efficiency">Efficacité Charge (0.5 - 1.0)</Label>
-                            <Input id="charging_efficiency" name="charging_efficiency" type="number" step="0.01" defaultValue={vehicle?.charging_efficiency || 0.90} />
-                            <p className="text-[10px] text-slate-500">Pertes Borne/Onduleur</p>
+                            <Label htmlFor="charging_efficiency">Efficacité Charge (%)</Label>
+                            <Input id="charging_efficiency" name="charging_efficiency" type="number" step="0.01" defaultValue={vehicle?.charging_efficiency || 0.88} />
+                            <p className="text-[10px] text-slate-500">Rendement onduleur (ex: 0.88)</p>
                         </div>
                     </div>
 
@@ -116,7 +102,6 @@ export function VehicleForm({ open, onOpenChange, vehicle }: VehicleFormProps) {
                             <Switch id="is_bidirectional" name="is_bidirectional" defaultChecked={vehicle?.is_bidirectional} />
                             <Label htmlFor="is_bidirectional">Compatible V2G / V2H</Label>
                         </div>
-                        {state.fieldErrors?.is_bidirectional && <span className="text-xs text-red-500">{state.fieldErrors.is_bidirectional}</span>}
                     </div>
 
                     <div className="space-y-2">

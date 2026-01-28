@@ -68,9 +68,6 @@ export default async function GuidePage({ params }: PageProps) {
                 )}
             </div>
 
-            <FeatureSection variant="BE" />
-
-            <BlogPreviewSection country="BE" />
 
             <CtaSection ctaLink="/be/simulateur" />
         </div>

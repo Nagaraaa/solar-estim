@@ -4,17 +4,14 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
-// Zod Schema for Validation
+// Zod Schema for Validation (Updated to match User Schema)
 const VehicleSchema = z.object({
     brand: z.string().min(1, "La marque est requise"),
     model: z.string().min(1, "Le modèle est requis"),
-    year: z.coerce.number().min(2010).max(2030).optional(),
-    battery_capacity_kwh: z.coerce.number().positive("La capacité doit être positive"),
-    range_wltp_km: z.coerce.number().positive("L'autonomie doit être positive"),
-    consumption_kwh_100km: z.coerce.number().positive().optional(),
-    max_charge_power_kw: z.coerce.number().positive().optional(),
-    real_world_factor: z.coerce.number().min(0.5).max(1.0).default(0.85),
-    charging_efficiency: z.coerce.number().min(0.5).max(1.0).default(0.90),
+    consumption_wltp: z.coerce.number().min(5).max(50, "Consommation irréaliste"),
+    battery_usable: z.coerce.number().int().positive("La capacité doit être positive"),
+    real_world_factor: z.coerce.number().min(1.0).max(2.0).default(1.15),
+    charging_efficiency: z.coerce.number().min(0.5).max(1.0).default(0.88),
     is_bidirectional: z.boolean().default(false),
     image_url: z.string().url().optional().or(z.literal("")),
 });
@@ -80,7 +77,7 @@ export async function updateVehicle(id: string, prevState: VehicleFormState, for
 
         const { error } = await supabaseAdmin
             .from('vehicles')
-            .update(validated.data)
+            .update({ ...validated.data, updated_at: new Date().toISOString() })
             .eq('id', id);
 
         if (error) throw error;

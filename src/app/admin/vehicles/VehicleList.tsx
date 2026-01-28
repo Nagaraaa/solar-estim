@@ -34,8 +34,8 @@ export default function VehicleList({ initialVehicles }: VehicleListProps) {
                     <thead className="bg-slate-50 text-slate-600 font-medium border-b border-slate-200">
                         <tr>
                             <th className="px-6 py-4">Véhicule</th>
-                            <th className="px-6 py-4">Batterie</th>
-                            <th className="px-6 py-4">Autonomie</th>
+                            <th className="px-6 py-4">Batterie Net</th>
+                            <th className="px-6 py-4">Conso WLTP</th>
                             <th className="px-6 py-4">Tech</th>
                             <th className="px-6 py-4 text-right">Actions</th>
                         </tr>
@@ -57,18 +57,17 @@ export default function VehicleList({ initialVehicles }: VehicleListProps) {
                                             </div>
                                             <div>
                                                 <div className="font-semibold text-slate-900">{v.brand} {v.model}</div>
-                                                <div className="text-xs text-slate-500">{v.year}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-2 text-slate-700">
                                             <Battery className="w-4 h-4 text-slate-400" />
-                                            {v.battery_capacity_kwh} kWh
+                                            {v.battery_usable} kWh
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 text-slate-700">
-                                        {v.range_wltp_km} km <span className="text-xs text-slate-400">(WLTP)</span>
+                                        {v.consumption_wltp} kWh/100km
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="flex flex-wrap gap-2">

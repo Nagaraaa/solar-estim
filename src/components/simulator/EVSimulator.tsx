@@ -9,7 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from 'next/link';
 import { Zap, Info, BatteryCharging } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 export function EVSimulator() {
     const [vehicles, setVehicles] = useState<any[]>([]);
@@ -26,37 +25,37 @@ export function EVSimulator() {
 
     const selectedVehicle = vehicles.find(v => v.id === selectedVehicleId);
 
-    // Calculation Engine
+    // Calculation Engine (Updated for User Precision Schema)
     const calculateImpact = () => {
         if (!selectedVehicle) return null;
 
-        const { consumption_kwh_100km, real_world_factor, charging_efficiency } = selectedVehicle;
+        const { consumption_wltp, real_world_factor, charging_efficiency } = selectedVehicle;
 
-        // Formula: Needs = (Km / 100) * Consumption_WLTP * RealFactor / Efficiency
-        // RealFactor (default 0.85): Accounts for weather, driving style vs WLTP
-        // Efficiency (default 0.90): Accounts for inverter/charger losses
+        // Formula: 
+        // 1. Real Consumption = WLTP * Factor
+        const realConsumption = consumption_wltp * (real_world_factor || 1.15);
 
-        // Use defaults if missing in DB (fallback for legacy data)
-        const factor = real_world_factor || 1.0;
-        const efficiency = charging_efficiency || 0.90;
-        const consoKwh = consumption_kwh_100km || 15; // default fallback
+        // 2. Grid Consumption (needs inverse of efficiency)
+        // If efficiency is 0.88 (88%), we need to draw 1/0.88 times more energy
+        const gridConsumptionPer100 = realConsumption / (charging_efficiency || 0.88);
 
         const dailyKm = annualKm / 365;
 
         // Energy needed at the WALL (what the meter sees)
-        const dailyEnergyNeeded = (dailyKm / 100) * consoKwh * (1 / factor) / efficiency;
+        const dailyEnergyNeeded = (dailyKm / 100) * gridConsumptionPer100;
         const annualEnergyNeeded = dailyEnergyNeeded * 365;
 
-        // Impact on Panels (assuming ~420W panel producing ~1.1kWh/Wc avg in FR => ~460kWh/panel/yr? 
-        // Let's use a standard production factor: 1100 kWh / kWc / year
-        // Panel = 425W
+        // Impact on Panels 
+        // Assuming ~425W panel producing ~1100 kWh/kWc => ~0.467 kWh/panel/year
         const productionPerPanel = 0.425 * 1100; // ~467 kWh/year
         const panelsNeeded = Math.ceil(annualEnergyNeeded / productionPerPanel);
 
         return {
             annualEnergyNeeded: Math.round(annualEnergyNeeded),
             panelsNeeded,
-            dailyEnergyNeeded: dailyEnergyNeeded.toFixed(1)
+            dailyEnergyNeeded: dailyEnergyNeeded.toFixed(1),
+            realConsoPer100: realConsumption.toFixed(1),
+            gridConsoPer100: gridConsumptionPer100.toFixed(1)
         };
     };
 
@@ -83,7 +82,7 @@ export function EVSimulator() {
                             <SelectContent>
                                 {vehicles.map(v => (
                                     <SelectItem key={v.id} value={v.id}>
-                                        {v.brand} {v.model} ({v.year})
+                                        {v.brand} {v.model} ({v.battery_usable} kWh)
                                     </SelectItem>
                                 ))}
                             </SelectContent>
@@ -136,9 +135,14 @@ export function EVSimulator() {
                             </div>
                         </div>
 
-                        <div className="mt-4 pt-4 border-t border-slate-200 text-xs text-slate-500 text-center flex items-center justify-center gap-2">
-                            <Info className="w-3 h-3" />
-                            Calcul basé sur une conso réelle de {(selectedVehicle.consumption_kwh_100km / (selectedVehicle.real_world_factor || 0.85)).toFixed(1)} kWh/100km
+                        <div className="mt-4 pt-4 border-t border-slate-200 text-xs text-slate-500 text-center gap-1 flex flex-col">
+                            <div className="flex items-center justify-center gap-2">
+                                <Info className="w-3 h-3" />
+                                <span>Conso Réelle estimée : <strong>{result.realConsoPer100} kWh/100km</strong> (vs {selectedVehicle.consumption_wltp} WLTP)</span>
+                            </div>
+                            <div className="text-slate-400">
+                                Comprenant {Math.round((selectedVehicle.real_world_factor - 1) * 100)}% de facteur réalité et {Math.round((1 - selectedVehicle.charging_efficiency) * 100)}% de pertes de charge.
+                            </div>
                         </div>
                     </div>
                 )}
