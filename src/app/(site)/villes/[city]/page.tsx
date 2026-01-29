@@ -57,17 +57,43 @@ function spin(template: string, seed: number): string {
     return parseSpintax(template, seed);
 }
 
-// --- RENDER COMPONENT FOR BOLD TEXT ---
+// --- RENDER COMPONENT FOR BOLD TEXT AND LINKS ---
 const RenderSpintax = ({ text }: { text: string }) => {
-    // Basic bold parser: **text** -> <strong>text</strong>
+    // 1. Split by bold (**text**)
     const parts = text.split(/(\*\*[^*]+\*\*)/g);
+
     return (
         <>
             {parts.map((part, index) => {
                 if (part.startsWith('**') && part.endsWith('**')) {
                     return <strong key={index} className="font-bold text-slate-900">{part.slice(2, -2)}</strong>;
                 }
-                return part;
+
+                // 2. Inside normal text, look for markdown links [Label](url)
+                // Split by regex for markdown links: \[([^\]]+)\]\(([^)]+)\)
+                const linkParts = part.split(/\[([^\]]+)\]\(([^)]+)\)/g);
+
+                if (linkParts.length === 1) return part;
+
+                // Reconstruct with links
+                // The split will result in: [text_before, label, url, text_after, label, url, ...]
+                // We process chunks of 3 (label, url) after the first one
+                const result = [];
+                result.push(linkParts[0]); // First plain text chunk
+
+                for (let i = 1; i < linkParts.length; i += 3) {
+                    const label = linkParts[i];
+                    const url = linkParts[i + 1];
+                    const nextText = linkParts[i + 2];
+
+                    result.push(
+                        <Link key={`${index}-link-${i}`} href={url} className="text-brand underline hover:text-brand-dark transition-colors font-medium">
+                            {label}
+                        </Link>
+                    );
+                    result.push(nextText);
+                }
+                return <React.Fragment key={index}>{result}</React.Fragment>;
             })}
         </>
     );
