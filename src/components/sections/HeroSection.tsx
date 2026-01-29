@@ -9,10 +9,11 @@ interface HeroSectionProps {
     title: React.ReactNode;
     subtitle: string;
     ctaLink: string;
+    ctaText?: string;
     backgroundImage?: string;
 }
 
-export function HeroSection({ title, subtitle, ctaLink, backgroundImage }: HeroSectionProps) {
+export function HeroSection({ title, subtitle, ctaLink, ctaText, backgroundImage }: HeroSectionProps) {
     return (
         <section className="relative py-20 lg:py-32 overflow-hidden bg-slate-900 text-white">
             <Image
@@ -37,7 +38,7 @@ export function HeroSection({ title, subtitle, ctaLink, backgroundImage }: HeroS
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                     <Link href={ctaLink}>
                         <Button size="lg" variant="brand" className="w-full sm:w-auto text-lg font-bold px-8 h-12 hover:scale-105 transition-transform">
-                            Lancer le simulateur <ArrowRight className="ml-2 h-5 w-5" />
+                            {ctaText || "Lancer le simulateur"} <ArrowRight className="ml-2 h-5 w-5" />
                         </Button>
                     </Link>
                 </div>
