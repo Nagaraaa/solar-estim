@@ -3,6 +3,8 @@
 import { supabaseAdmin } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
 
+import { checkAdminSession } from '@/lib/auth-checks';
+
 export type ImportResult = {
     success: boolean;
     count?: number;
@@ -12,6 +14,7 @@ export type ImportResult = {
 
 export async function importVehicles(formData: FormData): Promise<ImportResult> {
     try {
+        await checkAdminSession(); // SECURITE
         const file = formData.get('file') as File;
         if (!file) {
             return { success: false, error: "Aucun fichier fourni." };

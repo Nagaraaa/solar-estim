@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export default function proxy(request: NextRequest) {
+export default function middleware(request: NextRequest) {
     const nonce = crypto.randomUUID();
     const cspHeader = `
     default-src 'self';
@@ -16,10 +16,6 @@ export default function proxy(request: NextRequest) {
     block-all-mixed-content;
     upgrade-insecure-requests;
   `;
-    // Note: 'unsafe-inline' in script-src is ignored by modern browsers if 'nonce-...' or 'strict-dynamic' is present.
-    // We keep it for older browser fallback if needed, but the nonce makes it strict.
-    // However, user specifically asked to "Delete unsafe-inline".
-    // strict-dynamic + nonce roughly accomplishes this for scripts.
 
     const strictCspHeader = `
     default-src 'self';
@@ -34,8 +30,6 @@ export default function proxy(request: NextRequest) {
     frame-ancestors 'none';
     frame-src 'self' https://challenges.cloudflare.com;
   `;
-    // Allow style-src unsafe-inline for now as typical CSS-in-JS often needs it unless extracted. Tailwind is usually static but safe to keep style open for avoidance of layout breakage.
-    // User asked "Supprime unsafe-inline... en utilisant des nonces si nécessaire". Likely referring to scripts.
 
     const requestHeaders = new Headers(request.headers);
 

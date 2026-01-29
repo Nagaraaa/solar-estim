@@ -3,6 +3,7 @@
 import { supabaseAdmin } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
+import { checkAdminSession } from '@/lib/auth-checks';
 
 // Zod Schema for Validation (Updated to match User Schema)
 const VehicleSchema = z.object({
@@ -24,6 +25,8 @@ export type VehicleFormState = {
 
 export async function createVehicle(prevState: VehicleFormState, formData: FormData): Promise<VehicleFormState> {
     try {
+        await checkAdminSession(); // SECURITE
+
         const rawData = Object.fromEntries(formData.entries());
 
         // Handle checkbox
@@ -59,6 +62,8 @@ export async function createVehicle(prevState: VehicleFormState, formData: FormD
 
 export async function updateVehicle(id: string, prevState: VehicleFormState, formData: FormData): Promise<VehicleFormState> {
     try {
+        await checkAdminSession(); // SECURITE
+
         const rawData = Object.fromEntries(formData.entries());
         const data = {
             ...rawData,
@@ -93,6 +98,8 @@ export async function updateVehicle(id: string, prevState: VehicleFormState, for
 
 export async function deleteVehicle(id: string): Promise<{ success: boolean; error?: string }> {
     try {
+        await checkAdminSession(); // SECURITE
+
         const { error } = await supabaseAdmin
             .from('vehicles')
             .delete()
