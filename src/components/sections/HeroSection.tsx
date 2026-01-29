@@ -21,11 +21,9 @@ export function HeroSection({ title, subtitle, ctaLink, ctaText, backgroundImage
                 alt="Panneaux solaires sur toit"
                 fill
                 priority
-                quality={50}
+                quality={60}
                 className="object-cover object-center opacity-20"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1920px"
-                placeholder="blur"
-                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAADAAQDAREAAhEBAxEB/8QABwAAAgIDAQAAAAAAAAAAAAAACQYFCAEDBAn/xAAQEAAABgIBAwUBAAAAAAAAAAABAgMEBQYRBxIhCBMiQf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwB5a62UqCgjaY8iP4Mej//Z"
+                sizes="100vw"
             />
             <div className="container relative z-10 px-4 md:px-6 mx-auto text-center">
                 <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6">
