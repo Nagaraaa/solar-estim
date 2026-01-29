@@ -117,10 +117,16 @@ export default async function BlogPostPage({ params }: PageProps) {
                                         remarkPlugins={[remarkGfm]}
                                         components={{
                                             p: ({ node, children }) => {
-                                                if (typeof children === 'string') {
-                                                    return <p className="mb-4"><AutoLink text={children} country="FR" /></p>;
-                                                }
-                                                return <p className="mb-4">{children}</p>;
+                                                return (
+                                                    <p className="mb-4">
+                                                        {React.Children.map(children, (child) => {
+                                                            if (typeof child === 'string') {
+                                                                return <AutoLink text={child} country="FR" />;
+                                                            }
+                                                            return child;
+                                                        })}
+                                                    </p>
+                                                );
                                             },
                                             img: (props) => (
                                                 <span className="block my-8 relative group">
