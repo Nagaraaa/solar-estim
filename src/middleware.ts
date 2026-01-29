@@ -35,9 +35,11 @@ export default function middleware(request: NextRequest) {
 
     // Geolocation Logic (Non-blocking)
     const country = (request as any).geo?.country || request.headers.get('x-vercel-ip-country') || 'FR';
+    const city = (request as any).geo?.city || request.headers.get('x-vercel-ip-city') || '';
 
     // Inject detected country into headers for Layout to consume
     requestHeaders.set('x-detected-country', country);
+    requestHeaders.set('x-detected-city', city);
 
     // Security Logic (CSP + Nonce)
     requestHeaders.set('x-nonce', nonce);

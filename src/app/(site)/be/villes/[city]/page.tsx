@@ -8,6 +8,7 @@ import { FadeIn } from "@/components/ui/fade-in";
 import Image from "next/image";
 import { CITIES, getCityBySlug, getAllCitySlugs } from "../cities";
 import { FAQSection } from "@/components/FAQSection";
+import { BreadcrumbStructuredData } from "@/components/seo/BreadcrumbStructuredData";
 import * as React from "react";
 
 interface PageProps {
@@ -274,9 +275,15 @@ export default async function CityPage({ params }: PageProps) {
     `;
     const introText = spin(introTemplate, seed);
 
+    const breadcrumbs = [
+        { name: "Accueil", url: "/be" },
+        { name: "Villes de Belgique", url: "/be/villes" },
+        { name: city.name, url: `/be/villes/${city.slug}` }
+    ];
 
     return (
         <div className="min-h-screen bg-slate-50">
+            <BreadcrumbStructuredData items={breadcrumbs} />
             {/* Hero Section */}
             <section className="relative py-12 lg:py-20 overflow-hidden bg-slate-900 text-white">
                 <Image

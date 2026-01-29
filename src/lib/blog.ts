@@ -54,7 +54,7 @@ export async function getAllPosts(country: 'FR' | 'BE' = 'FR'): Promise<BlogPost
 }
 
 // Helper to parse frontmatter without gray-matter
-function parseFrontmatter(fileContent: string): { data: any; content: string } {
+function parseFrontmatter(fileContent: string): { data: Record<string, string>; content: string } {
     // Robust regex for both CRLF (\r\n) and LF (\n)
     // Matches: start of string, ---, newline, (capture frontmatter), newline, ---, newline, (capture content)
     // We use [\s\S] to match any character including newlines
@@ -79,7 +79,7 @@ function parseFrontmatter(fileContent: string): { data: any; content: string } {
 }
 
 function parseFrontmatterData(frontmatterRaw: string, content: string) {
-    const data: any = {};
+    const data: Record<string, string> = {};
     frontmatterRaw.split('\n').forEach(line => {
         const parts = line.split(':');
         if (parts.length >= 2) {
@@ -124,7 +124,7 @@ export async function getGuidePost(slug: string): Promise<BlogPost | null> {
             summary: data.excerpt || "",
             description: data.excerpt || "",
             content: content,
-            country: data.country
+            country: data.country as 'FR' | 'BE' | undefined
         };
     }
 
@@ -167,7 +167,7 @@ export async function getAllGuidePosts(): Promise<BlogPost[]> {
                     summary: data.excerpt || "",
                     description: data.excerpt || "",
                     content: content,
-                    country: data.country
+                    country: data.country as 'FR' | 'BE' | undefined
                 } as BlogPost;
             }
             return null;

@@ -8,6 +8,7 @@ import { FadeIn } from "@/components/ui/fade-in";
 import Image from "next/image";
 import { CITIES_FR, getCityBySlug, getAllCitySlugs } from "../cities";
 import { FAQSection } from "@/components/FAQSection";
+import { BreadcrumbStructuredData } from "@/components/seo/BreadcrumbStructuredData";
 import * as React from "react";
 
 interface PageProps {
@@ -341,8 +342,16 @@ export default async function CityPage({ params }: PageProps) {
     const structureType = seed % 3; // 0, 1, 2
 
     // --- RENDER ---
+    const breadcrumbs = [
+        { name: "Accueil", url: "/" },
+        { name: "Villes de France", url: "/villes" },
+        { name: city.department, url: "/villes" },
+        { name: city.name, url: `/villes/${city.slug}` }
+    ];
+
     return (
         <div className="min-h-screen bg-slate-50">
+            <BreadcrumbStructuredData items={breadcrumbs} />
             {/* Hero Section */}
             <section className="relative py-12 lg:py-20 overflow-hidden bg-slate-900 text-white">
                 <Image
@@ -362,7 +371,7 @@ export default async function CityPage({ params }: PageProps) {
                         <span>&gt;</span>
                         <Link href="/villes" className="hover:text-white transition-colors">Villes de France</Link>
                         <span>&gt;</span>
-                        <Link href={`/villes`} className="hover:text-white transition-colors">{city.department}</Link>
+                        <span className="text-slate-400">{city.department}</span>
                         <span>&gt;</span>
                         <span className="text-brand font-medium">{city.name}</span>
                     </nav>

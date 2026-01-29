@@ -12,6 +12,7 @@ export default async function SiteLayout({
 }) {
     const headersList = await headers();
     const detectedCountry = headersList.get('x-detected-country') || 'FR';
+    const detectedCity = headersList.get('x-detected-city') || '';
 
     return (
         <>
@@ -19,7 +20,7 @@ export default async function SiteLayout({
             <CountrySelectorModal detectedCountry={detectedCountry} />
             <CookieConsent />
             <main className="flex-1 px-4">{children}</main>
-            <Footer />
+            <Footer detectedCountry={detectedCountry} detectedCity={detectedCity} />
             <StickyMobileCTA />
         </>
     );
