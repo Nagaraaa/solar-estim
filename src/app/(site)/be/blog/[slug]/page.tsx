@@ -12,6 +12,8 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { AutoLink } from "@/components/content/AutoLink";
 import { ComparatorSection } from "@/components/sections/ComparatorSection";
 import remarkGfm from "remark-gfm";
+import { MiniEVSimulator } from "@/components/widgets/MiniEVSimulator";
+import { BlogCard } from "@/components/blog/BlogCard";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -23,7 +25,7 @@ export async function generateMetadata({ params }: PageProps) {
     if (!post) return { title: "Article non trouvé" };
 
     return {
-        title: `${post.title} | Solar-Estim`,
+        title: `${post.title} | Solar-Estim Belgique`,
         description: post.summary,
         openGraph: {
             images: [post.image],
@@ -32,7 +34,7 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export async function generateStaticParams() {
-    const posts = await getAllPosts();
+    const posts = await getAllPosts("BE");
     return posts.map((post) => ({
         slug: post.slug,
     }));
@@ -44,6 +46,24 @@ export default async function BlogPostPage({ params }: PageProps) {
 
     if (!post) {
         notFound();
+    }
+
+    // Logic for Related Posts
+    const allPosts = await getAllPosts('BE');
+    const relatedPosts = allPosts
+        .filter(p => p.category === post.category && p.slug !== post.slug)
+        .slice(0, 3);
+
+    // Logic for Widget Injection
+    let content = post.content;
+    if (post.category === "VE" && !content.includes('<Component name="MiniEVSimulator" />')) {
+        const paragraphs = content.split('\n\n');
+        if (paragraphs.length > 4) {
+            paragraphs.splice(3, 0, '<Component name="MiniEVSimulator" />');
+            content = paragraphs.join('\n\n');
+        } else {
+            content += '\n\n<Component name="MiniEVSimulator" />';
+        }
     }
 
     return (
@@ -73,7 +93,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                             src={post.image}
                             alt={post.imageAlt || post.title}
                             fill
-                            className="object-cover"
+                            className="object-cover object-[50%_65%]"
                             priority
                         />
                     </div>
@@ -100,9 +120,16 @@ export default async function BlogPostPage({ params }: PageProps) {
                     </div>
 
                     <div className="space-y-6">
-                        {post.content.split(/<Component name="ComparatorSection" \/>/g).map((part, index, array) => (
-                            <React.Fragment key={index}>
-                                <div className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-brand hover:prose-a:text-yellow-500">
+                        {content.split(/(<Component name="[^"]+" \/>)/g).map((part, index) => {
+                            if (part.startsWith('<Component name="')) {
+                                const name = part.match(/name="([^"]+)"/)?.[1];
+                                if (name === "ComparatorSection") return <div key={index} className="my-12"><ComparatorSection country="BE" /></div>;
+                                if (name === "MiniEVSimulator") return <div key={index} className="my-8"><MiniEVSimulator country="BE" /></div>;
+                                return null;
+                            }
+
+                            return (
+                                <div key={index} className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-brand hover:prose-a:text-yellow-500">
                                     <ReactMarkdown
                                         remarkPlugins={[remarkGfm]}
                                         components={{
@@ -134,25 +161,31 @@ export default async function BlogPostPage({ params }: PageProps) {
                                             ),
                                             a: ({ node, ...props }) => {
                                                 const href = props.href || "";
-                                                const isLexicon = href.startsWith("/lexique");
-                                                const newHref = isLexicon ? `/be${href}` : href;
-                                                return <Link href={newHref} {...props} />;
+                                                const isLexicon = href.startsWith("/be/blog") ? href : (href.startsWith("/lexique") ? `/be${href}` : href);
+                                                // Simplified href handling for BE - usually keeping it consistent with valid internal linking
+                                                return <Link href={href} {...props} />;
                                             }
                                         }}
                                     >
                                         {part}
                                     </ReactMarkdown>
                                 </div>
-                                {index < array.length - 1 && (
-                                    <div className="my-12">
-                                        <ComparatorSection country="BE" />
-                                    </div>
-                                )}
-                            </React.Fragment>
-                        ))}
+                            );
+                        })}
                     </div>
 
 
+                    {/* Related Articles */}
+                    {relatedPosts.length > 0 && (
+                        <div className="mt-16 pt-10 border-t border-slate-200">
+                            <h3 className="text-2xl font-bold text-slate-900 mb-6">guides recommandés</h3>
+                            <div className="grid md:grid-cols-2 gap-8 not-prose">
+                                {relatedPosts.map(p => (
+                                    <BlogCard key={p.slug} post={p} href={`/be/blog/${p.slug}`} />
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </article>
 
                 {/* Sidebar with CTA */}

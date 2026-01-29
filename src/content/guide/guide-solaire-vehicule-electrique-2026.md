@@ -1,6 +1,9 @@
 ---
 title: "Solaire & Véhicule Électrique : Le guide ultime de l'indépendance en 2026"
 excerpt: "Ne payez plus jamais votre 'carburant'. Découvrez comment transformer votre voiture en batterie domestique grâce à vos panneaux solaires et aux technologies V2H/V2G."
+category: "VE"
+country: "FR"
+tags: ["V2H", "Tesla", "Economies", "Borne de recharge"]
 date: "2026-01-28"
 coverImage: "/images/guides/solar-ev-hero.jpg"
 ---

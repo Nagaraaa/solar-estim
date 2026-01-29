@@ -1,95 +1,56 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getAllPosts } from "@/lib/blog";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { BlogHeader } from "@/components/blog/BlogHeader";
+import { CategoryFilter } from "@/components/blog/CategoryFilter";
+import { BlogCard } from "@/components/blog/BlogCard";
 
 export const metadata = {
     title: "Blog & Actualités Solaires | Solar-Estim",
     description: "Guides, comparatifs et actualités sur l'énergie solaire thermique et photovoltaïque.",
 };
 
-export default async function BlogIndex() {
+interface BlogIndexProps {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function BlogIndex({ searchParams }: BlogIndexProps) {
     const posts = await getAllPosts('FR');
+    const { category } = await searchParams;
+    const currentCategory = Array.isArray(category) ? category[0] : category;
+
+    const filteredPosts = currentCategory
+        ? posts.filter(p => p.category === currentCategory)
+        : posts;
 
     return (
         <div className="container mx-auto px-4 py-12 md:py-20">
             <BlogHeader />
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                {posts.slice(0, 3).map((post) => (
-                    <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
-                        <Card className="h-full hover:shadow-xl transition-all duration-300 border-slate-200 overflow-hidden flex flex-col">
-                            <div className="relative h-56 w-full">
-                                <Image
-                                    src={post.image}
-                                    alt={post.imageAlt || post.title}
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                            <CardHeader>
-                                <div className="flex justify-between items-center mb-2">
-                                    <span className="text-xs font-bold text-brand uppercase tracking-wider">{post.category}</span>
-                                    <span className="text-xs text-slate-400 capitalize">
-                                        {new Date(post.date).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })}
-                                    </span>
-                                </div>
-                                <CardTitle className="text-2xl group-hover:text-brand transition-colors line-clamp-2">
-                                    {post.title}
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="flex-grow">
-                                <CardDescription className="text-base line-clamp-3">
-                                    {post.summary}
-                                </CardDescription>
-                                <div className="mt-6 flex items-center text-brand font-bold text-sm">
-                                    Lire l'article &rarr;
-                                </div>
-                            </CardContent>
-                        </Card>
+            <CategoryFilter baseUrl="/blog" />
+
+            {filteredPosts.length === 0 ? (
+                <div className="text-center py-20">
+                    <p className="text-xl text-slate-500">Aucun article trouvé dans cette catégorie.</p>
+                    <Link href="/blog" className="text-brand font-bold mt-4 inline-block hover:underline">
+                        Voir tout les articles
                     </Link>
-                ))}
-            </div>
+                </div>
+            ) : (
+                <>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                        {filteredPosts.slice(0, 3).map((post) => (
+                            <BlogCard key={post.slug} post={post} href={`/blog/${post.slug}`} />
+                        ))}
+                    </div>
 
-
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {posts.slice(3).map((post) => (
-                    <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
-                        <Card className="h-full hover:shadow-xl transition-all duration-300 border-slate-200 overflow-hidden flex flex-col">
-                            <div className="relative h-56 w-full">
-                                <Image
-                                    src={post.image}
-                                    alt={post.imageAlt || post.title}
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                            <CardHeader>
-                                <div className="flex justify-between items-center mb-2">
-                                    <span className="text-xs font-bold text-brand uppercase tracking-wider">{post.category}</span>
-                                    <span className="text-xs text-slate-400 capitalize">
-                                        {new Date(post.date).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })}
-                                    </span>
-                                </div>
-                                <CardTitle className="text-2xl group-hover:text-brand transition-colors line-clamp-2">
-                                    {post.title}
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="flex-grow">
-                                <CardDescription className="text-base line-clamp-3">
-                                    {post.summary}
-                                </CardDescription>
-                                <div className="mt-6 flex items-center text-brand font-bold text-sm">
-                                    Lire l'article &rarr;
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                ))}
-            </div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {filteredPosts.slice(3).map((post) => (
+                            <BlogCard key={post.slug} post={post} href={`/blog/${post.slug}`} />
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 }
